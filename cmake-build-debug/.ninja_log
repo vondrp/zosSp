@@ -1,0 +1,19 @@
+# ninja log v5
+67	1307	6863399587497562	CMakeFiles/zos_sp.dir/main.c.obj	2c5188e7008274a9
+90	220	6863530845008550	zos_sp.exe	f1efc59832e91cbb
+3	89	6863530843745300	CMakeFiles/zos_sp.dir/main/inputHandler.c.obj	d963b5c55328be8c
+13	2934	6863534499853347	build.ninja	b5e941021274727c
+2	208	6862613736479254	CMakeFiles/zos_sp.dir/copyFile.c.obj	1a3948f3c0dd9d4f
+3	336	6863526501905546	CMakeFiles/zos_sp.dir/commands/copyFile.c.obj	f0117ccae9128056
+14	580	6863523844960533	CMakeFiles/zos_sp.dir/commands/removeFile.c.obj	855f4a5f987c25b9
+10	1077	6863495343880551	CMakeFiles/zos_sp.dir/utils/messages.c.obj	66d974e539b041fd
+393	674	6863523845946036	CMakeFiles/zos_sp.dir/utils/checkInput.c.obj	4d5fcabf2835c2af
+18	799	6863523847158902	CMakeFiles/zos_sp.dir/commands/moveFile.c.obj	854ea61b8cfc0883
+0	155	6863534499853347	build.ninja	b5e941021274727c
+30	148	6863534501583023	CMakeFiles/zos_sp.dir/commands/moveFile.c.obj	854ea61b8cfc0883
+19	199	6863534502084353	CMakeFiles/zos_sp.dir/commands/copyFile.c.obj	f0117ccae9128056
+14	213	6863534502214359	CMakeFiles/zos_sp.dir/main.c.obj	2c5188e7008274a9
+25	230	6863534502404746	CMakeFiles/zos_sp.dir/commands/removeFile.c.obj	855f4a5f987c25b9
+2	291	6863534502996036	CMakeFiles/zos_sp.dir/input/checkInput.c.obj	12c741d86a39738c
+6	302	6863534503116055	CMakeFiles/zos_sp.dir/input/inputHandler.c.obj	e4c9ec64adc14f71
+302	539	6863534505430425	zos_sp.exe	401b0e968c24836a
