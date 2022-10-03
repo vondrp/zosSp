@@ -8,10 +8,24 @@
 char *getFilename(char *string_path);
 
 /**
- * find all \ and replace them with /
  * check if input is alright
  * @param string	fileName with his path
  * @return			SUCCESS or error type of - MUST FINISH WHEN DECIDE WHAT TO WRITE
  */
 int checkFilenameInput(char *string);
+
+/**
+ * find all \ and replace them with /
+ * @param string    path
+ */
+void repairBackSlashes(char * string);
+
+/**
+ * Check if given directory exists
+ * @param directory     directory to be checked if exists
+ * @return              EXISTS, PATH_NOT_FOUND (NOT EXISTS), UNDEFINED_ERROR
+ */
+int directoryExists(char *directory);
+
+void removePathLastPart(char *remainingPath, char *fullPath);
 #endif //ZOSSP_CHECKINPUT_H

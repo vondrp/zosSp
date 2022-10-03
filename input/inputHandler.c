@@ -8,9 +8,13 @@
 
 #include "inputHandler.h"
 
-#include "../commands/copyFile.h"
-#include "../commands/removeFile.h"
-#include "../commands/moveFile.h"
+#include "../commands/files/copyFile.h"
+#include "../commands/files/removeFile.h"
+#include "../commands/files/moveFile.h"
+#include "../commands/dir/makeDir.h"
+#include "../commands/dir/ls.h"
+
+#define max(x,y) (((x) >= (y)) ? (x) : (y))
 
 char *getLine(void)
 {
@@ -60,61 +64,85 @@ void free_words_array(char *a[], int length)
     }
 }
 
-void process_input()
+void sentence_to_words(char *console_input, char** words, int *last_words_amount)
 {
-    char *console_input;
-    char **words;
     int words_amount = DEFAULT_WORDS_AMOUNT;
-
-    words = malloc(words_amount * sizeof(char *));
-    char end_input[] = "end";
     int i,j,ctr, len_max;
+    j = 0;
+    ctr = 0;
+    len_max = DEFAULT_WORDS_LENGTH;
+    for (i = 0; i <=  (strlen(console_input)); i++) {
 
-    do {
-        console_input = getLine();
-        // fgets(console_input, sizeof console_input, stdin);
+        if (j == 0)
+        {
+            len_max = DEFAULT_WORDS_LENGTH;
+            words[ctr] = malloc(len_max * sizeof(char *));
+        }
+        else if (j >= len_max)
+        {
+            len_max = len_max * 2;
+            words[ctr] = realloc(words[ctr], len_max * sizeof (char *));
+        }
 
-        j = 0;
-        ctr = 0;
-        len_max = DEFAULT_WORDS_LENGTH;
-        for (i = 0; i <= (strlen(console_input)); i++) {
+        // if space or NULL found, assign NULL into newString[ctr]
+        //printf("Pozice %d, znak %c, isspace %d\n", i, console_input[i], isspace(console_input[i]));
+        if (isspace(console_input[i]) != 0) {
+            //newString[ctr][j] = '\0';
 
-            if (j == 0)
+            // to ignore multiple white spaces
+            if (j != 0)
             {
-                len_max = DEFAULT_WORDS_LENGTH;
-                words[ctr] = malloc(len_max * sizeof(char *));
-            }
-            else if (j >= len_max)
-            {
-                len_max = len_max * 2;
-                words[ctr] = realloc(words[ctr], len_max * sizeof (char *));
-            }
-
-            // if space or NULL found, assign NULL into newString[ctr]
-            //printf("Pozice %d, znak %c, isspace %d\n", i, console_input[i], isspace(console_input[i]));
-            if (isspace(console_input[i]) != 0) {
-                //newString[ctr][j] = '\0';
                 words[ctr][j] = '\0';
                 ctr++;  //for next word
-
-                if (ctr >= words_amount)
-                {
-                    words_amount = words_amount * 2;
-                    words = realloc(words, words_amount * sizeof (char *));
-                }
-                j = 0;    //for next word, init index to 0
-            } else {
-                words[ctr][j] = console_input[i];
-                j++;
             }
-        }
 
-        for (i = 0; i < ctr; i++)
+            // realloc more space for words if necessary
+            if (ctr >= words_amount)
+            {
+                words_amount = words_amount * 2;
+                words = realloc(words, words_amount * sizeof (char *));
+            }
+            j = 0;    //for next word, init index to 0
+        } else {
+            words[ctr][j] = console_input[i];
+            j++;
+        }
+    }
+
+    if (*last_words_amount > ctr)
+    {
+        for (i = ctr + 1; i <= *last_words_amount; i++)
+        {
+            for (j = 0; j < strlen(words[i]); j++)
+                words[i][j] = '\0';
+        }
+    }
+
+    *last_words_amount = ctr;
+}
+
+void process_input()
+{
+    char *console_input; //console input from user
+    char **words;       // console input separated into words
+    int words_amount = DEFAULT_WORDS_AMOUNT;
+
+    words = malloc(words_amount * sizeof(char *)); // array of words
+    char end_input[] = "end";
+    int i, last_words_amount;
+
+    last_words_amount = 0; // amount of words used in last console input
+    do {
+        console_input = getLine();
+
+        sentence_to_words(console_input, words, &last_words_amount);
+
+        /*
+        for (i = 0; i < last_words_amount; i++)
         {
             printf("%s %llu\n", words[i], strlen(words[i]));
-        }
+        }*/
 
-        // printf("%d", strcmp(newString[0], "cp"));
         if (strcmp(words[0], "cp") == 0)
         {
             cp_command(words[1], words[2]);
@@ -126,6 +154,12 @@ void process_input()
         else if (strcmp(words[0], "mv") == 0)
         {
             mv_command(words[1], words[2]);
+        }
+        else if (strcmp(words[0], "mkdir") == 0)
+        {
+            mkdir_command(words[1]);
+        } else if (strcmp(words[0], "ls") == 0) {
+            ls_command(words[1]);
         }
     } while(strcmp(words[0], end_input) != 0);
 

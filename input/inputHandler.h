@@ -29,4 +29,20 @@ void free_words_array(char *a[], int length);
  */
 void process_input();
 
+
+/**
+ * Method used for splitting sentence to to array of words
+ * @param console_input     sentence input
+ * @param words             array of strings, where result is stored
+ * @param last_words_amount how many words were used during last usage (for removing old words)
+ */
+void sentence_to_words(char *console_input, char** words, int *last_words_amount);
+
+/**
+ *
+ * @param remainingPath
+ * @param fullPath
+ */
+void removePathLastPart(char *remainingPath, char *fullPath);
+
 #endif //ZOS_SP_INPUTHANDLER_H

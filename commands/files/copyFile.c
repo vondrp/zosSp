@@ -5,10 +5,10 @@
 #include <string.h>
 
 #include "copyFile.h"
-#include "../utils/error.h"
-#include "../utils/messages.h"
+#include "../../utils/error.h"
+#include "../../utils/messages.h"
 
-#include "../input/checkInput.h"
+#include "../../input/checkInput.h"
 
 
 void cp_command (char *source_file, char *target_file)

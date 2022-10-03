@@ -8,7 +8,10 @@ add_executable(zos_sp main.c
         input/checkInput.h input/checkInput.c
         utils/error.h
         utils/messages.h utils/messages.c
-        commands/copyFile.h commands/copyFile.c
-        commands/removeFile.h commands/removeFile.c
-        commands/moveFile.h commands/moveFile.c
+        commands/files/copyFile.h commands/files/copyFile.c
+        commands/files/removeFile.h commands/files/removeFile.c
+        commands/files/moveFile.h commands/files/moveFile.c
+
+        commands/dir/makeDir.h commands/dir/makeDir.c
+        commands/dir/ls.h commands/dir/ls.c
         )

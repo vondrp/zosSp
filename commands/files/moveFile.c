@@ -7,11 +7,11 @@
 #include "moveFile.h"
 
 #include "copyFile.h"
-#include "../utils/messages.h"
+#include "../../utils/messages.h"
 #include "removeFile.h"
 
-#include "../utils/error.h"
-#include "../input/checkInput.h"
+#include "../../utils/error.h"
+#include "../../input/checkInput.h"
 
 void mv_command (char *source_file, char *target_file)
 {

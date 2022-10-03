@@ -4,10 +4,10 @@
 #include <stdio.h>
 
 #include "removeFile.h"
-#include "../input/checkInput.h"
+#include "../../input/checkInput.h"
 
-#include "../utils/error.h"
-#include "../utils/messages.h"
+#include "../../utils/error.h"
+#include "../../utils/messages.h"
 
 void rm_command(char *filename)
 {
