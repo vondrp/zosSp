@@ -11,8 +11,12 @@
 #include "../commands/files/copyFile.h"
 #include "../commands/files/removeFile.h"
 #include "../commands/files/moveFile.h"
+#include "../commands/files/fileContent.h"
 #include "../commands/dir/makeDir.h"
+#include "../commands/dir/removeDir.h"
 #include "../commands/dir/ls.h"
+#include "../commands/pathCommands.h"
+
 
 #define max(x,y) (((x) >= (y)) ? (x) : (y))
 
@@ -147,19 +151,37 @@ void process_input()
         {
             cp_command(words[1], words[2]);
         }
-        else if (strcmp(words[0], "rm") == 0)
-        {
-            rm_command(words[1]);
-        }
         else if (strcmp(words[0], "mv") == 0)
         {
             mv_command(words[1], words[2]);
         }
+        else if (strcmp(words[0], "rm") == 0)
+        {
+            rm_command(words[1]);
+        }
         else if (strcmp(words[0], "mkdir") == 0)
         {
             mkdir_command(words[1]);
-        } else if (strcmp(words[0], "ls") == 0) {
+        }
+        else if (strcmp(words[0], "rmdir") == 0)
+        {
+            rmdir_command(words[1]);
+        }
+        else if (strcmp(words[0], "ls") == 0)
+        {
             ls_command(words[1]);
+        }
+        else if (strcmp(words[0], "cat") == 0)
+        {
+            cat_command(words[1]);
+        }
+        else if (strcmp(words[0], "cd") == 0)
+        {
+            cd_command(words[1]);
+        }
+        else if (strcmp(words[0], "pwd") == 0)
+        {
+            pwd_command();
         }
     } while(strcmp(words[0], end_input) != 0);
 

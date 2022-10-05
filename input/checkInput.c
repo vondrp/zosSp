@@ -75,7 +75,7 @@ void removePathLastPart(char *remainingPath, char *fullPath)
 
     if (len == 0)
     {
-        remainingPath = fullPath;
+        strcpy(remainingPath, fullPath);
         return;
     }
 

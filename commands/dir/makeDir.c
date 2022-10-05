@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+
 #include "makeDir.h"
 #include "../../input/checkInput.h"
 #include "../../utils/error.h"
@@ -16,7 +17,7 @@ void mkdir_command(char * dirName)
     char *remainingPath = malloc(strlen(dirName));
 
     removePathLastPart(remainingPath, dirName);
-
+    printf("full: %s, remain: %s\n",dirName, remainingPath);
     if (strcmp(remainingPath, dirName) != 0)
     {
         check = directoryExists(remainingPath);

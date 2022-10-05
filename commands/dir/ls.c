@@ -5,10 +5,7 @@
 #include <stdio.h>
 #include <dirent.h>
 #include <stdlib.h>
-
-#include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 
 #include "ls.h"
 #include "../../utils/error.h"
@@ -21,9 +18,7 @@ void ls_command(char* directory)
     char* dir;
 
     repairBackSlashes(directory);
-    int result = 0;
-    int len = strlen(directory); // length of the given directory
-
+    unsigned long long len = strlen(directory); // length of the given directory
 
     if (len == 0)
     {
@@ -32,26 +27,25 @@ void ls_command(char* directory)
     else
     {
         dir = directory;
-        result = directoryExists(dir);
-        if (result != EXISTS)
-        {
-            print_error_message(result);
-        }
-
     }
 
-    if (result == 0 || result == EXISTS)
-    {
-        write_out_dir(dir);
-    }
+    print_error_message(write_out_dir(dir));
 }
 
 int write_out_dir(char* dir)
 {
+    int result;
     struct stat path_stat;
     char* inside_dir_item_path; // path to directory inside items
     char* dir_items_path; // path inside the given directory - dir\ /
     struct dirent *de;  // Pointer for directory entry
+
+    result = directoryExists(dir);
+    if (result != EXISTS)
+    {
+        return result;
+    }
+
 
     // opendir() returns a pointer of DIR type.
     DIR *dr = opendir(dir);
