@@ -73,53 +73,23 @@ build CMakeFiles/zos_sp.dir/utils/messages.c.obj: C_COMPILER__zos_sp_Debug D$:/F
   OBJECT_DIR = CMakeFiles\zos_sp.dir
   OBJECT_FILE_DIR = CMakeFiles\zos_sp.dir\utils
 
+build CMakeFiles/zos_sp.dir/commands/fileCommands.c.obj: C_COMPILER__zos_sp_Debug D$:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/fileCommands.c || cmake_object_order_depends_target_zos_sp
+  DEP_FILE = CMakeFiles\zos_sp.dir\commands\fileCommands.c.obj.d
+  FLAGS = -g -std=gnu99
+  OBJECT_DIR = CMakeFiles\zos_sp.dir
+  OBJECT_FILE_DIR = CMakeFiles\zos_sp.dir\commands
+
 build CMakeFiles/zos_sp.dir/commands/pathCommands.c.obj: C_COMPILER__zos_sp_Debug D$:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/pathCommands.c || cmake_object_order_depends_target_zos_sp
   DEP_FILE = CMakeFiles\zos_sp.dir\commands\pathCommands.c.obj.d
   FLAGS = -g -std=gnu99
   OBJECT_DIR = CMakeFiles\zos_sp.dir
   OBJECT_FILE_DIR = CMakeFiles\zos_sp.dir\commands
 
-build CMakeFiles/zos_sp.dir/commands/files/copyFile.c.obj: C_COMPILER__zos_sp_Debug D$:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/files/copyFile.c || cmake_object_order_depends_target_zos_sp
-  DEP_FILE = CMakeFiles\zos_sp.dir\commands\files\copyFile.c.obj.d
+build CMakeFiles/zos_sp.dir/commands/dirCommands.c.obj: C_COMPILER__zos_sp_Debug D$:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/dirCommands.c || cmake_object_order_depends_target_zos_sp
+  DEP_FILE = CMakeFiles\zos_sp.dir\commands\dirCommands.c.obj.d
   FLAGS = -g -std=gnu99
   OBJECT_DIR = CMakeFiles\zos_sp.dir
-  OBJECT_FILE_DIR = CMakeFiles\zos_sp.dir\commands\files
-
-build CMakeFiles/zos_sp.dir/commands/files/removeFile.c.obj: C_COMPILER__zos_sp_Debug D$:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/files/removeFile.c || cmake_object_order_depends_target_zos_sp
-  DEP_FILE = CMakeFiles\zos_sp.dir\commands\files\removeFile.c.obj.d
-  FLAGS = -g -std=gnu99
-  OBJECT_DIR = CMakeFiles\zos_sp.dir
-  OBJECT_FILE_DIR = CMakeFiles\zos_sp.dir\commands\files
-
-build CMakeFiles/zos_sp.dir/commands/files/moveFile.c.obj: C_COMPILER__zos_sp_Debug D$:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/files/moveFile.c || cmake_object_order_depends_target_zos_sp
-  DEP_FILE = CMakeFiles\zos_sp.dir\commands\files\moveFile.c.obj.d
-  FLAGS = -g -std=gnu99
-  OBJECT_DIR = CMakeFiles\zos_sp.dir
-  OBJECT_FILE_DIR = CMakeFiles\zos_sp.dir\commands\files
-
-build CMakeFiles/zos_sp.dir/commands/files/fileContent.c.obj: C_COMPILER__zos_sp_Debug D$:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/files/fileContent.c || cmake_object_order_depends_target_zos_sp
-  DEP_FILE = CMakeFiles\zos_sp.dir\commands\files\fileContent.c.obj.d
-  FLAGS = -g -std=gnu99
-  OBJECT_DIR = CMakeFiles\zos_sp.dir
-  OBJECT_FILE_DIR = CMakeFiles\zos_sp.dir\commands\files
-
-build CMakeFiles/zos_sp.dir/commands/dir/makeDir.c.obj: C_COMPILER__zos_sp_Debug D$:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/dir/makeDir.c || cmake_object_order_depends_target_zos_sp
-  DEP_FILE = CMakeFiles\zos_sp.dir\commands\dir\makeDir.c.obj.d
-  FLAGS = -g -std=gnu99
-  OBJECT_DIR = CMakeFiles\zos_sp.dir
-  OBJECT_FILE_DIR = CMakeFiles\zos_sp.dir\commands\dir
-
-build CMakeFiles/zos_sp.dir/commands/dir/removeDir.c.obj: C_COMPILER__zos_sp_Debug D$:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/dir/removeDir.c || cmake_object_order_depends_target_zos_sp
-  DEP_FILE = CMakeFiles\zos_sp.dir\commands\dir\removeDir.c.obj.d
-  FLAGS = -g -std=gnu99
-  OBJECT_DIR = CMakeFiles\zos_sp.dir
-  OBJECT_FILE_DIR = CMakeFiles\zos_sp.dir\commands\dir
-
-build CMakeFiles/zos_sp.dir/commands/dir/ls.c.obj: C_COMPILER__zos_sp_Debug D$:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/dir/ls.c || cmake_object_order_depends_target_zos_sp
-  DEP_FILE = CMakeFiles\zos_sp.dir\commands\dir\ls.c.obj.d
-  FLAGS = -g -std=gnu99
-  OBJECT_DIR = CMakeFiles\zos_sp.dir
-  OBJECT_FILE_DIR = CMakeFiles\zos_sp.dir\commands\dir
+  OBJECT_FILE_DIR = CMakeFiles\zos_sp.dir\commands
 
 
 # =============================================================================
@@ -129,7 +99,7 @@ build CMakeFiles/zos_sp.dir/commands/dir/ls.c.obj: C_COMPILER__zos_sp_Debug D$:/
 #############################################
 # Link the executable zos_sp.exe
 
-build zos_sp.exe: C_EXECUTABLE_LINKER__zos_sp_Debug CMakeFiles/zos_sp.dir/main.c.obj CMakeFiles/zos_sp.dir/input/inputHandler.c.obj CMakeFiles/zos_sp.dir/input/checkInput.c.obj CMakeFiles/zos_sp.dir/utils/messages.c.obj CMakeFiles/zos_sp.dir/commands/pathCommands.c.obj CMakeFiles/zos_sp.dir/commands/files/copyFile.c.obj CMakeFiles/zos_sp.dir/commands/files/removeFile.c.obj CMakeFiles/zos_sp.dir/commands/files/moveFile.c.obj CMakeFiles/zos_sp.dir/commands/files/fileContent.c.obj CMakeFiles/zos_sp.dir/commands/dir/makeDir.c.obj CMakeFiles/zos_sp.dir/commands/dir/removeDir.c.obj CMakeFiles/zos_sp.dir/commands/dir/ls.c.obj
+build zos_sp.exe: C_EXECUTABLE_LINKER__zos_sp_Debug CMakeFiles/zos_sp.dir/main.c.obj CMakeFiles/zos_sp.dir/input/inputHandler.c.obj CMakeFiles/zos_sp.dir/input/checkInput.c.obj CMakeFiles/zos_sp.dir/utils/messages.c.obj CMakeFiles/zos_sp.dir/commands/fileCommands.c.obj CMakeFiles/zos_sp.dir/commands/pathCommands.c.obj CMakeFiles/zos_sp.dir/commands/dirCommands.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\zos_sp.dir

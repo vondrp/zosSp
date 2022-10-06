@@ -8,13 +8,8 @@
 
 #include "inputHandler.h"
 
-#include "../commands/files/copyFile.h"
-#include "../commands/files/removeFile.h"
-#include "../commands/files/moveFile.h"
-#include "../commands/files/fileContent.h"
-#include "../commands/dir/makeDir.h"
-#include "../commands/dir/removeDir.h"
-#include "../commands/dir/ls.h"
+#include "../commands/fileCommands.h"
+#include "../commands/dirCommands.h"
 #include "../commands/pathCommands.h"
 
 

@@ -28,4 +28,11 @@ void repairBackSlashes(char * string);
 int directoryExists(char *directory);
 
 void removePathLastPart(char *remainingPath, char *fullPath);
+
+/**
+ * Check if given path is directory
+ * @param path  path to be checked
+ * @return  true (1) or false(0)
+ */
+int is_directory(char *path);
 #endif //ZOSSP_CHECKINPUT_H

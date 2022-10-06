@@ -4,15 +4,19 @@
 #include <string.h>
 #include <dirent.h>
 #include <errno.h>
+#include <sys/stat.h>
+#include <stdio.h>
 
 #include "checkInput.h"
 #include "../utils/error.h"
 
 #define FILENAME_MAX_LENGTH 12
 
-char *getFilename(char *string_path) {
+char* getFilename(char *string_path) {
+    repairBackSlashes(string_path);
     char *dot = strrchr(string_path, '/');
-    if(!dot || dot == string_path) return "";
+
+    if(!dot || dot == string_path) return string_path;
     return dot + 1;
 }
 
@@ -36,7 +40,6 @@ int checkFilenameInput(char *string){
     repairBackSlashes(string);
 
     fileName = getFilename(string);
-
     if (strlen(fileName) > FILENAME_MAX_LENGTH)
     {
         return TOO_LONG_FILENAME;
@@ -81,4 +84,13 @@ void removePathLastPart(char *remainingPath, char *fullPath)
 
     strncpy(remainingPath, fullPath, len);
     remainingPath[len] =  *"\0";
+}
+
+#include <sys/stat.h>
+
+int is_directory(char *path)
+{
+    struct stat path_stat;
+    stat(path, &path_stat);
+    return S_ISDIR(path_stat.st_mode);
 }
