@@ -12,6 +12,7 @@
 #include "../utils/messages.h"
 
 #include "../input/checkInput.h"
+#include "../input/inputHandler.h"
 
 
 void cp_command (char *source_file, char *target_file)
@@ -78,10 +79,15 @@ void mv_command (char *source_file, char *target_file)
                 target_filename = source_file;
             }
 
-            realloc(target_file, (strlen(target_file) + strlen(target_file) + 2) * sizeof (char));
-
-            strcat(target_file, "/");
-            strcat(target_file, target_filename);
+            if(realloc(target_file, (strlen(target_file) + strlen(target_file) + 2) * sizeof (char)) == NULL)
+            {
+                result = MEMORY_PROBLEMS;
+            }
+            else
+            {
+                strcat(target_file, "/");
+                strcat(target_file, target_filename);
+            }
         }
         result = checkFilenameInput(target_file);
     }
@@ -162,13 +168,42 @@ void cat_command(char* filename)
     }
 
     // Read contents from file
-    c = fgetc(fptr);
+    c = (char) fgetc(fptr);
     while (c != EOF)
     {
         printf ("%c", c);
-        c = fgetc(fptr);
+        c = (char) fgetc(fptr);
     }
 
     fclose(fptr);
     printf("\n");
+}
+
+void load_command(char* scriptFile)
+{
+    FILE *fptr;
+    char *file_line; // line from a file
+    char **words;       // file line separated into words
+    int last_words_amount = 0; int words_amount = DEFAULT_WORDS_AMOUNT;
+    int lenmax = INPUT_LENGTH * sizeof (char), len = lenmax;
+    // Open file
+    fptr = fopen(scriptFile, "r");
+    if (fptr == NULL)
+    {
+        print_error_message(SOURCE_FILE_NOT_FOUND);
+        return;
+    }
+
+
+    words = malloc(words_amount * sizeof(char *)); // array of words
+    // Read contents from file
+
+    file_line = getLine(fptr);
+    while (file_line != NULL)
+    {
+        sentence_to_words(file_line, words, &last_words_amount);
+        call_command(words);
+
+        file_line = getLine(fptr);
+    }
 }

@@ -40,6 +40,9 @@ void print_error_message(int error)
         case REMOVE_ERROR:
             printf("FILE REMOVING FILED (soubor byl nalezen, ale smazání selhalo)");
             break;
+
+        case MEMORY_PROBLEMS:
+            printf("PROBLEM RISE DURING MALLOC OR REALLOC OPERATION");
         default:
             printf("NOT SPECIFIED RESULT");
             break;

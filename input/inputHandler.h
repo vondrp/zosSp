@@ -15,7 +15,7 @@
  * -> when output no longer needed call free
  * @return  pointer to the dynamically allocated line
  */
-char *getLine();
+char *getLine(FILE *file);
 
 /**
  * Free array of dynamically allocated strings
@@ -44,5 +44,11 @@ void sentence_to_words(char *console_input, char** words, int *last_words_amount
  * @param fullPath
  */
 void removePathLastPart(char *remainingPath, char *fullPath);
+
+/**
+ *
+ * @param words
+ */
+void call_command(char** words);
 
 #endif //ZOS_SP_INPUTHANDLER_H

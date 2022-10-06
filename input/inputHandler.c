@@ -15,17 +15,17 @@
 
 #define max(x,y) (((x) >= (y)) ? (x) : (y))
 
-char *getLine(void)
+char *getLine(FILE *file)
 {
-    char * line = malloc(INPUT_LENGTH), * linep = line;
-    size_t lenmax = INPUT_LENGTH, len = lenmax;
-    int c;
+    char * line = malloc(INPUT_LENGTH * sizeof (char)), * linep = line;
+    size_t lenmax = INPUT_LENGTH * sizeof (char), len = lenmax;
+    char c;
 
     if(line == NULL)
         return NULL;
 
     for(;;) {
-        c = fgetc(stdin);
+        c = (char) fgetc(file);
         if(c == EOF)
             break;
 
@@ -128,11 +128,11 @@ void process_input()
 
     words = malloc(words_amount * sizeof(char *)); // array of words
     char end_input[] = "end";
-    int i, last_words_amount;
+    int last_words_amount;
 
     last_words_amount = 0; // amount of words used in last console input
     do {
-        console_input = getLine();
+        console_input = getLine(stdin);
 
         sentence_to_words(console_input, words, &last_words_amount);
 
@@ -141,45 +141,53 @@ void process_input()
         {
             printf("%s %llu\n", words[i], strlen(words[i]));
         }*/
-
-        if (strcmp(words[0], "cp") == 0)
-        {
-            cp_command(words[1], words[2]);
-        }
-        else if (strcmp(words[0], "mv") == 0)
-        {
-            mv_command(words[1], words[2]);
-        }
-        else if (strcmp(words[0], "rm") == 0)
-        {
-            rm_command(words[1]);
-        }
-        else if (strcmp(words[0], "mkdir") == 0)
-        {
-            mkdir_command(words[1]);
-        }
-        else if (strcmp(words[0], "rmdir") == 0)
-        {
-            rmdir_command(words[1]);
-        }
-        else if (strcmp(words[0], "ls") == 0)
-        {
-            ls_command(words[1]);
-        }
-        else if (strcmp(words[0], "cat") == 0)
-        {
-            cat_command(words[1]);
-        }
-        else if (strcmp(words[0], "cd") == 0)
-        {
-            cd_command(words[1]);
-        }
-        else if (strcmp(words[0], "pwd") == 0)
-        {
-            pwd_command();
-        }
+        call_command(words);
     } while(strcmp(words[0], end_input) != 0);
 
     free_words_array(words, words_amount);
     free(console_input);
+}
+
+void call_command(char** words)
+{
+    if (strcmp(words[0], "cp") == 0)
+    {
+        cp_command(words[1], words[2]);
+    }
+    else if (strcmp(words[0], "mv") == 0)
+    {
+        mv_command(words[1], words[2]);
+    }
+    else if (strcmp(words[0], "rm") == 0)
+    {
+        rm_command(words[1]);
+    }
+    else if (strcmp(words[0], "mkdir") == 0)
+    {
+        mkdir_command(words[1]);
+    }
+    else if (strcmp(words[0], "rmdir") == 0)
+    {
+        rmdir_command(words[1]);
+    }
+    else if (strcmp(words[0], "ls") == 0)
+    {
+        ls_command(words[1]);
+    }
+    else if (strcmp(words[0], "cat") == 0)
+    {
+        cat_command(words[1]);
+    }
+    else if (strcmp(words[0], "cd") == 0)
+    {
+        cd_command(words[1]);
+    }
+    else if (strcmp(words[0], "pwd") == 0)
+    {
+        pwd_command();
+    }
+    else if (strcmp(words[0], "load") == 0)
+    {
+        load_command(words[1]);
+    }
 }

@@ -59,4 +59,10 @@ int move_file (char *source_file, char *target_path);
  * @param filename      filename of the file, which content is going to be printed
  */
 void cat_command(char* filename);
+
+/**
+ * Perform load command -> load file with
+ * @param scriptFile    file containing commands to be executed
+ */
+void load_command(char* scriptFile);
 #endif //ZOS_SP_FILECOMMANDS_H
