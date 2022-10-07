@@ -61,7 +61,8 @@ int move_file (char *source_file, char *target_path);
 void cat_command(char* filename);
 
 /**
- * Perform load command -> load file with
+ * Perform load command -> load script file with commands
+ * one line - one command, only command load with the same scriptFile will not be done
  * @param scriptFile    file containing commands to be executed
  */
 void load_command(char* scriptFile);

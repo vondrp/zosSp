@@ -18,11 +18,11 @@
 void cp_command (char *source_file, char *target_file)
 {
     int result;
-    result = checkFilenameInput(source_file);
+    result = check_filename_input(source_file);
 
     if (result == SUCCESS)
     {
-        result = checkFilenameInput(target_file);
+        result = check_filename_input(target_file);
     }
 
     if (result == SUCCESS) {
@@ -66,13 +66,13 @@ void mv_command (char *source_file, char *target_file)
 {
     int result;
     char* target_filename;
-    result = checkFilenameInput(source_file);
+    result = check_filename_input(source_file);
 
     if (result == SUCCESS)
     {
         if (is_directory(target_file))
         {
-            target_filename = getFilename(source_file);
+            target_filename = get_filename(source_file);
 
             if (strcmp(target_filename, "") == 0)
             {
@@ -89,7 +89,7 @@ void mv_command (char *source_file, char *target_file)
                 strcat(target_file, target_filename);
             }
         }
-        result = checkFilenameInput(target_file);
+        result = check_filename_input(target_file);
     }
 
     if (result == SUCCESS)
@@ -118,7 +118,7 @@ void rm_command(char *filename)
 {
     int result;
 
-    result = checkFilenameInput(filename);
+    result = check_filename_input(filename);
 
     if (result == SUCCESS)
     {
@@ -182,6 +182,7 @@ void cat_command(char* filename)
 void load_command(char* scriptFile)
 {
     FILE *fptr;
+    char *wPathScriptName; // script file name without path
     char *file_line; // line from a file
     char **words;       // file line separated into words
     int last_words_amount = 0; int words_amount = DEFAULT_WORDS_AMOUNT;
@@ -194,16 +195,23 @@ void load_command(char* scriptFile)
         return;
     }
 
+    wPathScriptName = get_filename(scriptFile);
 
     words = malloc(words_amount * sizeof(char *)); // array of words
     // Read contents from file
 
-    file_line = getLine(fptr);
+    file_line = get_line(fptr);
     while (file_line != NULL)
     {
+        // if line contains load command + name of the current scriptFile -> line will not be done
+        if (strstr(file_line, "load") != NULL && strstr(file_line, wPathScriptName) != NULL)
+        {
+            file_line = get_line(fptr);
+            continue;
+        }
+        // split words in line to array of words
         sentence_to_words(file_line, words, &last_words_amount);
-        call_command(words);
-
-        file_line = getLine(fptr);
+        call_commands(words);    // call commands
+        file_line = get_line(fptr);
     }
 }

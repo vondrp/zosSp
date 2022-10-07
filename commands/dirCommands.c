@@ -18,11 +18,11 @@ void mkdir_command(char * dirName)
     int check;
     char *remainingPath = malloc(strlen(dirName));
 
-    removePathLastPart(remainingPath, dirName);
+    remove_path_last_part(remainingPath, dirName);
 
     if (strcmp(remainingPath, dirName) != 0)
     {
-        check = directoryExists(remainingPath);
+        check = directory_exists(remainingPath);
 
         if (check == EXISTS)
         {
@@ -46,7 +46,7 @@ int make_directory(char * dirName)
 {
     int check;
 
-    check = directoryExists(dirName);
+    check = directory_exists(dirName);
 
     if (check != PATH_NOT_FOUND)
     {
@@ -84,7 +84,7 @@ int is_empty(char* dir)
     struct stat path_stat;
     struct dirent *de;  // Pointer for directory entry
 
-    result = directoryExists(dir);
+    result = directory_exists(dir);
     if (result != EXISTS)
     {
         return result;
@@ -127,7 +127,7 @@ void ls_command(char* directory)
 {
     char* dir;
 
-    repairBackSlashes(directory);
+    repair_back_slashes(directory);
     unsigned long long len = strlen(directory); // length of the given directory
 
     if (len == 0)
@@ -150,7 +150,7 @@ int write_out_dir(char* dir)
     char* dir_items_path; // path inside the given directory - dir\ /
     struct dirent *de;  // Pointer for directory entry
 
-    result = directoryExists(dir);
+    result = directory_exists(dir);
     if (result != EXISTS)
     {
         return result;

@@ -5,22 +5,21 @@
 #include <dirent.h>
 #include <errno.h>
 #include <sys/stat.h>
-#include <stdio.h>
 
 #include "checkInput.h"
 #include "../utils/error.h"
 
 #define FILENAME_MAX_LENGTH 12
 
-char* getFilename(char *string_path) {
-    repairBackSlashes(string_path);
+char* get_filename(char *string_path) {
+    repair_back_slashes(string_path);
     char *dot = strrchr(string_path, '/');
 
     if(!dot || dot == string_path) return string_path;
     return dot + 1;
 }
 
-void repairBackSlashes(char * string)
+void repair_back_slashes(char * string)
 {
     int index = 0;
     char c = (string)[index];
@@ -34,12 +33,12 @@ void repairBackSlashes(char * string)
     }
 }
 
-int checkFilenameInput(char *string){
+int check_filename_input(char *string){
     char *fileName;
 
-    repairBackSlashes(string);
+    repair_back_slashes(string);
 
-    fileName = getFilename(string);
+    fileName = get_filename(string);
     if (strlen(fileName) > FILENAME_MAX_LENGTH)
     {
         return TOO_LONG_FILENAME;
@@ -48,7 +47,7 @@ int checkFilenameInput(char *string){
     return SUCCESS;
 }
 
-int directoryExists(char *directory)
+int directory_exists(char *directory)
 {
     DIR* dir = opendir(directory);
     if (dir) {
@@ -64,10 +63,10 @@ int directoryExists(char *directory)
     }
 }
 
-void removePathLastPart(char *remainingPath, char *fullPath)
+void remove_path_last_part(char *remainingPath, char *fullPath)
 {
     unsigned long int len;
-    repairBackSlashes(fullPath);
+    repair_back_slashes(fullPath);
 
     for (len = strlen(fullPath); len > 0; len --)
     {

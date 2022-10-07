@@ -15,7 +15,7 @@
  * -> when output no longer needed call free
  * @return  pointer to the dynamically allocated line
  */
-char *getLine(FILE *file);
+char *get_line(FILE *file);
 
 /**
  * Free array of dynamically allocated strings
@@ -39,16 +39,9 @@ void process_input();
 void sentence_to_words(char *console_input, char** words, int *last_words_amount);
 
 /**
- *
- * @param remainingPath
- * @param fullPath
+ * Method used for calling commands
+ * @param words array of words (it is expected that 1 word is command)
  */
-void removePathLastPart(char *remainingPath, char *fullPath);
-
-/**
- *
- * @param words
- */
-void call_command(char** words);
+void call_commands(char** words);
 
 #endif //ZOS_SP_INPUTHANDLER_H

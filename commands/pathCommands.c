@@ -22,7 +22,7 @@ void pwd_command()
 void cd_command(char *path)
 {
     int result;
-    result = directoryExists(path);
+    result = directory_exists(path);
     if (result != EXISTS)
     {
         print_error_message(result);

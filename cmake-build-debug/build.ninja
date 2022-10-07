@@ -91,6 +91,12 @@ build CMakeFiles/zos_sp.dir/commands/dirCommands.c.obj: C_COMPILER__zos_sp_Debug
   OBJECT_DIR = CMakeFiles\zos_sp.dir
   OBJECT_FILE_DIR = CMakeFiles\zos_sp.dir\commands
 
+build CMakeFiles/zos_sp.dir/commands/fsCommands.c.obj: C_COMPILER__zos_sp_Debug D$:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/fsCommands.c || cmake_object_order_depends_target_zos_sp
+  DEP_FILE = CMakeFiles\zos_sp.dir\commands\fsCommands.c.obj.d
+  FLAGS = -g -std=gnu99
+  OBJECT_DIR = CMakeFiles\zos_sp.dir
+  OBJECT_FILE_DIR = CMakeFiles\zos_sp.dir\commands
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target zos_sp
@@ -99,7 +105,7 @@ build CMakeFiles/zos_sp.dir/commands/dirCommands.c.obj: C_COMPILER__zos_sp_Debug
 #############################################
 # Link the executable zos_sp.exe
 
-build zos_sp.exe: C_EXECUTABLE_LINKER__zos_sp_Debug CMakeFiles/zos_sp.dir/main.c.obj CMakeFiles/zos_sp.dir/input/inputHandler.c.obj CMakeFiles/zos_sp.dir/input/checkInput.c.obj CMakeFiles/zos_sp.dir/utils/messages.c.obj CMakeFiles/zos_sp.dir/commands/fileCommands.c.obj CMakeFiles/zos_sp.dir/commands/pathCommands.c.obj CMakeFiles/zos_sp.dir/commands/dirCommands.c.obj
+build zos_sp.exe: C_EXECUTABLE_LINKER__zos_sp_Debug CMakeFiles/zos_sp.dir/main.c.obj CMakeFiles/zos_sp.dir/input/inputHandler.c.obj CMakeFiles/zos_sp.dir/input/checkInput.c.obj CMakeFiles/zos_sp.dir/utils/messages.c.obj CMakeFiles/zos_sp.dir/commands/fileCommands.c.obj CMakeFiles/zos_sp.dir/commands/pathCommands.c.obj CMakeFiles/zos_sp.dir/commands/dirCommands.c.obj CMakeFiles/zos_sp.dir/commands/fsCommands.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\zos_sp.dir

@@ -12,4 +12,5 @@ add_executable(zos_sp main.c
         commands/fileCommands.h commands/fileCommands.c
         commands/pathCommands.h commands/pathCommands.c
         commands/dirCommands.h commands/dirCommands.c
+        commands/fsCommands.h commands/fsCommands.c
         )

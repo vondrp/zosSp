@@ -15,7 +15,7 @@
 
 #define max(x,y) (((x) >= (y)) ? (x) : (y))
 
-char *getLine(FILE *file)
+char *get_line(FILE *file)
 {
     char * line = malloc(INPUT_LENGTH * sizeof (char)), * linep = line;
     size_t lenmax = INPUT_LENGTH * sizeof (char), len = lenmax;
@@ -132,7 +132,7 @@ void process_input()
 
     last_words_amount = 0; // amount of words used in last console input
     do {
-        console_input = getLine(stdin);
+        console_input = get_line(stdin);
 
         sentence_to_words(console_input, words, &last_words_amount);
 
@@ -141,14 +141,14 @@ void process_input()
         {
             printf("%s %llu\n", words[i], strlen(words[i]));
         }*/
-        call_command(words);
+        call_commands(words);
     } while(strcmp(words[0], end_input) != 0);
 
     free_words_array(words, words_amount);
     free(console_input);
 }
 
-void call_command(char** words)
+void call_commands(char** words)
 {
     if (strcmp(words[0], "cp") == 0)
     {
