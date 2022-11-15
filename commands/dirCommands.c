@@ -7,11 +7,14 @@
 #include <stdio.h>
 #include <sys/stat.h>
 
+#include <string.h>
 
 #include "dirCommands.h"
 #include "../input/checkInput.h"
 #include "../utils/error.h"
 #include "../utils/messages.h"
+
+#include "../fat/fat.h"
 
 void mkdir_command(char * dirName)
 {
@@ -20,13 +23,15 @@ void mkdir_command(char * dirName)
 
     remove_path_last_part(remainingPath, dirName);
 
+    //todo inicializovat
+    struct directory_item *drs;
     if (strcmp(remainingPath, dirName) != 0)
     {
         check = directory_exists(remainingPath);
 
         if (check == EXISTS)
         {
-            check = make_directory(dirName);
+            //check = make_directory(dirName, drs);
         }
         else if (check == PATH_NOT_FOUND)
         {
@@ -35,31 +40,35 @@ void mkdir_command(char * dirName)
     }
     else //if remainingPath and dirName are the same -> path not specified (is taking base directory)
     {
-        check = make_directory(dirName);
+        //check = make_directory(dirName, drs);
     }
     print_error_message(check);
 
     free(remainingPath);
 }
 
-int make_directory(char * dirName)
+int make_directory(char * dirName, struct directory_item *drs)
 {
     int check;
 
-    check = directory_exists(dirName);
-
+    drs->isFile = false;
+    drs->size = 0;
+    //drs->start_cluster =
+    //TODO zkontrolovat zda adresar uz existuje
+    /*check = directory_exists(dirName);
     if (check != PATH_NOT_FOUND)
     {
         return check;
-    }
-    check = mkdir(dirName);
-
+    }*/
+    //check = mkdir(dirName);
+    //TODO predelat
     // check if directory is created or not
-    if (!check)
+    /*if (!check)
         return SUCCESS;
     else {
         return UNDEFINED_ERROR;
-    }
+    }*/
+    return SUCCESS;
 }
 
 
@@ -67,13 +76,14 @@ void rmdir_command(char* dir)
 {
     int result = is_empty(dir);
 
+    /*
     if (result == SUCCESS)
     {
         if (rmdir(dir) != 0)
         {
             result = REMOVE_ERROR;
         }
-    }
+    }*/
 
     print_error_message(result);
 }

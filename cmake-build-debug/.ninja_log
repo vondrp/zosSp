@@ -26,3 +26,10 @@
 1331	2231	6868674562000712	zos_sp.exe	82706cdcff422d21
 3	174	6868675192089636	CMakeFiles/zos_sp.dir/commands/fileCommands.c.obj	6795cfdb2c55290e
 175	537	6868675195652050	zos_sp.exe	82706cdcff422d21
+583	2251	6868712560919307	CMakeFiles/zos_sp.dir/main.c.obj	2c5188e7008274a9
+648	2337	6868712561432658	CMakeFiles/zos_sp.dir/commands/pathCommands.c.obj	b8ef9cb895394fa6
+630	2338	6868712561472069	CMakeFiles/zos_sp.dir/input/checkInput.c.obj	12c741d86a39738c
+659	2405	6868712561845088	CMakeFiles/zos_sp.dir/commands/fileCommands.c.obj	6795cfdb2c55290e
+669	2438	6868712562189261	CMakeFiles/zos_sp.dir/commands/dirCommands.c.obj	96e92e8c6fa5dce7
+639	2448	6868712562899813	CMakeFiles/zos_sp.dir/input/inputHandler.c.obj	e4c9ec64adc14f71
+2448	3518	6868712573531432	zos_sp.exe	82706cdcff422d21

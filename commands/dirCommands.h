@@ -5,18 +5,21 @@
 #ifndef ZOS_SP_DIRCOMMANDS_H
 #define ZOS_SP_DIRCOMMANDS_H
 
+#include "../fat/fat.h"
 /**
  * Done command of creating a directory
  * @param dirName   name of the directory to create
  */
 void mkdir_command(char *dirName);
 
+
 /**
  * Create new directory
  * @param dirName  name of the new directory
+ * @param drs      item where the directory is created
  * @return  result  EXISTS - 5, ENTERED_PATH_NOT_FOUND - 7, EXISTS - 5
  */
-int make_directory(char * dirName);
+int make_directory(char * dirName, struct directory_item *drs);
 
 /**
  * Perform rmdir command - remove given directory if it is empty

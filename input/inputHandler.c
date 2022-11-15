@@ -120,7 +120,7 @@ void sentence_to_words(char *console_input, char** words, int *last_words_amount
     *last_words_amount = ctr;
 }
 
-void process_input()
+void process_input(struct boot_record *br, struct directory_item *dr, char **clusters)
 {
     char *console_input; //console input from user
     char **words;       // console input separated into words

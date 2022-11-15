@@ -9,6 +9,7 @@
 #define DEFAULT_WORDS_AMOUNT 12
 #define INPUT_LENGTH 100
 
+#include "../fat/fat.h"
 /**
  * Method for getting line from the console
  * given line is dynamically allocated
@@ -27,7 +28,7 @@ void free_words_array(char *a[], int length);
 /**
  * Method for processing user input
  */
-void process_input();
+void process_input(struct boot_record *br, struct directory_item *dr, char **clusters);
 
 
 /**
