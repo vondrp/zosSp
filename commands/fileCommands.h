@@ -66,4 +66,11 @@ void cat_command(char* filename);
  * @param scriptFile    file containing commands to be executed
  */
 void load_command(char* scriptFile);
+
+/**
+ * From outside of the FileSystem load file and place it to the file system
+ * @param outsideFile   outside file
+ * @param toPlace       where to place file
+ */
+void incp_command(char* outsideFile, char* toPlace);
 #endif //ZOS_SP_FILECOMMANDS_H

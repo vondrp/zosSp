@@ -6,13 +6,12 @@
 #define ZOS_SP_DIRCOMMANDS_H
 
 #include "../fat/fat.h"
+
 /**
  * Done command of creating a directory
  * @param dirName   name of the directory to create
  */
 void mkdir_command(char *dirName);
-
-
 
 /**
  * Create new directory

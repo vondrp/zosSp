@@ -18,6 +18,11 @@ void mkdir_command(char *dirName)
 {
     process_path(dirName);
 
+    if (strlen(get_filename(dirName)) > MAX_CHAR)
+    {
+        print_error_message(TOO_LONG_FILENAME);
+        return;
+    }
     int check;
     char *remainingPath = malloc(strlen(dirName));
     char *path_grandparent = malloc(strlen(dirName)); // cesta ke struture, kde se nachazi direc item, kam se bude vkladat nova polozka
@@ -93,7 +98,7 @@ void mkdir_command(char *dirName)
     print_error_message(check);
 
     //TODO odstranit kontrolni vypisu - jsou zde kdyby znovu objevila nejspis uz vyzesena chyba
-    printf("Root name %s\n", root_item->name);
+    //printf("Root name %s\n", root_item->name);
 
     if (strcmp(grand_parent->name, root_item->name) != 0 && strcmp(grand_parent->name, current_dir->name) != 0)
     {
@@ -106,13 +111,13 @@ void mkdir_command(char *dirName)
     }
 
     free(remainingPath);
-    printf("Root name %s\n", root_item->name);
+    //printf("Root name %s\n", root_item->name);
 }
 
 int make_directory(char *dirName, struct directory_item *dir_where_create, struct directory_item *grandparent_dir)
 {
     //TODO zprava dulezita pro kontrolu, pred odezvdanim smazat
-    printf("V make dir dirname: %s, where_created %s, grandparent: %s\n", dirName, dir_where_create->name, grandparent_dir->name);
+    //printf("V make dir dirname: %s, where_created %s, grandparent: %s\n", dirName, dir_where_create->name, grandparent_dir->name);
     struct directory_item new_dir = {};
     int check;
 
@@ -237,8 +242,8 @@ void ls_command(char* directory)
         look_from = root_item;
         process_path(directory);
     }
-
-    printf("Look from: %s\n", look_from->name);
+    //todo ODSTRANIT pred odezvdanim
+    //printf("Look from: %s\n", look_from->name);
     print_error_message(write_out_dir(directory, look_from));
 }
 

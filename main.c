@@ -44,7 +44,6 @@ int main(int argc, char** argv) {
             init_fat_table[i] = FAT_UNUSED;
         }
 
-
         fwrite(init_fat_table, sizeof (int32_t), init_br.cluster_count, initFtr);
 
         // zapsani fat table do souboru
@@ -81,11 +80,11 @@ int main(int argc, char** argv) {
     fat_table = malloc(global_br->cluster_count * sizeof(int32_t));
     for(i = 0; i < global_br->cluster_count; i++)
     {
-        fread(&fat_table[i], sizeof(fat_table[i]), 1, filePtr);
+        fread(&fat_table[i], sizeof(int32_t), 1, filePtr);
     }
 
     // nacteni root directory item
-    fread(root_item, sizeof (&root_item), 1, filePtr);
+    fread(root_item, sizeof (struct directory_item), 1, filePtr);
 
     // current directory is root at the start
     current_dir = root_item;
@@ -101,12 +100,8 @@ int main(int argc, char** argv) {
     process_input();
 
     fclose(filePtr);
-    printf("Soubor zavren\n");
-
     free(curr_path);
     free(fat_table);
     free(root_item);
-    free(filePtr);
-    printf("Jsem po vsech free");
     return 0;
 }

@@ -156,7 +156,6 @@ int remove_dir(struct directory_item *parent, struct directory_item *toDestroy, 
     fat_table[fat_index] = FAT_UNUSED;
     rewrite_fat();
     int i = 0;
-    int parentSpace = parent->size % global_br->cluster_size;
 
     unsigned long howMany = parent->size / sizeof(struct directory_item);
     int clusterSize = global_br->data_start_address + parent->start_cluster * sizeof(global_br->cluster_size);

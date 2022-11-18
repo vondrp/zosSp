@@ -5,6 +5,8 @@
 #ifndef ZOSSP_ERROR_H
 #define ZOSSP_ERROR_H
 
+#define     MAX_CHAR 12 //can be 13 symbols but the 13 symbol is for \0
+
 #define		SUCCESS 0
 #define     SOURCE_FILE_NOT_FOUND 1
 #define     TARGET_PATH_NOT_FOUND 2
