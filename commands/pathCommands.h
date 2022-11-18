@@ -17,5 +17,4 @@ void pwd_command();
  * @param path  new working directory
  */
 void cd_command(char *path);
-
 #endif //ZOS_SP_PATHCOMMANDS_H

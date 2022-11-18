@@ -69,4 +69,9 @@ int split_path(char *path, char** path_parts);
  */
 bool is_in_dir(struct directory_item *directory_parent, char dir_name[13], struct  directory_item *found);
 
+/**
+ * Method which proceed give path - create complete path from directory, not check if actually exists
+ * @param path  path to be checked and modified
+ */
+void process_path(char *path);
 #endif //ZOSSP_CHECKINPUT_H

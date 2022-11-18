@@ -56,20 +56,9 @@ int check_filename_input(char *string){
 
 int directory_exists(char *dir_path, struct directory_item *look_from, struct directory_item *last_part)
 {
-
    // path separated into parts
     char **path_parts = malloc(DEFAULT_PARTS_AMOUNT * sizeof(char *)); // array of words
 
-    /*struct directory_item *controlled_dir;
-    if (dir_path[0] == '/')
-    {
-        controlled_dir = root_item;
-    }
-    else
-    {
-        controlled_dir = current_dir;
-    }
-    */
     // existuje jde o root
     if (strcmp(dir_path, "/") == 0)
     {
@@ -85,7 +74,6 @@ int directory_exists(char *dir_path, struct directory_item *look_from, struct di
     struct directory_item tested[path_parts_num + 1];
     tested[0] = *look_from;
     int k;
-
     for (k = 0; k < path_parts_num; k++)
     {
         if (is_in_dir(&tested[k], path_parts[k], founded_dir) == true) {
@@ -168,8 +156,14 @@ int split_path(char *path, char** path_parts)
             // realloc more space for paths if necessary
             if (ctr >= path_amount)
             {
+                printf("Jsem v realloc v split\n");
                 path_amount = path_amount * 2;
-                path_parts = realloc(path_parts, path_amount * sizeof (char *));
+                unsigned long currSize = 0;
+                for (j = 0; j < ctr; j++)
+                    currSize = currSize + strlen(path_parts[j]);
+
+                //TODO je treba reallocovat jinak
+                path_parts = realloc(path_parts, path_amount * currSize);
             }
             j = 0;    //for next word, init index to 0
         } else {
@@ -177,7 +171,12 @@ int split_path(char *path, char** path_parts)
             j++;
         }
     }
-    return ctr+1; // +1 - pri indexu 0 je velikost 1
+    if (strlen(path_parts[ctr]) > 0)
+    {
+        return ctr+1;// +1 - pri indexu 0 je velikost 1
+    }
+
+    return ctr;
 }
 
 bool is_in_dir(struct directory_item *directory_parent, char dir_name[13], struct  directory_item *found)
@@ -205,4 +204,74 @@ bool is_in_dir(struct directory_item *directory_parent, char dir_name[13], struc
         }
     }
     return false;
+}
+
+
+void process_path(char *path)
+{
+    if (strlen(path) == 0)
+    {
+        strcpy(path, root_item->name);
+        return;
+    }
+
+
+    repair_back_slashes(path);
+    int i, count = 0;
+    // spoctu si pocet / - to oddelovace slov -> lehci reseni nez v split path reallocovat
+    for (i = 0; i < strlen(path); i++)
+    {
+        if(path[i] == '/')
+            count = count + 1;
+    }
+
+    char **path_parts = malloc((count +3) * sizeof(char *)); // array of words; 3- nahodne cislo pro zacatek
+    int parts_num = split_path(path, path_parts);
+    int length = sizeof(path) + 50;
+    char *newPath = malloc (length);
+
+    if (path[0] != '/')
+    {
+        strcpy(newPath, curr_path);
+    }
+    else
+    {
+        strcpy(newPath, root_item->name);
+    }
+
+    for (i = 0; i < parts_num; i++)
+    {
+        if (strcmp(path_parts[i], "..") == 0)
+        {
+            char *cutPath = malloc(sizeof(newPath));
+            remove_path_last_part(cutPath, newPath);
+
+            if(strcmp(cutPath, newPath) == 0)
+            {
+                strcpy(cutPath, root_item->name);
+            }
+
+            free(newPath);
+
+            newPath = malloc(length * sizeof(char));
+            strcpy(newPath, cutPath);
+            free(cutPath);
+        }
+        else
+        {
+            if (strlen(path_parts[i]) > 0)
+            {
+                //TODO realloc string
+                if (strlen(newPath) > 0 && newPath[strlen(newPath)-1] != '/')
+                {
+                    strcat(newPath, "/");
+                }
+                strcat(newPath, path_parts[i]);
+            }
+        }
+    }
+
+    strcpy(path, newPath);
+    free(path_parts);
+    free(newPath);
 }

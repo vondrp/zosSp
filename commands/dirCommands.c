@@ -2,11 +2,8 @@
 // Created by vondr on 06.10.2022.
 //
 
-#include <dirent.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <sys/stat.h>
-
 #include <string.h>
 
 
@@ -19,21 +16,37 @@
 
 void mkdir_command(char *dirName)
 {
+    process_path(dirName);
+
     int check;
     char *remainingPath = malloc(strlen(dirName));
+    char *path_grandparent = malloc(strlen(dirName)); // cesta ke struture, kde se nachazi direc item, kam se bude vkladat nova polozka
+    remove_path_last_part(remainingPath, dirName); // odriznuti nove polozky, pro pridani z cesty
 
-    remove_path_last_part(remainingPath, dirName);
+    char *firstSymbolCut; // = malloc(strlen(dirName)); // zde ulozena cesta pokud prvni symbol /
 
+    // odriznuti top 2 polozek z cesty
     char *name;
-
     struct directory_item *dir_to_place = malloc(sizeof(struct directory_item));
+    struct directory_item *grand_parent =  malloc(sizeof(struct directory_item));
 
     if (strcmp(remainingPath, dirName) != 0)
     {
+        remove_path_last_part(path_grandparent, remainingPath);
+
+        if (strcmp(remainingPath, path_grandparent) == 0 && strcmp(remainingPath, root_item->name) != 0 && path_grandparent[0] == '/')
+        {
+            // grandpa is root
+            strcpy(path_grandparent, root_item->name);
+        }
+
         struct directory_item *look_from;
         if (remainingPath[0] == '/')
         {
             look_from = root_item;
+            // odstraneni /
+            firstSymbolCut = remainingPath;
+            strcpy(remainingPath, firstSymbolCut + 1);
         }
         else
         {
@@ -42,46 +55,78 @@ void mkdir_command(char *dirName)
 
         check = directory_exists(remainingPath, look_from, dir_to_place);
 
-        printf("Dir to place: %s\n", dir_to_place->name);
         if (check == EXISTS)
         {
+            // vime, ze grandparent existuje, vyuzijeme metodu k jeho ziskani
+            directory_exists(path_grandparent, look_from, grand_parent);
             name = get_filename(dirName);
-            check = make_directory(name, dir_to_place);
+            check = make_directory(name, dir_to_place, grand_parent);
         }
         else if (check == PATH_NOT_FOUND)
         {
             check = ENTERED_PATH_NOT_FOUND;
         }
-
     }
     else //if remainingPath and dirName are the same -> path not specified (is taking currenth dir)
     {
-        check = make_directory(dirName, current_dir);
+        remove_path_last_part(path_grandparent, curr_path);
+
+        // founded curr path and gradpa path are same + the path is not root
+        if (strcmp(curr_path, path_grandparent) == 0 && strcmp(curr_path, root_item->name) != 0 && path_grandparent[0] == '/')
+        {
+            // grandpa is root
+            strcpy(path_grandparent, root_item->name);
+        }
+
+        directory_exists(path_grandparent, root_item, grand_parent);
+
+        if (remainingPath[0] == '/')
+        {
+            firstSymbolCut = dirName + 1;
+            check = make_directory(firstSymbolCut, root_item, grand_parent);
+        }
+        else
+        {
+            check = make_directory(dirName, current_dir, grand_parent);
+        }
     }
     print_error_message(check);
 
-    free(dir_to_place);
+    //TODO odstranit kontrolni vypisu - jsou zde kdyby znovu objevila nejspis uz vyzesena chyba
+    printf("Root name %s\n", root_item->name);
+
+    if (strcmp(grand_parent->name, root_item->name) != 0 && strcmp(grand_parent->name, current_dir->name) != 0)
+    {
+        free(grand_parent);
+    }
+
+    if (strcmp(dir_to_place->name, root_item->name) != 0 && strcmp(dir_to_place->name, current_dir->name) != 0)
+    {
+        free(dir_to_place);
+    }
+
     free(remainingPath);
+    printf("Root name %s\n", root_item->name);
 }
 
-int make_directory(char *dirName, struct directory_item *dir_where_create)
+int make_directory(char *dirName, struct directory_item *dir_where_create, struct directory_item *grandparent_dir)
 {
+    //TODO zprava dulezita pro kontrolu, pred odezvdanim smazat
+    printf("V make dir dirname: %s, where_created %s, grandparent: %s\n", dirName, dir_where_create->name, grandparent_dir->name);
     struct directory_item new_dir = {};
     int check;
 
     struct directory_item last_finded_part = {}; // not used here
-    check = directory_exists(dirName, dir_where_create, &last_finded_part );
+    check = directory_exists(dirName, dir_where_create, &last_finded_part);
     if (check != PATH_NOT_FOUND)
     {
         return check;
     }
-    printf("Pokracuji dal %s\n", dir_where_create->name);
 
     new_dir.isFile = false;
     new_dir.size = 0;
     strcpy(new_dir.name, dirName);
 
-    printf("Po strcpy\n");
     int fat_index = find_free_fat_index();
 
     if (fat_index == -1)
@@ -95,65 +140,82 @@ int make_directory(char *dirName, struct directory_item *dir_where_create)
         rewrite_fat();
     }
 
-    write_dir(dir_where_create, &new_dir);
+    write_dir(dir_where_create, &new_dir, grandparent_dir);
     return SUCCESS;
 }
 
 
 void rmdir_command(char* dir)
 {
+    process_path(dir);
     int result = is_empty(dir);
 
-    /*
+    // cannot allow to root directory to be removed
+    if (strcmp(dir, root_item->name) == 0)
+    {
+        result = NOT_EMPTY_DIR;
+    }
+
+    struct directory_item toBeDestroyed = {};
+    struct directory_item parent = {};
+    struct directory_item grand_parent = {};
     if (result == SUCCESS)
     {
-        if (rmdir(dir) != 0)
+        directory_exists(dir, root_item, &toBeDestroyed);
+
+        char *parentPath = malloc (sizeof(dir));
+        remove_path_last_part(parentPath, dir);
+        // get parent
+        directory_exists(parentPath, root_item, &parent);
+
+        char *grandpaPath = malloc (sizeof(dir));
+        remove_path_last_part(grandpaPath, parentPath);
+
+        // if condition true -> remove items from root -> gradnpa and parent root
+        if(strcmp(parent.name, toBeDestroyed.name) == 0)
         {
-            result = REMOVE_ERROR;
+            parent = *root_item;
+            grand_parent = *root_item;
         }
-    }*/
+        else
+        {
+            // find grandpa
+            directory_exists(grandpaPath, root_item, &grand_parent);
+
+            if(strcmp(grand_parent.name, parent.name) == 0)
+            {
+                grand_parent = *root_item;
+            }
+        }
+
+        remove_dir(&parent, &toBeDestroyed, &grand_parent);
+    }
 
     print_error_message(result);
 }
 
-int is_empty(char* dir)
+int is_empty(char *dir)
 {
-    int result, counter = 0;
-    struct stat path_stat;
-    struct dirent *de;  // Pointer for directory entry
+    int result;
 
-    //TODO upravit inPlace jen placeholder
+    struct directory_item *source;
+    if (dir[0] == '/')
+    {
+        source = root_item;
+    }
+    else
+    {
+        source = current_dir;
+    }
+
     struct directory_item inPlace = {}; // ulozeni posledniho directory
-    result = directory_exists(dir, &inPlace, &inPlace);
+    result = directory_exists(dir, source, &inPlace);
     if (result != EXISTS)
     {
         return result;
     }
 
-    // opendir() returns a pointer of DIR type.
-    DIR *dr = opendir(dir);
-
-    if (dr == NULL)  // opendir returns NULL if couldn't open directory
-    {
-        return UNDEFINED_ERROR;
-    }
-
-    // prepare variable with path
-    // read items in directory
-    // Refer http://pubs.opengroup.org/onlinepubs/7990989775/xsh/readdir.html
-    // for readdir()
-    while ((de = readdir(dr)) != NULL)
-    {
-        if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
-            continue;
-
-        counter++;
-        break;
-    }
-
-    closedir(dr);
-
-    if (counter > 0)
+    if (inPlace.size > 0)
     {
         return NOT_EMPTY_DIR;
     }
@@ -161,31 +223,23 @@ int is_empty(char* dir)
     {
         return SUCCESS;
     }
-
 }
 
 void ls_command(char* directory)
 {
-    char* dir;
     struct directory_item *look_from;
-    repair_back_slashes(directory);
-    unsigned long long len = strlen(directory); // length of the given directory
-
-    if (len == 0)
+    if (strlen(directory) == 0)
     {
-        dir = curr_path;
         look_from = current_dir;
     }
     else
     {
-        dir = directory;
-        if (directory[0] == '/')
-            look_from = root_item;
-        else
-            look_from = current_dir;
+        look_from = root_item;
+        process_path(directory);
     }
 
-    print_error_message(write_out_dir(dir, look_from));
+    printf("Look from: %s\n", look_from->name);
+    print_error_message(write_out_dir(directory, look_from));
 }
 
 int write_out_dir(char* dir_path, struct directory_item *look_from)
@@ -193,30 +247,34 @@ int write_out_dir(char* dir_path, struct directory_item *look_from)
     int result;
     struct directory_item directoryItem = {};
     int i, j;
-    //TODO dodela directoItem placeholder
 
-    printf("Dir_path: %s look_from %s \n", dir_path, look_from->name);
-    result = directory_exists(dir_path, look_from, &directoryItem);
-    if (result != EXISTS)
+    if (strlen(dir_path) == 0)
     {
-        return result;
+        directoryItem = *look_from;
+    }
+    else
+    {
+        result = directory_exists(dir_path, look_from, &directoryItem);
+        if (result != EXISTS)
+        {
+            return result;
+        }
     }
 
-    printf("Directory item %s %d %d\n", directoryItem.name, directoryItem.start_cluster, directoryItem.size);
+    //printf("Directory item %s %d %d\n", directoryItem.name, directoryItem.start_cluster, directoryItem.size);
     long clusterStart = global_br->data_start_address + directoryItem.start_cluster * global_br->cluster_size;
     fseek(filePtr, clusterStart, SEEK_SET);
 
     unsigned long howMany = directoryItem.size / sizeof(struct directory_item);
 
-    printf("How many %lu\n", howMany);
     struct directory_item directories[howMany];
+    printf("\n");
     for (i = 0; i < howMany; i++)
     {
-        //TODO pomoci fseek zmenit odkud ctu kdyz ke konci clusteru
         fread(&directories[i], sizeof(struct directory_item), 1, filePtr);
         printf("%s\n", directories[i].name);
     }
-
+    printf("\n");
 
     return SUCCESS;
 }

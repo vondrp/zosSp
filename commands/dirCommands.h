@@ -18,9 +18,10 @@ void mkdir_command(char *dirName);
  * Create new directory
  * @param dirName  name of the new directory
  * @param dir_where_create directory_structure where new directory is created
+ * @param grandparent_dir    parent directory of dir_where_create
  * @return  result  EXISTS - 5, ENTERED_PATH_NOT_FOUND - 7, EXISTS - 5
  */
-int make_directory(char * dirName, struct directory_item *dir_where_create);
+int make_directory(char * dirName, struct directory_item *dir_where_create, struct directory_item *grandparent_dir);
 
 /**
  * Perform rmdir command - remove given directory if it is empty
@@ -31,9 +32,9 @@ void rmdir_command(char* dir);
 /**
  * Find out if given directory is empty
  * @param dir   directory which is being checked if it is empty
- * @return      SUCCESS, NOT_EMPTY_DIR, PATH_NOT_FOUND, UNDEFINED_ERROR
+ * @return      SUCCESS, NOT_EMPTY_DIR, PATH_NOT_FOUND
  */
-int is_empty(char* dir);
+int is_empty(char *dir);
 
 /**
  * Perform ls command -> print content of the directory

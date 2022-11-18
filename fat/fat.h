@@ -52,8 +52,13 @@ int find_free_fat_index();
  * @param new_dir
  * @return
  */
-int write_dir(struct directory_item *parent, struct directory_item *new_dir);
+int write_dir(struct directory_item *parent, struct directory_item *new_dir, struct directory_item *grandParent);
 
+/**
+ * Find out last cluster used by directory_item
+ * @param dir   directory_item using cluster
+ * @return      cluster index
+ */
 int last_cluster(struct directory_item *dir);
 
 void rewrite_fat();
@@ -61,4 +66,13 @@ void rewrite_fat();
 void copy_direct_item(struct directory_item *source, struct directory_item *target);
 
 struct directory_item find_dir(struct directory_item parent);
+
+int remove_dir(struct directory_item *parent, struct directory_item *toDestroy, struct directory_item *grandparent);
+
+/**
+ * Rewrite directory in his parent
+ * @param child     directory item which value has been changed
+ * @param parent    where child is located
+ */
+void upgrade_dir_item(struct directory_item *child, struct directory_item *parent);
 #endif //ZOS_SP_FAT_H

@@ -71,7 +71,7 @@ int main(int argc, char** argv) {
         exit(2);
     }
 
-    global_br = malloc (sizeof (global_br));
+    global_br = malloc (sizeof (struct boot_record));
     root_item = malloc(sizeof (struct directory_item));
 
     // otisknutí superblock struktury z FS
@@ -100,10 +100,13 @@ int main(int argc, char** argv) {
     printf("Vítejte, můžete psát příkazy.\n");
     process_input();
 
+    fclose(filePtr);
+    printf("Soubor zavren\n");
+
     free(curr_path);
     free(fat_table);
-   // free(root_item);
-
-    fclose(filePtr);
+    free(root_item);
+    free(filePtr);
+    printf("Jsem po vsech free");
     return 0;
 }

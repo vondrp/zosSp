@@ -12,6 +12,8 @@
 #include "../commands/dirCommands.h"
 #include "../commands/pathCommands.h"
 
+#include "checkInput.h"
+
 
 #define max(x,y) (((x) >= (y)) ? (x) : (y))
 
@@ -190,5 +192,9 @@ void call_commands(char** words)
     else if (strcmp(words[0], "load") == 0)
     {
         load_command(words[1]);
+    }
+    else if (strcmp(words[0], "pathPr") == 0)
+    {
+        process_path(words[1]);
     }
 }

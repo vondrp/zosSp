@@ -8,6 +8,7 @@
 #include <string.h>
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 const int32_t FAT_UNUSED = INT32_MAX - 1;
 const int32_t FAT_FILE_END = INT32_MAX - 2;
@@ -66,7 +67,7 @@ int find_free_fat_index()
     return result;
 }
 
-int write_dir(struct directory_item *parent, struct directory_item *new_dir)
+int write_dir(struct directory_item *parent, struct directory_item *new_dir, struct directory_item *grandParent)
 {
     int fat_index;
 
@@ -98,23 +99,105 @@ int write_dir(struct directory_item *parent, struct directory_item *new_dir)
     fseek(filePtr, clusterStart, SEEK_SET);
     fwrite(new_dir, sizeof (struct directory_item), 1, filePtr);
 
-    printf("Rodic %s \n", parent->name);
-    printf("Potomek %s\n", new_dir->name);
     parent->size = parent->size + (int32_t)sizeof(struct directory_item);
 
     // upgrade rodice
-    //TODO treba uprgadenout
+    upgrade_dir_item(parent, grandParent);
 
-    if (strcmp(parent->name, "/") == 0) //rodic je koren
+    // reload current dir
+    if (strcmp(parent->name, current_dir->name) == 0)
     {
-        printf(" zapis rodice\n");
-        clusterStart = global_br->fat1_start_address + (long) sizeof (int32_t) * global_br->cluster_count;
-        fseek(filePtr, clusterStart, SEEK_SET);
-        fwrite(parent, sizeof (struct directory_item), 1, filePtr);
+        copy_direct_item(parent, current_dir);
     }
-
+    else if (strcmp(parent->name, root_item->name) == 0)
+    {
+        copy_direct_item(parent, root_item);
+    }
     return SUCCESS;
 }
+
+
+void upgrade_dir_item(struct directory_item *child, struct directory_item *parent) {
+    long clusterStart;
+    if (strcmp(child->name, "/") == 0) //rodic je koren
+    {
+        clusterStart = global_br->data_start_address - sizeof(struct directory_item);
+        fseek(filePtr, clusterStart, SEEK_SET);
+        fwrite(child, sizeof(struct directory_item), 1, filePtr);
+    }
+    else
+    {
+        clusterStart = global_br->data_start_address + parent->start_cluster * global_br->cluster_size;
+        fseek(filePtr, clusterStart, SEEK_SET);
+        unsigned long grandParentHowMany = parent->size / sizeof(struct directory_item);
+
+        struct directory_item grandpaDirectories[grandParentHowMany];
+        int howFarAway = 0;
+        int placeManCluster = parent->start_cluster;
+        for (int j = 0; j < grandParentHowMany; j++) {
+            fread(&grandpaDirectories[j], sizeof(struct directory_item), 1, filePtr);
+            if (strcmp(grandpaDirectories[j].name, child->name) == 0) {
+                howFarAway = j;
+                break;
+            }
+        }
+
+        clusterStart = global_br->data_start_address + placeManCluster * global_br->cluster_size
+                       + howFarAway * sizeof(struct directory_item);
+        fseek(filePtr, clusterStart, SEEK_SET);
+        fwrite(child, sizeof(struct directory_item), 1, filePtr);
+    }
+}
+
+int remove_dir(struct directory_item *parent, struct directory_item *toDestroy, struct directory_item *grandparent)
+{
+    // odstraneni directory z fat tabulky
+    int fat_index = toDestroy->start_cluster;
+    fat_table[fat_index] = FAT_UNUSED;
+    rewrite_fat();
+    int i = 0;
+    int parentSpace = parent->size % global_br->cluster_size;
+
+    unsigned long howMany = parent->size / sizeof(struct directory_item);
+    int clusterSize = global_br->data_start_address + parent->start_cluster * sizeof(global_br->cluster_size);
+    fseek(filePtr, clusterSize, SEEK_SET);
+
+    struct directory_item directoryItems[howMany - 1]; // -1 - jeden odebereme
+    while (i < howMany-1)
+    {
+        struct directory_item test = {};
+        fread(&test, sizeof(struct directory_item), 1, filePtr);
+        if (strcmp(test.name, toDestroy->name) != 0) // neni stejne
+        {
+            copy_direct_item(&test, &directoryItems[i]);
+            i++;
+        }
+    }
+    fseek(filePtr, clusterSize, SEEK_SET);
+
+    //prepsani polozek clusteru
+    for (i = 0; i < howMany-1; i++)
+    {
+        fwrite(&directoryItems[i], sizeof (struct directory_item), 1, filePtr);
+    }
+
+    parent->size = parent->size - (int32_t)sizeof(struct directory_item);
+
+    // upgrade zaznamu parent v grandparent
+    upgrade_dir_item(parent, grandparent);
+
+    // reload current dir
+    if (strcmp(parent->name, current_dir->name) == 0)
+    {
+        copy_direct_item(parent, current_dir);
+    }
+    else if (strcmp(parent->name, root_item->name) == 0)
+    {
+        copy_direct_item(parent, root_item);
+    }
+    return SUCCESS;
+}
+
 
 int last_cluster(struct directory_item *dir)
 {
