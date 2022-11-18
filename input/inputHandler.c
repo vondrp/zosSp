@@ -120,7 +120,7 @@ void sentence_to_words(char *console_input, char** words, int *last_words_amount
     *last_words_amount = ctr;
 }
 
-void process_input(struct boot_record *br, struct directory_item *dr, char **clusters)
+void process_input()
 {
     char *console_input; //console input from user
     char **words;       // console input separated into words
@@ -132,6 +132,7 @@ void process_input(struct boot_record *br, struct directory_item *dr, char **clu
 
     last_words_amount = 0; // amount of words used in last console input
     do {
+        printf("%s> ", curr_path);
         console_input = get_line(stdin);
 
         sentence_to_words(console_input, words, &last_words_amount);

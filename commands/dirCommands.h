@@ -13,13 +13,14 @@
 void mkdir_command(char *dirName);
 
 
+
 /**
  * Create new directory
  * @param dirName  name of the new directory
- * @param drs      item where the directory is created
+ * @param dir_where_create directory_structure where new directory is created
  * @return  result  EXISTS - 5, ENTERED_PATH_NOT_FOUND - 7, EXISTS - 5
  */
-int make_directory(char * dirName, struct directory_item *drs);
+int make_directory(char * dirName, struct directory_item *dir_where_create);
 
 /**
  * Perform rmdir command - remove given directory if it is empty
@@ -44,9 +45,9 @@ void ls_command(char* directory);
  * Write out directory content
  * content is write out in format PATH ... and DIR ...
  * @param directory     directory to be writen out
+ * @param look_from     from which directory write out
  * @return              SUCCESS, PATH_NOT_FOUND, UNDEFINED_ERROR,
- *
  */
-int write_out_dir(char* directory);
+int write_out_dir(char* directory,  struct directory_item *look_from);
 
 #endif //ZOS_SP_DIRCOMMANDS_H

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "input/inputHandler.h"
 #include "fat/fat.h"
@@ -7,80 +8,102 @@
 int main(int argc, char** argv) {
     const char *fat_name = argv[1];
     int size, i;
-    FILE *fptr;
 
-    struct boot_record br = {};
-    struct directory_item *drs;
-    char **clusters;
     // zformatovani FS
     if (argc == 3)
     {
+        FILE *initFtr;
+        struct boot_record init_br = {};
+        struct directory_item init_root = {};
+        int32_t *init_fat_table;
+
         printf("Jsem ve formatovani\n");
-        fptr = fopen(fat_name, "wb");
-        if (fptr == NULL){
+        initFtr = fopen(fat_name, "wb");
+
+        if (initFtr == NULL)
+        {
             printf("Pokus o vytvoření fat selhal");
             exit(2);
         }
 
         size = atoi(argv[2]);
-        printf("size: %d\n", size);
         // inicializace super bloku
+        init_boot_record(&init_br, size);
 
-        init_boot_record(&br, size);
-
-        fwrite(&br, sizeof(br), 1, fptr); // posunuti fseek
+        // ZAPIS boot record do souboru
+        fwrite(&init_br, sizeof(struct boot_record), 1, initFtr); // posunuti fseek
 
         // zaplneni prazdna fat tabulka
-        drs = malloc(br.fat_count * sizeof(struct directory_item));
-        //struct directory_item *drs[br.fat_count];
+        init_fat_table = malloc(init_br.cluster_count * sizeof(int32_t));
 
-        for (i = 0; i < br.fat_count; i++)
+        // root directory
+        init_directory_item(&init_root, "/\0", false, 0, 0);
+        init_fat_table[0] = FAT_FILE_END; // na pozici nulteho clusteru se nachazi misto pro root objekty
+        for (i = 1; i < init_br.cluster_count; i++)
         {
-            init_directory_item(&drs[i]);
-            fwrite(&drs[i], sizeof(drs[i]), 1, fptr);
+            init_fat_table[i] = FAT_UNUSED;
         }
+
+
+        fwrite(init_fat_table, sizeof (int32_t), init_br.cluster_count, initFtr);
+
+        // zapsani fat table do souboru
+
+        // zapsani root directory itemu
+        fwrite(&init_root, sizeof(struct directory_item), 1, initFtr);
 
         // inicializace clusters
-        clusters = malloc (br.cluster_size * sizeof(char *));
-        // vyplneni jakozto prazdne misto zbytek fat
-        for (i = 0; i < br.cluster_count; i++)
+        for (i = 0; i < init_br.cluster_count; i++)
         {
-            clusters[i] = malloc(br.cluster_size * sizeof (char));
-            //TODO prozkoumat z nejakeho duvodu je sizeof clusters[i] 8 a ne 512
-            fwrite(clusters[i], br.cluster_size * sizeof (char), 1, fptr);
+            // * 8 - cluster_size is in 512B
+            char cluster[init_br.cluster_size * 8];
+            fwrite(cluster, init_br.cluster_size * 8 * sizeof (char), 1, initFtr);
         }
+
+        // zavreni souboru inicializacniho souboru
+        fclose(initFtr);
     }
-    else
+
+    filePtr = fopen(fat_name, "rb+");
+
+    if (filePtr == NULL){
+        printf("Pokus o přečtení fat selhal\n");
+        exit(2);
+    }
+
+    global_br = malloc (sizeof (global_br));
+    root_item = malloc(sizeof (struct directory_item));
+
+    // otisknutí superblock struktury z FS
+    fread(global_br, sizeof(struct boot_record), 1, filePtr);
+
+    // nacteni fat tabulky
+    fat_table = malloc(global_br->cluster_count * sizeof(int32_t));
+    for(i = 0; i < global_br->cluster_count; i++)
     {
-        fptr = fopen(fat_name, "rb");
-
-        if (fptr == NULL){
-            printf("Pokus o přečtení fat selhal\n");
-            exit(2);
-        }
-
-        // otisknutí superblock struktury z FS
-        fread(&br, sizeof(br), 1, fptr);
-
-        // nacteni fat tabulky
-        drs = malloc(br.fat_count * sizeof(struct directory_item));
-        for (i = 0; i < br.fat_count; i++)
-        {
-            fread(&drs[i], sizeof(drs[i]), 1, fptr);
-        }
-
-        // precteni clusteru
-        clusters = malloc (br.cluster_size * sizeof(char *));
-        for (i = 0; i < br.cluster_count; i++)
-        {
-            fread(clusters[i], sizeof(clusters[i]), 1, fptr);
-        }
+        fread(&fat_table[i], sizeof(fat_table[i]), 1, filePtr);
     }
-    printf("Inicializace / čtení fat hotovo");
-    printf("Vítejte, můžete psát příkazy.\n");
-    //process_input(&br, drs, clusters);
 
-    fclose(fptr);
-    free(drs);
+    // nacteni root directory item
+    fread(root_item, sizeof (&root_item), 1, filePtr);
+
+    // current directory is root at the start
+    current_dir = root_item;
+
+    // nastaveni soucasne cesty
+    curr_path_max_length = 30; // znam delku soucacne cesty
+    curr_path = malloc (sizeof(char) * curr_path_max_length);
+
+    strcpy(curr_path, root_item->name);
+
+    printf("Inicializace / čtení fat hotovo\n");
+    printf("Vítejte, můžete psát příkazy.\n");
+    process_input();
+
+    free(curr_path);
+    free(fat_table);
+   // free(root_item);
+
+    fclose(filePtr);
     return 0;
 }

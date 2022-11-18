@@ -5,8 +5,9 @@
 #ifndef ZOS_SP_INPUTHANDLER_H
 #define ZOS_SP_INPUTHANDLER_H
 
-#define DEFAULT_WORDS_LENGTH 20
+#define DEFAULT_WORDS_LENGTH 13
 #define DEFAULT_WORDS_AMOUNT 12
+
 #define INPUT_LENGTH 100
 
 #include "../fat/fat.h"
@@ -28,7 +29,7 @@ void free_words_array(char *a[], int length);
 /**
  * Method for processing user input
  */
-void process_input(struct boot_record *br, struct directory_item *dr, char **clusters);
+void process_input();
 
 
 /**
