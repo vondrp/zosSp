@@ -52,12 +52,13 @@ int main(int argc, char** argv) {
         fwrite(&init_root, sizeof(struct directory_item), 1, initFtr);
 
         // inicializace clusters
+        char* cluster = malloc(init_br.cluster_size);
         for (i = 0; i < init_br.cluster_count; i++)
         {
             // * 8 - cluster_size is in 512B
-            char cluster[init_br.cluster_size * 8];
-            fwrite(cluster, init_br.cluster_size * 8 * sizeof (char), 1, initFtr);
+            fwrite(cluster, init_br.cluster_size, 1, initFtr);
         }
+        free(cluster);
 
         // zavreni souboru inicializacniho souboru
         fclose(initFtr);

@@ -43,8 +43,13 @@ void print_error_message(int error)
 
         case MEMORY_PROBLEMS:
             printf("PROBLEM RISE DURING MALLOC OR REALLOC OPERATION");
+            break;
         case OUT_OF_FAT:
             printf("Ve FAT tabulce došlo místo");
+            break;
+        case DIR_OUT_OF_SPACE:
+            printf("Složce došlo místo.");
+            break;
         default:
             printf("NOT SPECIFIED RESULT");
             break;

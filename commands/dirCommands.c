@@ -48,10 +48,17 @@ void mkdir_command(char *dirName)
         struct directory_item *look_from;
         if (remainingPath[0] == '/')
         {
+            printf("Pred zmena %s\n", remainingPath);
+            printf("JSEM TADY 1\n");
+
+            firstSymbolCut = malloc(sizeof(remainingPath));
+            strcpy(firstSymbolCut, remainingPath+1);
             look_from = root_item;
             // odstraneni /
-            firstSymbolCut = remainingPath;
-            strcpy(remainingPath, firstSymbolCut + 1);
+            //firstSymbolCut = remainingPath + 1;
+            strcpy(remainingPath, firstSymbolCut);
+            printf("Po zmene %s\n", remainingPath);
+            free(firstSymbolCut);
         }
         else
         {
@@ -87,7 +94,8 @@ void mkdir_command(char *dirName)
 
         if (remainingPath[0] == '/')
         {
-            firstSymbolCut = dirName + 1;
+            printf("Jsem tady 2\n");
+            firstSymbolCut = remainingPath + 1;
             check = make_directory(firstSymbolCut, root_item, grand_parent);
         }
         else
@@ -270,6 +278,7 @@ int write_out_dir(char* dir_path, struct directory_item *look_from)
     long clusterStart = global_br->data_start_address + directoryItem.start_cluster * global_br->cluster_size;
     fseek(filePtr, clusterStart, SEEK_SET);
 
+    printf("V ls cteni dirItem size: %d\n", directoryItem.size);
     unsigned long howMany = directoryItem.size / sizeof(struct directory_item);
 
     struct directory_item directories[howMany];

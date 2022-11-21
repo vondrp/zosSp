@@ -48,7 +48,7 @@ void cd_command(char *path)
             break;
         }
 
-        if (is_in_dir(controlled_dir, path_parts[i], nextDir) == true )
+        if (is_in_dir(controlled_dir, path_parts[i], nextDir) == true && nextDir->isFile == false)
         {
             controlled_dir = nextDir;
             result = EXISTS;

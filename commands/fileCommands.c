@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #include "fileCommands.h"
 
@@ -156,27 +157,64 @@ int remove_file(char * filename)
 
 void cat_command(char* filename)
 {
-    FILE *fptr;
-    char c;
+    process_path(filename);
 
-    // Open file
-    fptr = fopen(filename, "r");
-    if (fptr == NULL)
+    char *path_without_filename = malloc(sizeof(filename));
+    remove_path_last_part(path_without_filename, filename);
+
+    struct directory_item fileDirectory = {};
+    if (strcmp(path_without_filename, filename) == 0) // if same -> choose current directory
     {
-        print_error_message(SOURCE_FILE_NOT_FOUND);
+        fileDirectory = *current_dir;
+    }
+    else
+    {   // found directory where file is located
+        if (directory_exists(path_without_filename, root_item, &fileDirectory) == false)
+        {
+            free(path_without_filename);
+            print_error_message(FILE_NOT_FOUND);
+            return;
+        }
+    }
+
+    char *onlyFileName = get_filename(filename);
+
+    if (onlyFileName[0] == '/')
+    {
+        onlyFileName = onlyFileName + 1;
+    }
+
+    struct directory_item file = {};
+
+    // if not found in directory or is not file
+    if (is_in_dir(&fileDirectory, onlyFileName, &file) == false || file.isFile == false)
+    {
+        free(path_without_filename);
+        print_error_message(FILE_NOT_FOUND);
         return;
     }
 
-    // Read contents from file
-    c = (char) fgetc(fptr);
-    while (c != EOF)
+    int used_fat = ceil((double)file.size / (double)global_br->cluster_size);
+    int usedFat[used_fat];
+
+    usedFat[0] = file.start_cluster;
+    // to finish
+    int i;
+    for(i = 1; i < used_fat; i++)
     {
-        printf ("%c", c);
-        c = (char) fgetc(fptr);
+        usedFat[i] = fat_table[usedFat[i-1]];
     }
 
-    fclose(fptr);
+    char *cluster = malloc(global_br->cluster_size);
+    for (i = 0; i < used_fat; i++)
+    {
+        fseek(filePtr, global_br->data_start_address + usedFat[i] * global_br->cluster_size, SEEK_SET);
+        fread(cluster, global_br->cluster_size, 1, filePtr);
+        printf("%s", cluster);
+    }
     printf("\n");
+    free(cluster);
+    free(path_without_filename);
 }
 
 void load_command(char* scriptFile)
@@ -214,4 +252,145 @@ void load_command(char* scriptFile)
         call_commands(words);    // call commands
         file_line = get_line(fptr);
     }
+}
+
+
+void incp_command(char* outsideFile, char* toPlace)
+{
+    FILE *fptr;
+    struct directory_item toPlaceDir = {};
+    long size = 0;
+    int fat_needed = 0;
+    // Open file
+    // try open file - evaluate if alright
+    fptr = fopen(outsideFile, "rb");
+    if (fptr == NULL)
+    {
+        print_error_message(SOURCE_FILE_NOT_FOUND);
+        return;
+    }
+    char *fileName;
+
+    fileName = get_filename(outsideFile);
+
+    if (strlen(fileName) > MAX_CHAR)
+    {
+        print_error_message(TOO_LONG_FILENAME);
+        fclose(fptr);
+        return;
+    }
+
+    if (strlen(toPlace) == 0)
+    {
+        toPlaceDir = *current_dir;
+    }
+    else
+    {
+        process_path(toPlace);
+        // check if given directory exists
+        if (directory_exists(toPlace, root_item, &toPlaceDir) == false)
+        {
+            print_error_message(TARGET_PATH_NOT_FOUND);
+            fclose(fptr);
+            return;
+        }
+    }
+
+    // check if in directory enough space
+    if (toPlaceDir.size + sizeof(struct directory_item) > global_br->cluster_size)
+    {
+        print_error_message(DIR_OUT_OF_SPACE);
+        fclose(fptr);
+        return;
+    }
+
+    // find out how many space I need
+    fseek(fptr, 0, SEEK_END);
+    size = ftell(fptr);
+    rewind(fptr);
+
+
+    // how many fat indexes needed
+    fat_needed = ceil((double)size / (double)global_br->cluster_size);
+
+    int i;
+    int fat_index; // last finded fat index
+    int indexes[fat_needed]; //indexes of used fat
+
+    // find first needed fat
+    fat_index = find_free_fat_index();
+    indexes[0] = fat_index;
+    fat_table[fat_index] = FAT_FILE_END; //temporary end of file
+    // find rest of the fat
+    for (i = 1; i < fat_needed; i++)
+    {
+        fat_index = find_free_fat_index();
+        indexes[i] = fat_index;
+        fat_table[indexes[i-1]] = fat_index;
+        fat_table[fat_index] = FAT_FILE_END;
+    }
+
+    fat_table[indexes[fat_needed - 1]] = FAT_FILE_END;
+
+    // not enough free space in fat
+    if (fat_index == -1)
+    {
+        for (i = 0; i < fat_needed; i++)
+        {
+            fat_table[indexes[i]] = FAT_UNUSED;
+        }
+        print_error_message(OUT_OF_FAT);
+        fclose(fptr);
+        return;
+    }
+
+    // find grandparent of the new file directory item (parent of directory item where new file will be stored)
+    char *grandpaPath = malloc(sizeof(toPlace));
+    struct directory_item grandpaDir = {};
+    remove_path_last_part(grandpaPath, toPlace);
+    // directory already exists - checked before, method used to get grandpa directory
+    directory_exists(toPlace, root_item, &grandpaDir);
+
+    // init structure
+    struct directory_item fileStruct = {};
+    strcpy(fileStruct.name, fileName);
+    fileStruct.size = (int)size;
+    fileStruct.start_cluster = indexes[0];
+    fileStruct.isFile = true;
+
+    // write content of the file to the file
+    char *cluster = malloc(global_br->cluster_size);
+    for (i = 0; i < fat_needed - 1; i++)
+    {
+        fseek(filePtr, global_br->data_start_address + indexes[i] * global_br->cluster_size, SEEK_SET);
+        fread(cluster, global_br->cluster_size, 1, fptr);
+        fwrite(cluster, global_br->cluster_size, 1, filePtr);
+    }
+    // last part to read may be shorter
+    fseek(filePtr, global_br->data_start_address + indexes[fat_needed - 1] * global_br->cluster_size, SEEK_SET);
+
+    int size_of_rest = fileStruct.size - (fat_needed - 1) * global_br->cluster_size;
+    fread(cluster, size_of_rest, 1, fptr);
+    fwrite(cluster, size_of_rest, 1, filePtr);
+
+    free(cluster);
+
+    //rewrite fat
+    rewrite_fat();
+
+    int last_cluster_index = last_cluster(&toPlaceDir);
+    long clusterStart = global_br->data_start_address
+                        + last_cluster_index * global_br->cluster_size
+                        + toPlaceDir.size;
+    // zapsani noveho directory
+    fseek(filePtr, clusterStart, SEEK_SET);
+    fwrite(&fileStruct, sizeof (struct directory_item), 1, filePtr);
+
+    // change parent size
+    toPlaceDir.size = toPlaceDir.size + (int32_t)sizeof(struct directory_item);
+    // upgrade parent
+    upgrade_dir_item(&toPlaceDir, &grandpaDir);
+
+    fclose(fptr);
+    free(grandpaPath);
 }

@@ -76,6 +76,7 @@ int directory_exists(char *dir_path, struct directory_item *look_from, struct di
     int k;
     for (k = 0; k < path_parts_num; k++)
     {
+        printf("tested %s\n", path_parts[k]);
         if (is_in_dir(&tested[k], path_parts[k], founded_dir) == true) {
             copy_direct_item(founded_dir, &tested[k+1]);
             result = EXISTS;

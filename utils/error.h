@@ -22,5 +22,6 @@
 #define     MEMORY_PROBLEMS 350
 
 #define     OUT_OF_FAT 8
+#define     DIR_OUT_OF_SPACE 9
 
 #endif //ZOSSP_ERROR_H

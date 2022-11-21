@@ -193,6 +193,10 @@ void call_commands(char** words)
     {
         load_command(words[1]);
     }
+    else if (strcmp(words[0], "incp") == 0)
+    {
+        incp_command(words[1], words[2]);
+    }
     else if (strcmp(words[0], "pathPr") == 0)
     {
         process_path(words[1]);

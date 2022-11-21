@@ -104,15 +104,6 @@ int write_dir(struct directory_item *parent, struct directory_item *new_dir, str
     // upgrade rodice
     upgrade_dir_item(parent, grandParent);
 
-    // reload current dir
-    if (strcmp(parent->name, current_dir->name) == 0)
-    {
-        copy_direct_item(parent, current_dir);
-    }
-    else if (strcmp(parent->name, root_item->name) == 0)
-    {
-        copy_direct_item(parent, root_item);
-    }
     return SUCCESS;
 }
 
@@ -121,6 +112,7 @@ void upgrade_dir_item(struct directory_item *child, struct directory_item *paren
     long clusterStart;
     if (strcmp(child->name, "/") == 0) //rodic je koren
     {
+        printf("V uprage rodice nova velikost %d \n", child->size);
         clusterStart = global_br->data_start_address - sizeof(struct directory_item);
         fseek(filePtr, clusterStart, SEEK_SET);
         fwrite(child, sizeof(struct directory_item), 1, filePtr);
@@ -147,6 +139,17 @@ void upgrade_dir_item(struct directory_item *child, struct directory_item *paren
         fseek(filePtr, clusterStart, SEEK_SET);
         fwrite(child, sizeof(struct directory_item), 1, filePtr);
     }
+
+    // reload current dir
+    if (strcmp(child->name, current_dir->name) == 0)
+    {
+        copy_direct_item(child, current_dir);
+    }
+    else if (strcmp(child->name, root_item->name) == 0)
+    {
+        copy_direct_item(child, root_item);
+    }
+
 }
 
 int remove_dir(struct directory_item *parent, struct directory_item *toDestroy, struct directory_item *grandparent)
