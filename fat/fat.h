@@ -47,7 +47,7 @@ void init_directory_item(struct directory_item* di, char name[13], bool isFile, 
 int find_free_fat_index();
 
 /**
- * Write new directory to file
+ * Write new directory item to fs file - it will find free fat
  * @param parent
  * @param new_dir
  * @return
@@ -67,7 +67,7 @@ void copy_direct_item(struct directory_item *source, struct directory_item *targ
 
 struct directory_item find_dir(struct directory_item parent);
 
-int remove_dir(struct directory_item *parent, struct directory_item *toDestroy, struct directory_item *grandparent);
+int remove_dir_item(struct directory_item *parent, struct directory_item *toDestroy, struct directory_item *grandparent);
 
 /**
  * Rewrite directory in his parent
@@ -75,4 +75,12 @@ int remove_dir(struct directory_item *parent, struct directory_item *toDestroy, 
  * @param parent    where child is located
  */
 void upgrade_dir_item(struct directory_item *child, struct directory_item *parent);
+
+/**
+ * Find n free fat indexes
+ * @param n         how many unused fat indexes to find
+ * @param to_place  array of int where founded fat indexes are placed
+ * @return          -1 - wrong parameters, SUCCESS, OUT OF FAT
+ */
+int find_free_fat_indexes(int n, int* to_place);
 #endif //ZOS_SP_FAT_H

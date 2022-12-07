@@ -67,8 +67,37 @@ int find_free_fat_index()
     return result;
 }
 
+int find_free_fat_indexes(int n, int *to_place)
+{
+    if (n <= 0)
+        return -1;
+
+    int index = 0;
+    int i;
+    for (i = 0; i < global_br->cluster_size; i++)
+    {
+        if (fat_table[i] == FAT_UNUSED)
+        {
+            to_place[index] = i;
+            index++;
+
+            if (index >= n)
+            {
+                return SUCCESS;
+            }
+        }
+    }
+    return OUT_OF_FAT;
+}
+
 int write_dir(struct directory_item *parent, struct directory_item *new_dir, struct directory_item *grandParent)
 {
+    if (parent->isFile == true)
+    {
+        // paretn cannt be file -> if is return undefined error, because this should not happend in any case (protected in methods calling write_dir)
+        return UNDEFINED_ERROR;
+    }
+
     int fat_index;
 
     int usedSpace = parent->size % global_br->cluster_size;
@@ -106,7 +135,6 @@ int write_dir(struct directory_item *parent, struct directory_item *new_dir, str
 
     return SUCCESS;
 }
-
 
 void upgrade_dir_item(struct directory_item *child, struct directory_item *parent) {
     long clusterStart;
@@ -149,17 +177,24 @@ void upgrade_dir_item(struct directory_item *child, struct directory_item *paren
     {
         copy_direct_item(child, root_item);
     }
-
 }
 
-int remove_dir(struct directory_item *parent, struct directory_item *toDestroy, struct directory_item *grandparent)
+int remove_dir_item(struct directory_item *parent, struct directory_item *toDestroy, struct directory_item *grandparent)
 {
-    // odstraneni directory z fat tabulky
-    int fat_index = toDestroy->start_cluster;
-    fat_table[fat_index] = FAT_UNUSED;
-    rewrite_fat();
-    int i = 0;
 
+    // remove directory from fat table
+    int fat_index = toDestroy->start_cluster;
+    int old_fat_index;
+    do {
+        old_fat_index = fat_index;
+        fat_index = fat_table[fat_index];
+
+        fat_table[old_fat_index] = FAT_UNUSED;
+    } while (fat_index != FAT_UNUSED && fat_index != FAT_FILE_END && fat_index != FAT_BAD_CLUSTER);
+
+    int i = 0;
+    rewrite_fat();
+    
     unsigned long howMany = parent->size / sizeof(struct directory_item);
     int clusterSize = global_br->data_start_address + parent->start_cluster * sizeof(global_br->cluster_size);
     fseek(filePtr, clusterSize, SEEK_SET);

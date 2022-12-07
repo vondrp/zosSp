@@ -157,7 +157,6 @@ int split_path(char *path, char** path_parts)
             // realloc more space for paths if necessary
             if (ctr >= path_amount)
             {
-                printf("Jsem v realloc v split\n");
                 path_amount = path_amount * 2;
                 unsigned long currSize = 0;
                 for (j = 0; j < ctr; j++)
@@ -275,4 +274,59 @@ void process_path(char *path)
     strcpy(path, newPath);
     free(path_parts);
     free(newPath);
+}
+
+
+void free_file_struct(struct directory_item *file)
+{
+    // necessary to free struct directory item, but not destroy reference to root or current dir
+    if (strcmp(file->name, root_item->name) == 0)
+    {
+        struct directory_item *temp = malloc (sizeof(struct directory_item));
+        copy_direct_item(root_item, temp);
+
+        if (root_item == current_dir)
+        {
+            current_dir = temp;
+        }
+        printf("Tady 1 \n");
+        free(root_item);
+        printf("Root already clean\n");
+        root_item = NULL;
+        if (file != NULL)
+        {
+            printf("Tady\n");
+            free(file);
+        }
+
+        printf("Tady 2 \n");
+        root_item = temp;
+
+    }
+    else if (strcmp(file->name, current_dir->name) == 0)
+    {
+        struct directory_item *temp = malloc (sizeof(struct directory_item));
+
+        copy_direct_item(current_dir, temp);
+        printf("Tady 3\n");
+        if (root_item == current_dir)
+        {
+            root_item = temp;
+        }
+        printf("Tady 4\n");
+
+        free(current_dir);
+        current_dir = NULL;
+        if (file != NULL)
+            free(file);
+
+        current_dir = temp;
+    }
+    else
+    {
+        printf("Jsem tady\n");
+        free(file);
+    }
+
+    // printf("Kontrola %s %s\n", root_item->name, current_dir->name);
 }

@@ -201,4 +201,8 @@ void call_commands(char** words)
     {
         process_path(words[1]);
     }
+    else if (strcmp(words[0], "info") == 0)
+    {
+        info_command(words[1]);
+    }
 }

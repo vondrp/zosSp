@@ -33,33 +33,93 @@ void cp_command (char *source_file, char *target_file)
     print_error_message(result);
 }
 
-int copy_file (char *source_file, char *target_file)
+int copy_file(char *source_file_path, char *target_path)
 {
-    char ch;
-    FILE *source, *target;
+    process_path(source_file_path);
+    process_path(target_path);
 
-    source = fopen(source_file, "r");
+    struct directory_item source_file = {};
 
-    if( source == NULL )
+    char *new_filename = get_filename(target_path);
+    if(directory_exists(source_file_path, root_item, &source_file) == false
+    || source_file.isFile == false)
     {
         return FILE_NOT_FOUND;
     }
 
-    target = fopen(target_file, "w");
+    struct directory_item target_dir = {};
+    struct directory_item target_dir_dad = {};
 
-    if( target == NULL )
+    if(directory_exists(target_path, root_item, &target_dir) == false
+       || target_dir.isFile == true)
     {
-        fclose(source);
         return PATH_NOT_FOUND;
     }
+    // find place where target dad is
+    char *path_target_dad = malloc(strlen(target_path));
 
-    while( ( ch = fgetc(source) ) != EOF )
+    remove_path_last_part(path_target_dad, target_path);
+
+    if (strcmp(path_target_dad, target_path) == 0)
     {
-        fputc(ch, target);
+        copy_direct_item(root_item, &target_dir_dad);
+    }
+    else
+    {
+        directory_exists(path_target_dad, root_item, &target_dir_dad);
+    }
+    struct directory_item copy = {};
+
+    copy_direct_item(&source_file, &copy);
+
+    int fat_needed;
+    // how many fat indexes needed
+    fat_needed = ceil((double)copy.size / (double)global_br->cluster_size);
+
+    int i;
+    int indexes_new[fat_needed]; //indexes of used fat
+    int indexes_old[fat_needed]; //indexes of used fat
+
+    indexes_old[0] = source_file.start_cluster;
+    for (i = 1; i < fat_needed; i++)
+    {
+        indexes_old[i] = fat_table[indexes_old[i - 1]];
     }
 
-    fclose(source);
-    fclose(target);
+    // find all necessary fat indexes
+    int check = find_free_fat_indexes(fat_needed, indexes_new);
+    if (check != SUCCESS && check != -1)
+    {
+        print_error_message(check);
+    }
+
+    char *cluster = malloc(global_br->cluster_size);
+
+    // copy cluster conent
+    for(i = 0; i < fat_needed; i++)
+    {
+        fseek(filePtr, global_br->data_start_address + indexes_old[i] * global_br->cluster_size, SEEK_SET);
+        fread(cluster, global_br->cluster_size, 1, filePtr);
+
+        fseek(filePtr, global_br->data_start_address + indexes_new[i] * global_br->cluster_size, SEEK_SET);
+        fwrite(cluster, global_br->cluster_size, 1, filePtr);
+    }
+
+    for (i = 0; i < fat_needed - 1; i++)
+    {
+        fat_table[indexes_new[i]] = indexes_new[i + 1];
+    }
+    fat_table[indexes_new[fat_needed - 1]] = FAT_FILE_END;
+    rewrite_fat();
+
+    free(cluster);
+    copy.start_cluster = indexes_new[0];
+
+    write_dir(&target_dir, &copy, &target_dir_dad);
+
+    free(path_target_dad);
+
+    printf("Kontrola root: %s | current: %s\n", root_item->name, current_dir->name);
     return SUCCESS;
 }
 
@@ -288,6 +348,7 @@ void incp_command(char* outsideFile, char* toPlace)
     {
         process_path(toPlace);
         // check if given directory exists
+        printf("Po uprave: %s\n", toPlace);
         if (directory_exists(toPlace, root_item, &toPlaceDir) == false)
         {
             print_error_message(TARGET_PATH_NOT_FOUND);
@@ -308,7 +369,6 @@ void incp_command(char* outsideFile, char* toPlace)
     fseek(fptr, 0, SEEK_END);
     size = ftell(fptr);
     rewind(fptr);
-
 
     // how many fat indexes needed
     fat_needed = ceil((double)size / (double)global_br->cluster_size);
@@ -349,7 +409,16 @@ void incp_command(char* outsideFile, char* toPlace)
     struct directory_item grandpaDir = {};
     remove_path_last_part(grandpaPath, toPlace);
     // directory already exists - checked before, method used to get grandpa directory
-    directory_exists(toPlace, root_item, &grandpaDir);
+
+    printf("to place %s", toPlace);
+    // can happen only if the grandpa path is supposed to be root
+    if (strcmp(grandpaPath, toPlace) == 0)
+    {
+        strcpy(grandpaPath, root_item->name);
+    }
+
+    printf("Grandpa path %s\n", grandpaPath);
+    directory_exists(grandpaPath, root_item, &grandpaDir);
 
     // init structure
     struct directory_item fileStruct = {};
@@ -393,4 +462,33 @@ void incp_command(char* outsideFile, char* toPlace)
 
     fclose(fptr);
     free(grandpaPath);
+}
+
+void info_command(char* filename)
+{
+    process_path(filename);
+
+    struct directory_item file = {};
+    int check;
+    int32_t cluster;
+    check = directory_exists(filename, root_item, &file);
+
+    if (check == PATH_NOT_FOUND)
+    {
+        // directory exists return path not found - but in this method we expect error msg FILE NOT FOUND
+        print_error_message(FILE_NOT_FOUND);
+        return;
+    }
+
+    printf("name: %s\nisFile: %d\nsize: %d\n Cluster:\n", file.name, file.isFile, file.size);
+
+    cluster = file.start_cluster;
+    do
+    {
+        printf("%d ", cluster);
+        cluster = fat_table[cluster];
+    } while (cluster != FAT_FILE_END && cluster != FAT_UNUSED && cluster != FAT_BAD_CLUSTER);
+    printf("\n");
+
+    printf("Kontrola root: %s | current: %s\n", root_item->name, current_dir->name);
 }

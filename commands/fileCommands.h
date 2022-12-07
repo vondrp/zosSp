@@ -73,4 +73,10 @@ void load_command(char* scriptFile);
  * @param toPlace       where to place file
  */
 void incp_command(char* outsideFile, char* toPlace);
+
+/**
+ * Perform info command - print information about the file to the console
+ * @param filename      filename of the file, which info is going to be printed
+ */
+void info_command(char* filename);
 #endif //ZOS_SP_FILECOMMANDS_H

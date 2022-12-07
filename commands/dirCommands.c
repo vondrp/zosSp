@@ -32,8 +32,8 @@ void mkdir_command(char *dirName)
 
     // odriznuti top 2 polozek z cesty
     char *name;
-    struct directory_item *dir_to_place = malloc(sizeof(struct directory_item));
-    struct directory_item *grand_parent =  malloc(sizeof(struct directory_item));
+    struct directory_item dir_to_place = {};
+    struct directory_item grand_parent = {};
 
     if (strcmp(remainingPath, dirName) != 0)
     {
@@ -48,9 +48,6 @@ void mkdir_command(char *dirName)
         struct directory_item *look_from;
         if (remainingPath[0] == '/')
         {
-            printf("Pred zmena %s\n", remainingPath);
-            printf("JSEM TADY 1\n");
-
             firstSymbolCut = malloc(sizeof(remainingPath));
             strcpy(firstSymbolCut, remainingPath+1);
             look_from = root_item;
@@ -65,14 +62,14 @@ void mkdir_command(char *dirName)
             look_from  = current_dir;
         }
 
-        check = directory_exists(remainingPath, look_from, dir_to_place);
+        check = directory_exists(remainingPath, look_from, &dir_to_place);
 
         if (check == EXISTS)
         {
             // vime, ze grandparent existuje, vyuzijeme metodu k jeho ziskani
-            directory_exists(path_grandparent, look_from, grand_parent);
+            directory_exists(path_grandparent, look_from, &grand_parent);
             name = get_filename(dirName);
-            check = make_directory(name, dir_to_place, grand_parent);
+            check = make_directory(name, &dir_to_place, &grand_parent);
         }
         else if (check == PATH_NOT_FOUND)
         {
@@ -90,36 +87,21 @@ void mkdir_command(char *dirName)
             strcpy(path_grandparent, root_item->name);
         }
 
-        directory_exists(path_grandparent, root_item, grand_parent);
+        directory_exists(path_grandparent, root_item, &grand_parent);
 
         if (remainingPath[0] == '/')
         {
-            printf("Jsem tady 2\n");
             firstSymbolCut = remainingPath + 1;
-            check = make_directory(firstSymbolCut, root_item, grand_parent);
+            check = make_directory(firstSymbolCut, root_item, &grand_parent);
         }
         else
         {
-            check = make_directory(dirName, current_dir, grand_parent);
+            check = make_directory(dirName, current_dir, &grand_parent);
         }
     }
     print_error_message(check);
 
-    //TODO odstranit kontrolni vypisu - jsou zde kdyby znovu objevila nejspis uz vyzesena chyba
-    //printf("Root name %s\n", root_item->name);
-
-    if (strcmp(grand_parent->name, root_item->name) != 0 && strcmp(grand_parent->name, current_dir->name) != 0)
-    {
-        free(grand_parent);
-    }
-
-    if (strcmp(dir_to_place->name, root_item->name) != 0 && strcmp(dir_to_place->name, current_dir->name) != 0)
-    {
-        free(dir_to_place);
-    }
-
     free(remainingPath);
-    //printf("Root name %s\n", root_item->name);
 }
 
 int make_directory(char *dirName, struct directory_item *dir_where_create, struct directory_item *grandparent_dir)
@@ -201,7 +183,7 @@ void rmdir_command(char* dir)
             }
         }
 
-        remove_dir(&parent, &toBeDestroyed, &grand_parent);
+        remove_dir_item(&parent, &toBeDestroyed, &grand_parent);
     }
 
     print_error_message(result);
