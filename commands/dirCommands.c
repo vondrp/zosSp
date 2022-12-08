@@ -256,11 +256,9 @@ int write_out_dir(char* dir_path, struct directory_item *look_from)
         }
     }
 
-    //printf("Directory item %s %d %d\n", directoryItem.name, directoryItem.start_cluster, directoryItem.size);
     long clusterStart = global_br->data_start_address + directoryItem.start_cluster * global_br->cluster_size;
     fseek(filePtr, clusterStart, SEEK_SET);
 
-    printf("V ls cteni dirItem size: %d\n", directoryItem.size);
     unsigned long howMany = directoryItem.size / sizeof(struct directory_item);
 
     struct directory_item directories[howMany];

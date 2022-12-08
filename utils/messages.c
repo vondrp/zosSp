@@ -50,6 +50,9 @@ void print_error_message(int error)
         case DIR_OUT_OF_SPACE:
             printf("Složce došlo místo.");
             break;
+        case ERROR_INTERNAL:
+            printf("Došlo k vnitřní chybě (byla vnitřně zavolána metoda s neplatnými parametry");
+            break;
         default:
             printf("NOT SPECIFIED RESULT");
             break;

@@ -40,8 +40,7 @@ int copy_file(char *source_file_path, char *target_path)
 
     struct directory_item source_file = {};
 
-    char *new_filename = get_filename(target_path);
-    if(directory_exists(source_file_path, root_item, &source_file) == false
+    if(directory_exists(source_file_path, root_item, &source_file) != EXISTS
     || source_file.isFile == false)
     {
         return FILE_NOT_FOUND;
@@ -50,27 +49,45 @@ int copy_file(char *source_file_path, char *target_path)
     struct directory_item target_dir = {};
     struct directory_item target_dir_dad = {};
 
-    if(directory_exists(target_path, root_item, &target_dir) == false
-       || target_dir.isFile == true)
+    // if given path already exist -> we cannot create copy with same name
+    if (directory_exists(target_path, root_item, &target_dir) == EXISTS)
     {
         return PATH_NOT_FOUND;
     }
+
     // find place where target dad is
+    char *path_target_dir = malloc(strlen(target_path));
+
+    remove_path_last_part(path_target_dir, target_path);
+    if (directory_exists(path_target_dir, root_item, &target_dir) != EXISTS || target_dir.isFile == true)
+    {
+        free(path_target_dir);
+        return PATH_NOT_FOUND;
+    }
+
+    printf("Target dir %s\n", target_dir.name);
+
     char *path_target_dad = malloc(strlen(target_path));
 
-    remove_path_last_part(path_target_dad, target_path);
-
-    if (strcmp(path_target_dad, target_path) == 0)
+    remove_path_last_part(path_target_dad, path_target_dir);
+    // found target directory must be found + must not be file
+    if (directory_exists(path_target_dad, root_item, &target_dir_dad) != EXISTS || target_dir_dad.isFile == true)
     {
+        return PATH_NOT_FOUND;
+    }
+
+
+    if (strcmp(target_dir_dad.name, target_dir.name) == 0)
+    {
+        printf("Jsem tady\n");
         copy_direct_item(root_item, &target_dir_dad);
     }
-    else
-    {
-        directory_exists(path_target_dad, root_item, &target_dir_dad);
-    }
+
     struct directory_item copy = {};
 
     copy_direct_item(&source_file, &copy);
+
+    strcpy(copy.name, get_filename(target_path));
 
     int fat_needed;
     // how many fat indexes needed
@@ -88,11 +105,11 @@ int copy_file(char *source_file_path, char *target_path)
 
     // find all necessary fat indexes
     int check = find_free_fat_indexes(fat_needed, indexes_new);
-    if (check != SUCCESS && check != -1)
+    if (check != SUCCESS)
     {
-        print_error_message(check);
+        free(path_target_dad);
+        return check;
     }
-
     char *cluster = malloc(global_br->cluster_size);
 
     // copy cluster conent
@@ -114,6 +131,8 @@ int copy_file(char *source_file_path, char *target_path)
 
     free(cluster);
     copy.start_cluster = indexes_new[0];
+
+    printf("Parent %s, copy %s, grandpa %s\n", target_dir.name, copy.name, target_dir_dad.name);
 
     write_dir(&target_dir, &copy, &target_dir_dad);
 
@@ -188,29 +207,46 @@ void rm_command(char *filename)
     print_error_message(result);
 }
 
-int remove_file(char * filename)
+int remove_file(char * file_path)
 {
-    int result;
-    FILE *file;
-
-    file = fopen(filename, "r");
-    if (file)
+    process_path(file_path);
+    struct directory_item to_remove = {};
+    if (directory_exists(file_path, root_item, &to_remove) != EXISTS || to_remove.isFile == false)
     {
-        fclose(file);
+        return FILE_NOT_FOUND;
+    }
 
-        if (remove(filename) == 0)
-        {
-            result = SUCCESS;
-        }
-        else
-        {
-            result = REMOVE_ERROR;
-        }
+    struct directory_item parent = {};
+    struct directory_item grandparent = {};
+
+    int result;
+
+    char *parentPath = malloc (sizeof(file_path));
+    remove_path_last_part(parentPath, file_path);
+    // get parent
+    directory_exists(parentPath, root_item, &parent);
+
+    char *grandpaPath = malloc (sizeof(file_path));
+    remove_path_last_part(grandpaPath, parentPath);
+
+    // if condition true -> remove items from root -> gradnpa and parent root
+    if(strcmp(parent.name, to_remove.name) == 0)
+    {
+        copy_direct_item(root_item, &parent);
+        copy_direct_item(root_item, &grandparent);
     }
     else
     {
-        result = FILE_NOT_FOUND;
+        // find grandpa
+        directory_exists(grandpaPath, root_item, &grandparent);
+
+        if(strcmp(grandparent.name, parent.name) == 0)
+        {
+            copy_direct_item(root_item, &grandparent);
+        }
     }
+
+    result = remove_dir_item(&parent, &to_remove, &grandparent);
 
     return result;
 }
@@ -229,7 +265,7 @@ void cat_command(char* filename)
     }
     else
     {   // found directory where file is located
-        if (directory_exists(path_without_filename, root_item, &fileDirectory) == false)
+        if (directory_exists(path_without_filename, root_item, &fileDirectory) != EXISTS)
         {
             free(path_without_filename);
             print_error_message(FILE_NOT_FOUND);
@@ -349,7 +385,7 @@ void incp_command(char* outsideFile, char* toPlace)
         process_path(toPlace);
         // check if given directory exists
         printf("Po uprave: %s\n", toPlace);
-        if (directory_exists(toPlace, root_item, &toPlaceDir) == false)
+        if (directory_exists(toPlace, root_item, &toPlaceDir) != EXISTS)
         {
             print_error_message(TARGET_PATH_NOT_FOUND);
             fclose(fptr);

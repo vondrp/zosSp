@@ -70,7 +70,7 @@ int find_free_fat_index()
 int find_free_fat_indexes(int n, int *to_place)
 {
     if (n <= 0)
-        return -1;
+        return ERROR_INTERNAL;
 
     int index = 0;
     int i;
@@ -199,7 +199,7 @@ int remove_dir_item(struct directory_item *parent, struct directory_item *toDest
     int clusterSize = global_br->data_start_address + parent->start_cluster * sizeof(global_br->cluster_size);
     fseek(filePtr, clusterSize, SEEK_SET);
 
-    struct directory_item directoryItems[howMany - 1]; // -1 - jeden odebereme
+    struct directory_item directoryItems[howMany - 1]; // -1  one directory item will be removed
     while (i < howMany-1)
     {
         struct directory_item test = {};
@@ -212,7 +212,7 @@ int remove_dir_item(struct directory_item *parent, struct directory_item *toDest
     }
     fseek(filePtr, clusterSize, SEEK_SET);
 
-    //prepsani polozek clusteru
+    //rewrite cluster items
     for (i = 0; i < howMany-1; i++)
     {
         fwrite(&directoryItems[i], sizeof (struct directory_item), 1, filePtr);
