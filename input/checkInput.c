@@ -22,7 +22,9 @@ char* get_filename(char *string_path) {
     repair_back_slashes(string_path);
     char *dot = strrchr(string_path, '/');
 
-    if(!dot || dot == string_path) return string_path;
+    if (!dot) return string_path;
+    //if(!dot || strcmp(dot, string_path) == 0) return string_path;
+
     return dot + 1;
 }
 
@@ -76,7 +78,6 @@ int directory_exists(char *dir_path, struct directory_item *look_from, struct di
     int k;
     for (k = 0; k < path_parts_num; k++)
     {
-        printf("tested %s\n", path_parts[k]);
         if (is_in_dir(&tested[k], path_parts[k], founded_dir) == true) {
             copy_direct_item(founded_dir, &tested[k+1]);
             result = EXISTS;
@@ -274,59 +275,4 @@ void process_path(char *path)
     strcpy(path, newPath);
     free(path_parts);
     free(newPath);
-}
-
-
-void free_file_struct(struct directory_item *file)
-{
-    // necessary to free struct directory item, but not destroy reference to root or current dir
-    if (strcmp(file->name, root_item->name) == 0)
-    {
-        struct directory_item *temp = malloc (sizeof(struct directory_item));
-        copy_direct_item(root_item, temp);
-
-        if (root_item == current_dir)
-        {
-            current_dir = temp;
-        }
-        printf("Tady 1 \n");
-        free(root_item);
-        printf("Root already clean\n");
-        root_item = NULL;
-        if (file != NULL)
-        {
-            printf("Tady\n");
-            free(file);
-        }
-
-        printf("Tady 2 \n");
-        root_item = temp;
-
-    }
-    else if (strcmp(file->name, current_dir->name) == 0)
-    {
-        struct directory_item *temp = malloc (sizeof(struct directory_item));
-
-        copy_direct_item(current_dir, temp);
-        printf("Tady 3\n");
-        if (root_item == current_dir)
-        {
-            root_item = temp;
-        }
-        printf("Tady 4\n");
-
-        free(current_dir);
-        current_dir = NULL;
-        if (file != NULL)
-            free(file);
-
-        current_dir = temp;
-    }
-    else
-    {
-        printf("Jsem tady\n");
-        free(file);
-    }
-
-    // printf("Kontrola %s %s\n", root_item->name, current_dir->name);
 }

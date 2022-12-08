@@ -75,9 +75,4 @@ bool is_in_dir(struct directory_item *directory_parent, char dir_name[13], struc
  */
 void process_path(char *path);
 
-/**
- * Free give directory_item - is careful not to destroy pointer to root and current directory
- * @param file     directory item to free
- */
-void free_file_struct(struct directory_item *file);
 #endif //ZOSSP_CHECKINPUT_H

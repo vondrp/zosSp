@@ -24,7 +24,13 @@ char *curr_path;
 int curr_path_max_length;
 struct boot_record *global_br;
 
+bool equals(struct directory_item dir1, struct directory_item dir2)
+{
+    if(strcmp(dir1.name, dir2.name) == 0 && dir1.start_cluster == dir2.start_cluster )
+        return true;
 
+    return false;
+}
 void init_boot_record(struct boot_record *bootRecord, int disk_size)
 {
     unsigned long sizeOfFat;
@@ -94,7 +100,7 @@ int write_dir(struct directory_item *parent, struct directory_item *new_dir, str
 {
     if (parent->isFile == true)
     {
-        // paretn cannt be file -> if is return undefined error, because this should not happend in any case (protected in methods calling write_dir)
+        // paretn cannot be file -> if is return undefined error, because this should not happend in any case (protected in methods calling write_dir)
         return UNDEFINED_ERROR;
     }
 
@@ -179,11 +185,54 @@ void upgrade_dir_item(struct directory_item *child, struct directory_item *paren
     }
 }
 
+void rename_dir(struct directory_item *child, struct directory_item *parent, char* newName)
+{
+    long clusterStart;
+    if (strcmp(child->name, "/") == 0) //rodic je koren
+    {
+        printf("Cannot rename root\n");
+    }
+    else
+    {
+        clusterStart = global_br->data_start_address + parent->start_cluster * global_br->cluster_size;
+        fseek(filePtr, clusterStart, SEEK_SET);
+        unsigned long grandParentHowMany = parent->size / sizeof(struct directory_item);
+
+        struct directory_item grandpaDirectories[grandParentHowMany];
+        int howFarAway = 0;
+        int placeManCluster = parent->start_cluster;
+        for (int j = 0; j < grandParentHowMany; j++) {
+            fread(&grandpaDirectories[j], sizeof(struct directory_item), 1, filePtr);
+            //if (strcmp(grandpaDirectories[j].name, child->name) == 0) {
+            if (equals(grandpaDirectories[j], *child) == true)
+            {
+                howFarAway = j;
+                break;
+            }
+        }
+
+        strcpy(child->name, newName);
+        clusterStart = global_br->data_start_address + placeManCluster * global_br->cluster_size
+                       + howFarAway * sizeof(struct directory_item);
+        fseek(filePtr, clusterStart, SEEK_SET);
+        fwrite(child, sizeof(struct directory_item), 1, filePtr);
+    }
+}
+
+
 int remove_dir_item(struct directory_item *parent, struct directory_item *toDestroy, struct directory_item *grandparent)
 {
 
     // remove directory from fat table
-    int fat_index = toDestroy->start_cluster;
+    clear_from_fat(toDestroy);
+    // remove directory item from his parent directory
+    remove_from_directory(parent, toDestroy, grandparent);
+    return SUCCESS;
+}
+
+void clear_from_fat(struct directory_item *toClear)
+{
+    int fat_index = toClear->start_cluster;
     int old_fat_index;
     do {
         old_fat_index = fat_index;
@@ -191,10 +240,12 @@ int remove_dir_item(struct directory_item *parent, struct directory_item *toDest
 
         fat_table[old_fat_index] = FAT_UNUSED;
     } while (fat_index != FAT_UNUSED && fat_index != FAT_FILE_END && fat_index != FAT_BAD_CLUSTER);
-
-    int i = 0;
     rewrite_fat();
-    
+}
+
+void remove_from_directory(struct directory_item *parent, struct directory_item *toRemove, struct directory_item *grandparent)
+{
+    int i = 0;
     unsigned long howMany = parent->size / sizeof(struct directory_item);
     int clusterSize = global_br->data_start_address + parent->start_cluster * sizeof(global_br->cluster_size);
     fseek(filePtr, clusterSize, SEEK_SET);
@@ -204,7 +255,8 @@ int remove_dir_item(struct directory_item *parent, struct directory_item *toDest
     {
         struct directory_item test = {};
         fread(&test, sizeof(struct directory_item), 1, filePtr);
-        if (strcmp(test.name, toDestroy->name) != 0) // neni stejne
+        //if (strcmp(test.name, toRemove->name) != 0) // not same
+        if (equals(test, *toRemove) == false)
         {
             copy_direct_item(&test, &directoryItems[i]);
             i++;
@@ -232,7 +284,6 @@ int remove_dir_item(struct directory_item *parent, struct directory_item *toDest
     {
         copy_direct_item(parent, root_item);
     }
-    return SUCCESS;
 }
 
 

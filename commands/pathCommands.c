@@ -63,7 +63,6 @@ void cd_command(char *path)
     if (result != PATH_NOT_FOUND)
     {
         current_dir = controlled_dir;
-        printf("Curr dir %s\n", current_dir->name);
         strcpy(curr_path, path);
         result = SUCCESS;
     }

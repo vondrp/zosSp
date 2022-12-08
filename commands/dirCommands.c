@@ -54,7 +54,6 @@ void mkdir_command(char *dirName)
             // odstraneni /
             //firstSymbolCut = remainingPath + 1;
             strcpy(remainingPath, firstSymbolCut);
-            printf("Po zmene %s\n", remainingPath);
             free(firstSymbolCut);
         }
         else
@@ -146,6 +145,7 @@ void rmdir_command(char* dir)
     int result = is_empty(dir);
 
     // cannot allow to root directory to be removed
+
     if (strcmp(dir, root_item->name) == 0)
     {
         result = NOT_EMPTY_DIR;
@@ -167,19 +167,19 @@ void rmdir_command(char* dir)
         remove_path_last_part(grandpaPath, parentPath);
 
         // if condition true -> remove items from root -> gradnpa and parent root
-        if(strcmp(parent.name, toBeDestroyed.name) == 0)
+        if(equals(parent, toBeDestroyed) == true)
         {
-            parent = *root_item;
-            grand_parent = *root_item;
+            copy_direct_item(root_item, &parent);
+            copy_direct_item(root_item, &grand_parent);
         }
         else
         {
             // find grandpa
             directory_exists(grandpaPath, root_item, &grand_parent);
 
-            if(strcmp(grand_parent.name, parent.name) == 0)
+            if(equals(grand_parent, parent) == true)
             {
-                grand_parent = *root_item;
+                copy_direct_item(root_item, &grand_parent);
             }
         }
 

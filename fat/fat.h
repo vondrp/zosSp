@@ -83,4 +83,36 @@ void upgrade_dir_item(struct directory_item *child, struct directory_item *paren
  * @return          -1 - wrong parameters, SUCCESS, OUT OF FAT
  */
 int find_free_fat_indexes(int n, int* to_place);
+
+/**
+ * Find out if two directory structures are same
+ * @param dir1  first directory structure
+ * @param dir2  second directory structure
+ * @return      true - are same, otherwise false
+ */
+bool equals(struct directory_item dir1, struct directory_item dir2);
+
+
+/**
+ * Remove given directory item from directory where it is place
+ * - DOES NOT CLEAR directory item from FAT table
+ * @param parent        directory where directory item to be removed is placed
+ * @param toRemove      directory item to be removed from his parent directory
+ * @param grandparent   grandparent directory of directory item to remove
+ */
+void remove_from_directory(struct directory_item *parent, struct directory_item *toRemove, struct directory_item *grandparent);
+
+/**
+ * Clear given directory item from FAT table
+ * @param toClear   directory item to be removed from fat table
+ */
+void clear_from_fat(struct directory_item *toClear);
+
+/**
+ * Rename given directory_item
+ * @param child     directory item to be rename
+ * @param parent    parent directory of the directory item to be rename
+ * @param newName   new name of the directory item
+ */
+void rename_dir(struct directory_item *child, struct directory_item *parent, char* newName);
 #endif //ZOS_SP_FAT_H
