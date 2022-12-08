@@ -44,15 +44,6 @@ int remove_file(char * file);
  */
 void mv_command (char *source_file, char *target_path);
 
-/**
- * Move given file to the target directory
- * - uses functions: copy_file and remove_file
- * @param source_file   source file to be moved
- * @param target_path   path to the target directory
- * @return              SUCCESS - 0, SOURCE_FILE_NOT_FOUND -1
- *                      TARGET_PATH_NOT_FOUND - 3
- */
-int move_file (char *source_file, char *target_path);
 
 /**
  * Perform cat command - print content of the file to the console
@@ -79,4 +70,11 @@ void incp_command(char* outsideFile, char* toPlace);
  * @param filename      filename of the file, which info is going to be printed
  */
 void info_command(char* filename);
+
+/**
+ * Copy file from filesystem to outside
+ * @param file      file to be copies
+ * @param toPlace   place where the file will be placed
+ */
+void outcp_command(char* file, char* toPlace);
 #endif //ZOS_SP_FILECOMMANDS_H

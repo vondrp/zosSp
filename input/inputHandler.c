@@ -205,4 +205,8 @@ void call_commands(char** words)
     {
         info_command(words[1]);
     }
+    else if (strcmp(words[0], "outcp") == 0)
+    {
+        outcp_command(words[1], words[2]);
+    }
 }

@@ -45,11 +45,11 @@ int directory_exists(char *directory, struct directory_item *look_from, struct d
 void remove_path_last_part(char *remainingPath, char *fullPath);
 
 /**
- * Check if given path is directory
+ * Check if given path is outside directory
  * @param path  path to be checked
  * @return  true (1) or false(0)
  */
-int is_directory(char *path);
+int is_outside_directory(char *path);
 
 
  /**

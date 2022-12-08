@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <sys/stat.h>
 
 #include "fileCommands.h"
 
@@ -272,45 +273,6 @@ void mv_command (char *source_file, char *target_file)
 
     free(temp);
     print_error_message(result);
-    /*
-    if (result == SUCCESS)
-    {
-        if (is_directory(target_file))
-        {
-            target_filename = get_filename(source_file);
-
-            if (strcmp(target_filename, "") == 0)
-            {
-                target_filename = source_file;
-            }
-
-            if(realloc(target_file, (strlen(target_file) + strlen(target_file) + 2) * sizeof (char)) == NULL)
-            {
-                result = MEMORY_PROBLEMS;
-            }
-            else
-            {
-                strcat(target_file, "/");
-                strcat(target_file, target_filename);
-            }
-        }
-        result = check_filename_input(target_file);
-    }
-    */
-}
-
-int move_file (char *source_file, char *target_file) {
-    int result;
-
-    result = copy_file(source_file, target_file);
-    if (result != SUCCESS)
-    {
-        return result;
-    }
-
-    result = remove_file(source_file);
-
-    return result;
 }
 
 void rm_command(char *filename)
@@ -642,4 +604,84 @@ void info_command(char* filename)
         cluster = fat_table[cluster];
     } while (cluster != FAT_FILE_END && cluster != FAT_UNUSED && cluster != FAT_BAD_CLUSTER);
     printf("\n");
+}
+
+void outcp_command(char* file, char* toPlace)
+{
+    process_path(file);
+
+    // change all \ on / -> works like that both on linux and windows
+    //repair_back_slashes(toPlace);
+
+    struct directory_item file_struct = {};
+    if (directory_exists(file, root_item, &file_struct) != EXISTS && file_struct.isFile == false)
+    {
+        print_error_message(SOURCE_FILE_NOT_FOUND);
+        return;
+    }
+
+
+    //folder = "C:\\Users\\SaMaN\\Desktop\\Ppln";
+    struct stat sb;
+    printf("To place vypadá: %s\n", toPlace);
+    if (stat(toPlace, &sb) == 0 && sb.st_mode & S_IFDIR) {
+        printf("YES\n");
+    } else {
+        printf("NO\n");
+    }
+
+    if (is_outside_directory(toPlace))
+    {
+        printf("druha metoda YES\n");
+    }
+
+    char *target_filename = get_filename(file);
+
+    printf("Target filename: %s\n", target_filename);
+
+    repair_back_slashes(toPlace);
+    strcat(toPlace, "/");
+    strcat(toPlace, target_filename);
+
+    printf("Final to place %s\n", toPlace);
+    FILE *outsideF = fopen(target_filename, "w");
+
+    if (outsideF == NULL)
+    {
+        print_error_message(TARGET_PATH_NOT_FOUND);
+        return;
+    }
+
+    int fat_index = file_struct.start_cluster;
+    char *cluster = malloc(global_br->cluster_size);
+    int32_t size = global_br->cluster_size;
+    do
+    {
+        printf("Fat index %d\n", fat_index);
+        fseek(filePtr, global_br->data_start_address + fat_index * global_br->cluster_size, SEEK_SET);
+        fread(cluster, global_br->cluster_size, 1, filePtr);
+
+        fat_index = fat_table[fat_index];
+        if (fat_index == FAT_FILE_END)
+        {
+            size = file_struct.size % global_br->cluster_size;
+        }
+
+        fwrite(cluster, size, 1, outsideF);
+
+    } while (fat_index != FAT_FILE_END);
+
+    free(cluster);
+    fclose(outsideF);
+
+
+    // if given place where to place is not directory - cannot place here
+    /*if (is_outside_directory(toPlace))
+    {
+    }
+    else
+    {
+        print_error_message(TARGET_PATH_NOT_FOUND);
+    }*/
+
 }
