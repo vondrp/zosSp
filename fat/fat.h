@@ -1,12 +1,12 @@
 //
 // Created by vondr on 15.11.2022.
 //
+#ifndef ZOS_SP_FAT_H
+#define ZOS_SP_FAT_H
+
 #include <stdint-gcc.h>
 #include <stdbool.h>
 #include <stdio.h>
-
-#ifndef ZOS_SP_FAT_H
-#define ZOS_SP_FAT_H
 
 extern const int32_t FAT_UNUSED;
 extern const int32_t FAT_FILE_END;
@@ -14,6 +14,7 @@ extern const int32_t FAT_BAD_CLUSTER;
 //extern const int32_t FAT_DIRECTORY;
 
 extern FILE *filePtr;
+extern char* fs_filename;
 extern int32_t *fat_table;
 extern struct directory_item *root_item;
 extern struct directory_item *current_dir;

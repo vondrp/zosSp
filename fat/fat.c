@@ -16,6 +16,7 @@ const int32_t FAT_BAD_CLUSTER = INT32_MAX - 3;
 //const int32_t FAT_DIRECTORY = INT32_MAX - 4;
 
 FILE *filePtr;
+char* fs_filename;
 int32_t *fat_table;
 struct directory_item *root_item;
 struct directory_item *current_dir;
@@ -47,7 +48,7 @@ void init_boot_record(struct boot_record *bootRecord, int disk_size)
     sizeOfFat = cluster_amount * sizeof (int32_t);
     bootRecord->fat1_start_address = sizeof (struct boot_record); // konec boot recordu
     // data start after boot record, fat table and root directory item
-    bootRecord->data_start_address = sizeof(struct boot_record) + sizeOfFat + sizeof (struct directory_item);
+    bootRecord->data_start_address = sizeof(struct boot_record) + (int32_t)sizeOfFat + sizeof(struct directory_item);
 }
 
 void init_directory_item(struct directory_item* di, char name[13], bool isFile, int32_t size, int start_cluster)

@@ -2,20 +2,15 @@
 // Created by vondr on 24.09.2022.
 //
 #include <string.h>
-#include <dirent.h>
 #include <errno.h>
 #include <sys/stat.h>
-#include <ctype.h>
-
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "checkInput.h"
 #include "../utils/error.h"
-#include "../fat/fat.h"
 
 #define FILENAME_MAX_LENGTH 12
-
 #define DEFAULT_PARTS_AMOUNT 3
 
 char* get_filename(char *string_path) {
@@ -236,6 +231,7 @@ void process_path(char *path)
         if(path[i] == '/')
             count = count + 1;
     }
+
 
     char **path_parts = malloc((count +3) * sizeof(char *)); // array of words; 3- nahodne cislo pro zacatek
     int parts_num = split_path(path, path_parts);

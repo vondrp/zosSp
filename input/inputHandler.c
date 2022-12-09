@@ -11,6 +11,7 @@
 #include "../commands/fileCommands.h"
 #include "../commands/dirCommands.h"
 #include "../commands/pathCommands.h"
+#include "../commands/fsCommands.h"
 
 #include "checkInput.h"
 
@@ -212,5 +213,9 @@ void call_commands(char** words)
     else if (strcmp(words[0], "defrag") == 0)
     {
         defrag_command(words[1]);
+    }
+    else if (strcmp(words[0], "format") == 0)
+    {
+        format_command(words[1]);
     }
 }
