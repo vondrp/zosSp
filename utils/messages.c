@@ -28,8 +28,11 @@ void print_error_message(int error)
         case ENTERED_PATH_NOT_FOUND:
             printf("PATH NOT FOUND (neexistuje zadaná cesta)");
             break;
+        case DIR_PATH_NOT_FOUND:
+            printf("PATH NOT FOUND (neexistující adresář)");
+            break;
         case EXISTS:
-            printf("EXISTS (nelze založit, již existuje");
+            printf("EXISTS (nelze založit, již existuje)");
             break;
         case NOT_EMPTY_DIR:
             printf("NOT EMPTY (adresář obsahuje podadresáře, nebo soubory)");
@@ -53,6 +56,8 @@ void print_error_message(int error)
         case ERROR_INTERNAL:
             printf("Došlo k vnitřní chybě (byla vnitřně zavolána metoda s neplatnými parametry");
             break;
+        case CANNOT_CREATE_FILE:
+            printf("CANNOT_CREATE_FILE");
         default:
             printf("NOT SPECIFIED RESULT");
             break;

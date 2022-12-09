@@ -15,6 +15,8 @@
 #define     EXISTS 5
 #define     NOT_EMPTY_DIR 6
 #define     ENTERED_PATH_NOT_FOUND 7
+#define     DIR_PATH_NOT_FOUND 10
+#define     CANNOT_CREATE_FILE 11
 #define     REMOVE_ERROR 150
 #define     UNDEFINED_ERROR 180
 #define     TOO_LONG_FILENAME 200

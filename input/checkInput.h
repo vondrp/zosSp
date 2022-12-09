@@ -18,7 +18,7 @@ char *get_filename(char *string_path);
 /**
  * check if input is alright
  * @param string	fileName with his path
- * @return			SUCCESS or error type of - MUST FINISH WHEN DECIDE WHAT TO WRITE
+ * @return			SUCCESS or error type of - TOO_LONG_FILENAME
  */
 int check_filename_input(char *string);
 

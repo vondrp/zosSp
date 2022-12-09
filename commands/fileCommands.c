@@ -18,6 +18,18 @@
 
 void cp_command (char *source_file, char *target_file)
 {
+    if (strlen(source_file) == 0)
+    {
+        print_error_message(SOURCE_FILE_NOT_FOUND);
+        return;
+    }
+
+    if (strlen(target_file) == 0)
+    {
+        print_error_message(TARGET_PATH_NOT_FOUND);
+        return;
+    }
+
     int result;
     result = check_filename_input(source_file);
 
@@ -43,7 +55,7 @@ int copy_file(char *source_file_path, char *target_path)
     if(directory_exists(source_file_path, root_item, &source_file) != EXISTS
     || source_file.isFile == false)
     {
-        return FILE_NOT_FOUND;
+        return SOURCE_FILE_NOT_FOUND;
     }
 
     struct directory_item target_dir = {};
@@ -52,7 +64,7 @@ int copy_file(char *source_file_path, char *target_path)
     // if given path already exist -> we cannot create copy with same name
     if (directory_exists(target_path, root_item, &target_dir) == EXISTS)
     {
-        return PATH_NOT_FOUND;
+        return TARGET_PATH_NOT_FOUND;
     }
 
     // find place where target dad is
@@ -62,7 +74,7 @@ int copy_file(char *source_file_path, char *target_path)
     if (directory_exists(path_target_dir, root_item, &target_dir) != EXISTS || target_dir.isFile == true)
     {
         free(path_target_dir);
-        return PATH_NOT_FOUND;
+        return TARGET_PATH_NOT_FOUND;
     }
 
     char *path_target_dad = malloc(strlen(target_path) * sizeof(char));
@@ -71,7 +83,7 @@ int copy_file(char *source_file_path, char *target_path)
     // found target directory must be found + must not be file
     if (directory_exists(path_target_dad, root_item, &target_dir_dad) != EXISTS || target_dir_dad.isFile == true)
     {
-        return PATH_NOT_FOUND;
+        return TARGET_PATH_NOT_FOUND;
     }
 
     if (equals(target_dir_dad, target_dir))
@@ -135,6 +147,18 @@ int copy_file(char *source_file_path, char *target_path)
 
 void mv_command (char *source_file, char *target_file)
 {
+    if (strlen(source_file) == 0)
+    {
+        print_error_message(SOURCE_FILE_NOT_FOUND);
+        return;
+    }
+
+    if (strlen(target_file) == 0)
+    {
+        print_error_message(TARGET_PATH_NOT_FOUND);
+        return;
+    }
+
     int result;
     process_path(source_file);
     process_path(target_file);
@@ -143,7 +167,7 @@ void mv_command (char *source_file, char *target_file)
 
     if (result != SUCCESS)
     {
-        print_error_message(FILE_NOT_FOUND);
+        print_error_message(SOURCE_FILE_NOT_FOUND);
         return;
     }
 
@@ -151,7 +175,7 @@ void mv_command (char *source_file, char *target_file)
 
     if (result != SUCCESS)
     {
-        print_error_message(FILE_NOT_FOUND);
+        print_error_message(result);
         return;
     }
 
@@ -160,7 +184,7 @@ void mv_command (char *source_file, char *target_file)
 
     if (result != EXISTS || source.isFile == false)
     {
-        print_error_message(FILE_NOT_FOUND);
+        print_error_message(SOURCE_FILE_NOT_FOUND);
         return;
     }
 
@@ -211,7 +235,7 @@ void mv_command (char *source_file, char *target_file)
     }
     else if (result == EXISTS && target_dir.isFile == true) // FILE cannot be place to another file
     {
-        result = PATH_NOT_FOUND;
+        result = TARGET_PATH_NOT_FOUND;
     }
     else if (result != EXISTS) // if given directory not exists -> maybe in path given new filename
     {
@@ -265,7 +289,7 @@ void mv_command (char *source_file, char *target_file)
         }
         else
         {
-            result = PATH_NOT_FOUND;
+            result = TARGET_PATH_NOT_FOUND;
         }
     }
 
@@ -275,6 +299,11 @@ void mv_command (char *source_file, char *target_file)
 
 void rm_command(char *filename)
 {
+    if (strlen(filename) == 0)
+    {
+        print_error_message(FILE_NOT_FOUND);
+    }
+
     int result;
 
     result = check_filename_input(filename);
@@ -347,7 +376,7 @@ void cat_command(char* filename)
         if (directory_exists(path_without_filename, root_item, &fileDirectory) != EXISTS)
         {
             free(path_without_filename);
-            print_error_message(FILE_NOT_FOUND);
+            print_error_message(SOURCE_FILE_NOT_FOUND);
             return;
         }
     }
@@ -365,7 +394,7 @@ void cat_command(char* filename)
     if (is_in_dir(&fileDirectory, onlyFileName, &file) == false || file.isFile == false)
     {
         free(path_without_filename);
-        print_error_message(FILE_NOT_FOUND);
+        print_error_message(SOURCE_FILE_NOT_FOUND);
         return;
     }
 
@@ -434,7 +463,13 @@ void incp_command(char* outsideFile, char* toPlace)
 {
     if(strlen(toPlace) == 0)
     {
-        print_error_message(PATH_NOT_FOUND);
+        print_error_message( TARGET_PATH_NOT_FOUND);
+        return;
+    }
+
+    if(strlen(outsideFile) == 0)
+    {
+        print_error_message( SOURCE_FILE_NOT_FOUND);
         return;
     }
 
@@ -585,6 +620,12 @@ void incp_command(char* outsideFile, char* toPlace)
 
 void info_command(char* filename)
 {
+    if(strlen(filename) == 0)
+    {
+        print_error_message(SOURCE_FILE_NOT_FOUND);
+        return;
+    }
+
     process_path(filename);
 
     struct directory_item file = {};
@@ -595,7 +636,7 @@ void info_command(char* filename)
     if (check == PATH_NOT_FOUND)
     {
         // directory exists return path not found - but in this method we expect error msg FILE NOT FOUND
-        print_error_message(FILE_NOT_FOUND);
+        print_error_message(SOURCE_FILE_NOT_FOUND);
         return;
     }
 

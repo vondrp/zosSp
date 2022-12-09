@@ -28,7 +28,7 @@ void cd_command(char *path)
     }
 
     count = count + 2; // +1 before first / and +1 after last /
-    int result = PATH_NOT_FOUND;
+    int result = ENTERED_PATH_NOT_FOUND;
 
     char **path_parts = malloc((count) * sizeof(char *)); // array of words; +1 - for safety cases
     struct directory_item *controlled_dir = root_item;
@@ -36,7 +36,7 @@ void cd_command(char *path)
     int path_parts_num = split_path(path, path_parts, count);
     struct directory_item *nextDir = malloc(sizeof(struct directory_item));
 
-    if (path_parts_num == 0) // POKUD zadne casi -> root
+    if (path_parts_num == 0) // if no parts => root
     {
         result = EXISTS;
     }
@@ -56,12 +56,12 @@ void cd_command(char *path)
         }
         else
         {
-            result = PATH_NOT_FOUND;
+            result = ENTERED_PATH_NOT_FOUND;
             break;
         }
     }
 
-    if (result != PATH_NOT_FOUND)
+    if (result != ENTERED_PATH_NOT_FOUND)
     {
         current_dir = controlled_dir;
 

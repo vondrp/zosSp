@@ -8,6 +8,8 @@
 
 #include "fsCommands.h"
 #include "../fat/fat.h"
+#include "../utils/messages.h"
+#include "../utils/error.h"
 
 void format_command(char *size_units)
 {
@@ -32,7 +34,7 @@ void format_fs(int32_t size)
 
     if (initFtr == NULL)
     {
-        printf("Pokus o zformátování fat selhal\n");
+        print_error_message(CANNOT_CREATE_FILE);
         exit(2);
     }
 

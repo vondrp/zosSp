@@ -109,8 +109,6 @@ void mkdir_command(char *dirName)
 
 int make_directory(char *dirName, struct directory_item *dir_where_create, struct directory_item *grandparent_dir)
 {
-    //TODO zprava dulezita pro kontrolu, pred odezvdanim smazat
-    //printf("V make dir dirname: %s, where_created %s, grandparent: %s\n", dirName, dir_where_create->name, grandparent_dir->name);
     struct directory_item new_dir = {};
     int check;
 
@@ -151,7 +149,7 @@ void rmdir_command(char* dir)
     // cannot allow to root directory to be removed
     if (strcmp(dir, root_item->name) == 0)
     {
-        result = NOT_EMPTY_DIR;
+        result = DIR_PATH_NOT_FOUND;
     }
 
     struct directory_item toBeDestroyed = {};
@@ -159,7 +157,15 @@ void rmdir_command(char* dir)
     struct directory_item grand_parent = {};
     if (result == SUCCESS)
     {
+        // doest not have to check if dir exists -> already check with is empty
         directory_exists(dir, root_item, &toBeDestroyed);
+
+        if(equals(toBeDestroyed, *current_dir) == true)
+        {
+            result = DIR_PATH_NOT_FOUND;
+            print_error_message(result);
+            return;
+        }
 
         char *parentPath = malloc (strlen(dir) * sizeof(char));
         remove_path_last_part(parentPath, dir);
@@ -208,9 +214,9 @@ int is_empty(char *dir)
 
     struct directory_item inPlace = {}; // ulozeni posledniho directory
     result = directory_exists(dir, source, &inPlace);
-    if (result != EXISTS)
+    if (result != EXISTS) // if not found -> not exists
     {
-        return result;
+        return DIR_PATH_NOT_FOUND;
     }
 
     if (inPlace.size > 0)
@@ -235,8 +241,7 @@ void ls_command(char* directory)
         look_from = root_item;
         process_path(directory);
     }
-    //todo ODSTRANIT pred odezvdanim
-    //printf("Look from: %s\n", look_from->name);
+
     print_error_message(write_out_dir(directory, look_from));
 }
 
@@ -244,7 +249,7 @@ int write_out_dir(char* dir_path, struct directory_item *look_from)
 {
     int result;
     struct directory_item directoryItem = {};
-    int i, j;
+    int i;
 
     if (strlen(dir_path) == 0)
     {
@@ -255,7 +260,7 @@ int write_out_dir(char* dir_path, struct directory_item *look_from)
         result = directory_exists(dir_path, look_from, &directoryItem);
         if (result != EXISTS)
         {
-            return result;
+            return DIR_PATH_NOT_FOUND;
         }
     }
 
@@ -269,6 +274,16 @@ int write_out_dir(char* dir_path, struct directory_item *look_from)
     for (i = 0; i < howMany; i++)
     {
         fread(&directories[i], sizeof(struct directory_item), 1, filePtr);
+
+        if(directories[i].isFile == true)
+        {
+            printf("FILE: ");
+        }
+        else
+        {
+            printf("DIR: ");
+        }
+
         printf("%s\n", directories[i].name);
     }
     printf("\n");
