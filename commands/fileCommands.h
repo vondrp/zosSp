@@ -77,4 +77,13 @@ void info_command(char* filename);
  * @param toPlace   place where the file will be placed
  */
 void outcp_command(char* file, char* toPlace);
+
+
+/**
+ * File defragmentation
+ * - all its data blocks align next to each other
+ * @param filename  path to the file to be defragmentation
+ */
+void defrag_command(char *filename);
+
 #endif //ZOS_SP_FILECOMMANDS_H

@@ -145,7 +145,6 @@ void rmdir_command(char* dir)
     int result = is_empty(dir);
 
     // cannot allow to root directory to be removed
-
     if (strcmp(dir, root_item->name) == 0)
     {
         result = NOT_EMPTY_DIR;

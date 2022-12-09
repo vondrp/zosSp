@@ -82,10 +82,11 @@ void upgrade_dir_item(struct directory_item *child, struct directory_item *paren
  * @param to_place  array of int where founded fat indexes are placed
  * @return          -1 - wrong parameters, SUCCESS, OUT OF FAT
  */
-int find_free_fat_indexes(int n, int* to_place);
+int find_free_fat_indexes(int32_t n, int32_t * to_place);
 
 /**
  * Find out if two directory structures are same
+ * IMPORTANT: compare according to their NAMES and START CLUSTERS
  * @param dir1  first directory structure
  * @param dir2  second directory structure
  * @return      true - are same, otherwise false
@@ -115,4 +116,13 @@ void clear_from_fat(struct directory_item *toClear);
  * @param newName   new name of the directory item
  */
 void rename_dir(struct directory_item *child, struct directory_item *parent, char* newName);
+
+
+/**
+ * Find n free fat indexes
+ * @param n         how many unused fat indexes to find
+ * @param to_place  array where founded fat indexes are placed
+ * @return          ERROR_INTERNAL - wrong parameters, SUCCESS, OUT OF FAT
+ */
+int find_neighboring_free_fat_indexes(int32_t n, int32_t *to_place);
 #endif //ZOS_SP_FAT_H

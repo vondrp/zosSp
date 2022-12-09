@@ -26,7 +26,7 @@ struct boot_record *global_br;
 
 bool equals(struct directory_item dir1, struct directory_item dir2)
 {
-    if(strcmp(dir1.name, dir2.name) == 0 && dir1.start_cluster == dir2.start_cluster )
+    if(strcmp(dir1.name, dir2.name) == 0 && dir1.start_cluster == dir2.start_cluster)
         return true;
 
     return false;
@@ -73,14 +73,14 @@ int find_free_fat_index()
     return result;
 }
 
-int find_free_fat_indexes(int n, int *to_place)
+int find_free_fat_indexes(int32_t n, int32_t *to_place)
 {
     if (n <= 0)
         return ERROR_INTERNAL;
 
-    int index = 0;
-    int i;
-    for (i = 0; i < global_br->cluster_size; i++)
+    int32_t index = 0;
+    int32_t i;
+    for (i = 0; i < global_br->cluster_count; i++)
     {
         if (fat_table[i] == FAT_UNUSED)
         {
@@ -93,6 +93,46 @@ int find_free_fat_indexes(int n, int *to_place)
             }
         }
     }
+    return OUT_OF_FAT;
+}
+
+int find_neighboring_free_fat_indexes(int32_t n, int32_t *to_place)
+{
+    if (n <= 0)
+        return ERROR_INTERNAL;
+
+    int32_t candidates_start = 0;
+
+    int32_t i, j;
+    for (i = 0; i < global_br->cluster_count; i++)
+    {
+        if (fat_table[i] == FAT_UNUSED)
+        {
+            candidates_start = i;
+            for (j = i; j < i + n; j++)
+            {
+                if (fat_table[j] != FAT_UNUSED)
+                {
+                    candidates_start = 0;
+                    break;
+                }
+            }
+
+            if (candidates_start != 0)
+                break;
+        }
+    }
+
+    if (candidates_start != 0)
+    {
+        for (i = 0; i  < n; i++)
+        {
+            to_place[i] = candidates_start;
+            candidates_start = candidates_start + 1;
+        }
+        return SUCCESS;
+    }
+
     return OUT_OF_FAT;
 }
 

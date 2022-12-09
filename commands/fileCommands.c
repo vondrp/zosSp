@@ -16,7 +16,6 @@
 #include "../input/checkInput.h"
 #include "../input/inputHandler.h"
 
-
 void cp_command (char *source_file, char *target_file)
 {
     int result;
@@ -75,8 +74,7 @@ int copy_file(char *source_file_path, char *target_path)
         return PATH_NOT_FOUND;
     }
 
-
-    if (strcmp(target_dir_dad.name, target_dir.name) == 0)
+    if (equals(target_dir_dad, target_dir))
     {
         copy_direct_item(root_item, &target_dir_dad);
     }
@@ -87,13 +85,13 @@ int copy_file(char *source_file_path, char *target_path)
 
     strcpy(copy.name, get_filename(target_path));
 
-    int fat_needed;
+    int32_t fat_needed;
     // how many fat indexes needed
     fat_needed = ceil((double)copy.size / (double)global_br->cluster_size);
 
     int i;
-    int indexes_new[fat_needed]; //indexes of used fat
-    int indexes_old[fat_needed]; //indexes of used fat
+    int32_t indexes_new[fat_needed]; //indexes of used fat
+    int32_t indexes_old[fat_needed]; //indexes of used fat
 
     indexes_old[0] = source_file.start_cluster;
     for (i = 1; i < fat_needed; i++)
@@ -371,8 +369,8 @@ void cat_command(char* filename)
         return;
     }
 
-    int used_fat = ceil((double)file.size / (double)global_br->cluster_size);
-    int usedFat[used_fat];
+    int32_t used_fat = ceil((double)file.size / (double)global_br->cluster_size);
+    int32_t usedFat[used_fat];
 
     usedFat[0] = file.start_cluster;
     // to finish
@@ -434,10 +432,17 @@ void load_command(char* scriptFile)
 
 void incp_command(char* outsideFile, char* toPlace)
 {
+    if(strlen(toPlace) == 0)
+    {
+        print_error_message(PATH_NOT_FOUND);
+        return;
+    }
+
+
     FILE *fptr;
     struct directory_item toPlaceDir = {};
     long size = 0;
-    int fat_needed = 0;
+    int32_t fat_needed = 0;
     // Open file
     // try open file - evaluate if alright
     fptr = fopen(outsideFile, "rb");
@@ -490,8 +495,8 @@ void incp_command(char* outsideFile, char* toPlace)
     fat_needed = ceil((double)size / (double)global_br->cluster_size);
 
     int i;
-    int fat_index; // last finded fat index
-    int indexes[fat_needed]; //indexes of used fat
+    int32_t fat_index; // last finded fat index
+    int32_t indexes[fat_needed]; //indexes of used fat
 
     // find first needed fat
     fat_index = find_free_fat_index();
@@ -532,7 +537,6 @@ void incp_command(char* outsideFile, char* toPlace)
         strcpy(grandpaPath, root_item->name);
     }
 
-
     directory_exists(grandpaPath, root_item, &grandpaDir);
 
     // init structure
@@ -553,17 +557,17 @@ void incp_command(char* outsideFile, char* toPlace)
     // last part to read may be shorter
     fseek(filePtr, global_br->data_start_address + indexes[fat_needed - 1] * global_br->cluster_size, SEEK_SET);
 
-    int size_of_rest = fileStruct.size - (fat_needed - 1) * global_br->cluster_size;
+    int32_t size_of_rest = fileStruct.size - (fat_needed - 1) * global_br->cluster_size;
     fread(cluster, size_of_rest, 1, fptr);
     fwrite(cluster, size_of_rest, 1, filePtr);
 
     free(cluster);
 
-    //rewrite fat
+    //rewrite fat - save fat table changes to a file
     rewrite_fat();
 
-    int last_cluster_index = last_cluster(&toPlaceDir);
-    long clusterStart = global_br->data_start_address
+    int32_t last_cluster_index = last_cluster(&toPlaceDir);
+    int32_t clusterStart = global_br->data_start_address
                         + last_cluster_index * global_br->cluster_size
                         + toPlaceDir.size;
     // zapsani noveho directory
@@ -652,7 +656,7 @@ void outcp_command(char* file, char* toPlace)
         return;
     }
 
-    int fat_index = file_struct.start_cluster;
+    int32_t fat_index = file_struct.start_cluster;
     char *cluster = malloc(global_br->cluster_size);
     int32_t size = global_br->cluster_size;
     do
@@ -683,5 +687,105 @@ void outcp_command(char* file, char* toPlace)
     {
         print_error_message(TARGET_PATH_NOT_FOUND);
     }*/
+}
 
+void defrag_command(char *filename)
+{
+    process_path(filename);
+
+    struct directory_item file_struct = {};
+    if (directory_exists(filename, root_item, &file_struct)  != EXISTS && file_struct.isFile == false)
+    {
+        print_error_message(FILE_NOT_FOUND);
+        return;
+    }
+
+    int32_t fat_n = ceil((double)file_struct.size / (double)global_br->cluster_size);
+    int32_t original_fat[fat_n];
+
+    original_fat[0] = file_struct.start_cluster;
+
+    bool already_in_line = true;
+    // to finish
+    int i;
+    for(i = 1; i < fat_n; i++)
+    {
+        original_fat[i] = fat_table[original_fat[i-1]];
+
+        if (original_fat[i] - original_fat[i-1] != 1)
+        {
+            already_in_line = false;
+        }
+    }
+
+    if (already_in_line == true)
+    {
+        print_error_message(SUCCESS);
+        return;
+    }
+
+    clear_from_fat(&file_struct);
+
+    int32_t new_fat[fat_n];
+
+    int result = find_neighboring_free_fat_indexes(fat_n, new_fat);
+
+    // if not success - must return original fat content
+    if (result != SUCCESS)
+    {
+        printf("Neuspech \n");
+        for(i = 0; i < fat_n - 1; i++)
+        {
+            fat_table[original_fat[i]] = original_fat[i+1];
+        }
+
+        fat_table[original_fat[fat_n - 1]] = FAT_FILE_END;
+
+        print_error_message(result);
+        return;
+    }
+    else
+    {
+        char *cluster = malloc(global_br->cluster_size);
+        // write backwards for case if at the start some cluster same
+        for (i = fat_n - 1; i >= 0; i--)
+        {
+            // read from original cluster
+            fseek(filePtr, global_br->data_start_address + original_fat[i] * global_br->cluster_size, SEEK_SET);
+            fread(cluster, global_br->cluster_size, 1, filePtr);
+
+            // write data to found cluster
+            fseek(filePtr, global_br->data_start_address + new_fat[i] * global_br->cluster_size, SEEK_SET);
+            fwrite(cluster, global_br->cluster_size, 1, filePtr);
+        }
+
+        // change struct start cluster info + rewrite it in the file
+        struct directory_item parent_dir = {};
+        char *path_parent = malloc(sizeof(filename));
+
+        remove_path_last_part(path_parent, filename);
+
+        directory_exists(path_parent, root_item, &parent_dir);
+
+        // if source and his parent are same -> path was in form /name -> parent is root
+        if(equals(file_struct, parent_dir) == true)
+        {
+            copy_direct_item(root_item, &parent_dir);
+        }
+        file_struct.start_cluster = new_fat[0];
+        upgrade_dir_item(&file_struct, &parent_dir);
+
+        // rewrite fat table
+        for (i = 0; i < fat_n - 1; i++)
+        {
+            fat_table[new_fat[i]] = new_fat[i+1];
+        }
+        fat_table[new_fat[fat_n - 1]] = FAT_FILE_END;
+        // changes to a file
+        rewrite_fat();
+        free(path_parent);
+        free(cluster);
+
+        print_error_message(SUCCESS);
+    }
 }

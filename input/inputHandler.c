@@ -209,4 +209,8 @@ void call_commands(char** words)
     {
         outcp_command(words[1], words[2]);
     }
+    else if (strcmp(words[0], "defrag") == 0)
+    {
+        defrag_command(words[1]);
+    }
 }
