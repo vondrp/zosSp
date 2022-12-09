@@ -20,7 +20,7 @@
 
 char *get_line(FILE *file)
 {
-    char * line = malloc(INPUT_LENGTH * sizeof (char)), * linep = line;
+    char *line = malloc(INPUT_LENGTH * sizeof (char)), * linep = line;
     size_t lenmax = INPUT_LENGTH * sizeof (char), len = lenmax;
     char c;
 
@@ -29,8 +29,11 @@ char *get_line(FILE *file)
 
     for(;;) {
         c = (char) fgetc(file);
-        if(c == EOF)
-            break;
+        if(c == EOF) // EOF - symbol of end of the file
+        {
+            free(line);
+            return NULL;
+        }
 
         if(--len == 0) {
             len = lenmax;
