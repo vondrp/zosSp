@@ -62,10 +62,19 @@ int directory_exists(char *dir_path, struct directory_item *look_from, struct di
         copy_direct_item(root_item, last_part);
         return EXISTS;
     }
+    int i;
+    int count = 0;
+    for (i = 0; i < strlen(dir_path); i++)
+    {
+        if(dir_path[i] == '/')
+            count = count + 1;
+    }
+
+    count = count + 2; // + 1 before first / and + 1 after last /
 
     // DEFAULTNI HODNOTA -
     int result = PATH_NOT_FOUND;
-    int path_parts_num = split_path(dir_path, path_parts);
+    int path_parts_num = split_path(dir_path, path_parts, count);
 
     struct directory_item *founded_dir = malloc(sizeof (struct directory_item));
     struct directory_item tested[path_parts_num + 1];
@@ -130,15 +139,15 @@ int is_outside_directory(char *path)
 }
 
 
-int split_path(char *path, char** path_parts)
+int split_path(char *path, char** path_parts, int expected_path_parts)
 {
-    int path_amount = DEFAULT_PARTS_AMOUNT;
+    int path_amount = expected_path_parts;
     int i,j,ctr, len_max;
     j = 0;
     ctr = 0;
     len_max = FILENAME_MAX_LENGTH;
-    for (i = 0; i <= (strlen(path)); i++) {
-
+    for (i = 0; i <= (strlen(path)); i++)
+    {
         if (j == 0)
         {
             len_max = FILENAME_MAX_LENGTH;
@@ -147,7 +156,7 @@ int split_path(char *path, char** path_parts)
         else if (j >= len_max)
         {
             len_max = len_max * 2;
-            path_parts[ctr] = realloc(path_parts[ctr], len_max * sizeof (char *));
+            path_parts[ctr] = realloc(path_parts[ctr], len_max * sizeof (char));
         }
 
         // if space or NULL found, assign NULL into newString[ctr]
@@ -165,12 +174,15 @@ int split_path(char *path, char** path_parts)
             if (ctr >= path_amount)
             {
                 path_amount = path_amount * 2;
-                unsigned long currSize = 0;
+                /*unsigned long currSize = 0;
                 for (j = 0; j < ctr; j++)
                     currSize = currSize + strlen(path_parts[j]);
-
+                */
                 //TODO je treba reallocovat jinak
-                path_parts = realloc(path_parts, path_amount * currSize);
+                printf("Jsem pred realloc ve split path path amounts %d\n", path_amount);
+                path_parts = realloc(path_parts, (path_amount) * sizeof(*path_parts));
+
+                //path_parts = realloc(path_parts, path_amount * len_max * sizeof(char));
             }
             j = 0;    //for next word, init index to 0
         } else {
@@ -222,21 +234,29 @@ void process_path(char *path)
         return;
     }
 
-
     repair_back_slashes(path);
     int i, count = 0;
-    // spoctu si pocet / - to oddelovace slov -> lehci reseni nez v split path reallocovat
+    // count / - -> easier solution than do realloc in v split path
     for (i = 0; i < strlen(path); i++)
     {
         if(path[i] == '/')
             count = count + 1;
     }
 
+    // add parts of curr path (we can be using and can be longer than given path
+    for (i = 0; i < strlen(curr_path); i++)
+    {
+        if(path[i] == '/')
+            count = count + 1;
+    }
 
-    char **path_parts = malloc((count +3) * sizeof(char *)); // array of words; 3- nahodne cislo pro zacatek
-    int parts_num = split_path(path, path_parts);
-    int length = sizeof(path) + 50;
+    count = count + 2; // + 1 before first / and + 1 after last /
+
+    unsigned long length = (strlen(path) + strlen(curr_path)) * sizeof(char);
     char *newPath = malloc (length);
+
+    char **path_parts = malloc((count) * length); // array of words;
+    int parts_num = split_path(path, path_parts, count);
 
     if (path[0] != '/')
     {
@@ -251,7 +271,7 @@ void process_path(char *path)
     {
         if (strcmp(path_parts[i], "..") == 0)
         {
-            char *cutPath = malloc(sizeof(newPath));
+            char *cutPath = malloc(strlen(newPath) * sizeof(char));
             remove_path_last_part(cutPath, newPath);
 
             if(strcmp(cutPath, newPath) == 0)
@@ -265,11 +285,14 @@ void process_path(char *path)
             strcpy(newPath, cutPath);
             free(cutPath);
         }
+        else if (strcmp(path_parts[i], ".") == 0)
+        {
+            continue;
+        }
         else
         {
             if (strlen(path_parts[i]) > 0)
             {
-                //TODO realloc string
                 if (strlen(newPath) > 0 && newPath[strlen(newPath)-1] != '/')
                 {
                     strcat(newPath, "/");

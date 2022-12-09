@@ -12,10 +12,14 @@
 #include "../utils/error.h"
 #include "../utils/messages.h"
 
-#include "../fat/fat.h"
-
 void mkdir_command(char *dirName)
 {
+    if (strlen(dirName) == 0 || strcmp(dirName, root_item->name) == 0)
+    {
+        print_error_message(ENTERED_PATH_NOT_FOUND);
+        return;
+    }
+
     process_path(dirName);
 
     if (strlen(get_filename(dirName)) > MAX_CHAR)
@@ -48,7 +52,7 @@ void mkdir_command(char *dirName)
         struct directory_item *look_from;
         if (remainingPath[0] == '/')
         {
-            firstSymbolCut = malloc(sizeof(remainingPath));
+            firstSymbolCut = malloc(strlen(remainingPath) * sizeof(char));
             strcpy(firstSymbolCut, remainingPath+1);
             look_from = root_item;
             // odstraneni /
@@ -157,12 +161,12 @@ void rmdir_command(char* dir)
     {
         directory_exists(dir, root_item, &toBeDestroyed);
 
-        char *parentPath = malloc (sizeof(dir));
+        char *parentPath = malloc (strlen(dir) * sizeof(char));
         remove_path_last_part(parentPath, dir);
         // get parent
         directory_exists(parentPath, root_item, &parent);
 
-        char *grandpaPath = malloc (sizeof(dir));
+        char *grandpaPath = malloc (strlen(dir) * sizeof(char));
         remove_path_last_part(grandpaPath, parentPath);
 
         // if condition true -> remove items from root -> gradnpa and parent root

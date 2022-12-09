@@ -52,13 +52,15 @@ void remove_path_last_part(char *remainingPath, char *fullPath);
 int is_outside_directory(char *path);
 
 
+
  /**
- * Method used for splitting sentence to to array of words
- * @param path          sentence input
- * @param path_parts     array of strings, where result is stored
- * @return               amount of founded parts
- */
-int split_path(char *path, char** path_parts);
+  * Method used for splitting sentence to to array of words
+  * @param path                 sentence input
+  * @param path_parts           array of strings, where result is stored
+  * @param expected_path_parts  on how many parts is path expected to be split on
+  * @return                     amount of founded parts
+  */
+int split_path(char *path, char** path_parts, int expected_path_parts);
 
 /**
  * Find out if directory exists in given directory_item

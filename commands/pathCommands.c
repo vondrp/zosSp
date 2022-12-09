@@ -27,12 +27,13 @@ void cd_command(char *path)
             count = count + 1;
     }
 
+    count = count + 2; // +1 before first / and +1 after last /
     int result = PATH_NOT_FOUND;
 
-    char **path_parts = malloc((count + 3) * sizeof(char *)); // array of words; 3- bezpecnosti cislo
+    char **path_parts = malloc((count) * sizeof(char *)); // array of words; +1 - for safety cases
     struct directory_item *controlled_dir = root_item;
 
-    int path_parts_num = split_path(path, path_parts);
+    int path_parts_num = split_path(path, path_parts, count);
     struct directory_item *nextDir = malloc(sizeof(struct directory_item));
 
     if (path_parts_num == 0) // POKUD zadne casi -> root
@@ -63,6 +64,19 @@ void cd_command(char *path)
     if (result != PATH_NOT_FOUND)
     {
         current_dir = controlled_dir;
+
+        int path_char = 0;
+        for (i = 0; path[i] != 0; i++)
+        {
+            path_char = path_char + 1;
+        }
+        // check if current path does not have allocated not enough memory
+        if (path_char >= curr_path_max_length)
+        {
+            curr_path_max_length = path_char * 2;
+            curr_path = realloc(curr_path, curr_path_max_length * sizeof(char));
+        }
+
         strcpy(curr_path, path);
         result = SUCCESS;
     }

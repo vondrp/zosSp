@@ -56,7 +56,7 @@ int copy_file(char *source_file_path, char *target_path)
     }
 
     // find place where target dad is
-    char *path_target_dir = malloc(strlen(target_path));
+    char *path_target_dir = malloc(strlen(target_path) * sizeof(char));
 
     remove_path_last_part(path_target_dir, target_path);
     if (directory_exists(path_target_dir, root_item, &target_dir) != EXISTS || target_dir.isFile == true)
@@ -65,7 +65,7 @@ int copy_file(char *source_file_path, char *target_path)
         return PATH_NOT_FOUND;
     }
 
-    char *path_target_dad = malloc(strlen(target_path));
+    char *path_target_dad = malloc(strlen(target_path) * sizeof(char));
 
     remove_path_last_part(path_target_dad, path_target_dir);
     // found target directory must be found + must not be file
@@ -165,7 +165,7 @@ void mv_command (char *source_file, char *target_file)
     }
 
     // malloc size is the size as ADD of both paths - used for both, like than does not have to realloc
-    char *temp = malloc(sizeof(source_file) + sizeof(target_file));
+    char *temp = malloc((strlen(source_file) + strlen(target_file)) * sizeof(char));
     struct directory_item source_parent = {};
     struct directory_item source_grandparent = {};
 
@@ -215,7 +215,7 @@ void mv_command (char *source_file, char *target_file)
     }
     else if (result != EXISTS) // if given directory not exists -> maybe in path given new filename
     {
-        char *newFileName = malloc(sizeof(target_file));
+        char *newFileName = malloc(strlen(target_file) * sizeof(char));
 
         strcpy(newFileName, get_filename(target_file));
         if(strlen(newFileName) > FILENAME_MAX)
@@ -300,12 +300,12 @@ int remove_file(char * file_path)
 
     int result;
 
-    char *parentPath = malloc (sizeof(file_path));
+    char *parentPath = malloc (strlen(file_path) * sizeof(char));
     remove_path_last_part(parentPath, file_path);
     // get parent
     directory_exists(parentPath, root_item, &parent);
 
-    char *grandpaPath = malloc (sizeof(file_path));
+    char *grandpaPath = malloc (strlen(file_path) * sizeof(char));
     remove_path_last_part(grandpaPath, parentPath);
 
     // if condition true -> remove items from root -> gradnpa and parent root
@@ -334,7 +334,7 @@ void cat_command(char* filename)
 {
     process_path(filename);
 
-    char *path_without_filename = malloc(sizeof(filename));
+    char *path_without_filename = malloc(strlen(filename) * sizeof(char));
     remove_path_last_part(path_without_filename, filename);
 
     struct directory_item fileDirectory = {};
@@ -526,7 +526,7 @@ void incp_command(char* outsideFile, char* toPlace)
     }
 
     // find grandparent of the new file directory item (parent of directory item where new file will be stored)
-    char *grandpaPath = malloc(sizeof(toPlace));
+    char *grandpaPath = malloc(strlen(toPlace) * sizeof(char));
     struct directory_item grandpaDir = {};
     remove_path_last_part(grandpaPath, toPlace);
     // directory already exists - checked before, method used to get grandpa directory
@@ -761,7 +761,7 @@ void defrag_command(char *filename)
 
         // change struct start cluster info + rewrite it in the file
         struct directory_item parent_dir = {};
-        char *path_parent = malloc(sizeof(filename));
+        char *path_parent = malloc(strlen(filename) * sizeof(char));
 
         remove_path_last_part(path_parent, filename);
 
