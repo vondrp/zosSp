@@ -7,8 +7,8 @@ add_executable(
         zos_sp main.c
         input/inputHandler.h input/inputHandler.c
         input/checkInput.h input/checkInput.c
-        utils/error.h
-        utils/messages.h utils/messages.c
+        output/error.h
+        output/messages.h output/messages.c
 
         commands/fileCommands.h commands/fileCommands.c
         commands/pathCommands.h commands/pathCommands.c

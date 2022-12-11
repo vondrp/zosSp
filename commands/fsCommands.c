@@ -8,8 +8,8 @@
 
 #include "fsCommands.h"
 #include "../fat/fat.h"
-#include "../utils/messages.h"
-#include "../utils/error.h"
+#include "../output/messages.h"
+#include "../output/error.h"
 
 void format_command(char *size_units)
 {

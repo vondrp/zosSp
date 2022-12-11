@@ -9,8 +9,8 @@
 
 #include "dirCommands.h"
 #include "../input/checkInput.h"
-#include "../utils/error.h"
-#include "../utils/messages.h"
+#include "../output/error.h"
+#include "../output/messages.h"
 
 void mkdir_command(char *dirName)
 {

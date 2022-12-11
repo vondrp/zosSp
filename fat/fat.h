@@ -39,11 +39,27 @@ struct directory_item {
     int32_t start_cluster;          //počáteční cluster položky
 };// 24B
 
-
+/**
+ * Init boot record
+ * @param bootRecord    boot record to be initialized
+ * @param disk_size     size of filesystem in B
+ */
 void init_boot_record(struct boot_record *bootRecord, int disk_size);
 
+/**
+ * Init directory item
+ * @param di        directory item to be initialized
+ * @param name      name
+ * @param isFile    is file
+ * @param size      size of directory item
+ * @param start_cluster    index of cluster, where directory item data starts
+ */
 void init_directory_item(struct directory_item* di, char name[13], bool isFile, int32_t size, int start_cluster);
 
+/**
+ * Find one free fat index
+ * @return  free fat index or -1 if free index was not found
+ */
 int find_free_fat_index();
 
 /**
@@ -61,12 +77,25 @@ int write_dir(struct directory_item *parent, struct directory_item *new_dir, str
  */
 int last_cluster(struct directory_item *dir);
 
+/**
+ * Rewrite FAT table in the fs file
+ */
 void rewrite_fat();
 
+/**
+ * Copy directory item data
+ * @param source    directory item to be copied
+ * @param target    where copy of source is placed
+ */
 void copy_direct_item(struct directory_item *source, struct directory_item *target);
 
-struct directory_item find_dir(struct directory_item parent);
-
+/**
+ * Remove given directory item
+ * @param parent        parent of the directory item (where it is placed)
+ * @param toDestroy     directory item to be removed
+ * @param grandparent   directory where parent is placed
+ * @return
+ */
 int remove_dir_item(struct directory_item *parent, struct directory_item *toDestroy, struct directory_item *grandparent);
 
 /**
@@ -125,4 +154,22 @@ void rename_dir(struct directory_item *child, struct directory_item *parent, cha
  * @return          ERROR_INTERNAL - wrong parameters, SUCCESS, OUT OF FAT
  */
 int find_neighboring_free_fat_indexes(int32_t n, int32_t *to_place);
+
+/**
+ * Check if given directory exists
+ * @param directory     directory to be checked if exists
+ * @param look_from     from which directory we are looking for directory
+ * @param last_part     return last directory_item
+ * @return              EXISTS, PATH_NOT_FOUND (NOT EXISTS)
+ */
+int directory_exists(char *directory, struct directory_item *look_from, struct directory_item *last_part);
+
+/**
+ * Find out if directory exists in given directory_item
+ * @param directory_parent  place where look for directory
+ * @param dir_name          name of the directory to found
+ * @param found             safe reference to founded directory is success
+ * @return                  true - found, false - not in directory_parent
+ */
+bool is_in_dir(struct directory_item *directory_parent, char dir_name[13], struct  directory_item *found);
 #endif //ZOS_SP_FAT_H

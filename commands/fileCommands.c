@@ -10,8 +10,8 @@
 
 #include "fileCommands.h"
 
-#include "../utils/error.h"
-#include "../utils/messages.h"
+#include "../output/error.h"
+#include "../output/messages.h"
 
 #include "../input/checkInput.h"
 #include "../input/inputHandler.h"
@@ -456,7 +456,6 @@ void load_command(char* scriptFile)
     file_line = get_line(fptr);
     while (file_line != NULL)
     {
-        printf("Ctu file_line: %s\n", file_line);
         // if line contains load command + name of the current scriptFile -> line will not be done
         if (strstr(file_line, "load") != NULL && strstr(file_line, wPathScriptName) != NULL)
         {

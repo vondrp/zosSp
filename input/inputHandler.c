@@ -201,12 +201,6 @@ void call_commands(char** words)
     {
         incp_command(words[1], words[2]);
     }
-    //TODO odstranit pred finalnim odevzdanim
-    else if (strcmp(words[0], "pathPr") == 0)
-    {
-        process_path(words[1]);
-        printf("%s\n", words[1]);
-    }
     else if (strcmp(words[0], "info") == 0)
     {
         info_command(words[1]);

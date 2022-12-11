@@ -3,7 +3,8 @@
 //
 
 #include "fat.h"
-#include "../utils/error.h"
+#include "../output/error.h"
+#include "../input/checkInput.h"
 
 #include <string.h>
 #include <math.h>
@@ -360,4 +361,77 @@ void copy_direct_item(struct directory_item *source, struct directory_item *targ
     target->isFile = source->isFile;
     target->size = source->size;
     target->start_cluster = source->start_cluster;
+}
+
+bool is_in_dir(struct directory_item *directory_parent, char dir_name[13], struct  directory_item *found)
+{
+    int j;
+    // rodic nesmi byt soubor
+    if (directory_parent->isFile == true)
+    {
+        return false;
+    }
+
+    long clusterStart = global_br->data_start_address + directory_parent->start_cluster * global_br->cluster_size;
+    fseek(filePtr, clusterStart, SEEK_SET);
+
+    unsigned long howMany = directory_parent->size / sizeof(struct directory_item);
+    struct directory_item directories[howMany];
+    for (j = 0; j < howMany; j++)
+    {
+        fread(&directories[j], sizeof(struct directory_item), 1, filePtr);
+        if (strcmp( directories[j].name, dir_name) == 0)
+        {
+            copy_direct_item(&directories[j], found);
+            return true;
+        }
+    }
+    return false;
+}
+
+int directory_exists(char *dir_path, struct directory_item *look_from, struct directory_item *last_part)
+{
+    // existuje jde o root
+    if (strcmp(dir_path, "/") == 0)
+    {
+        copy_direct_item(root_item, last_part);
+        return EXISTS;
+    }
+    int i;
+    int count = 0;
+    for (i = 0; i < strlen(dir_path); i++)
+    {
+        if(dir_path[i] == '/')
+            count = count + 1;
+    }
+
+    count = count + 2; // + 1 before first / and + 1 after last /
+
+    // path separated into parts
+    char **path_parts = malloc(count * sizeof(char *)); // array of words
+
+    // DEFAULTNI HODNOTA -
+    int result = PATH_NOT_FOUND;
+    int path_parts_num = split_path(dir_path, path_parts, count);
+
+    struct directory_item *founded_dir = malloc(sizeof (struct directory_item));
+    struct directory_item tested[path_parts_num + 1];
+    tested[0] = *look_from;
+    int k;
+    for (k = 0; k < path_parts_num; k++)
+    {
+        if (is_in_dir(&tested[k], path_parts[k], founded_dir) == true) {
+            copy_direct_item(founded_dir, &tested[k+1]);
+            result = EXISTS;
+        } else {
+            // directory not exits
+            tested[path_parts_num] = tested[k];
+            result = PATH_NOT_FOUND;
+            break;
+        }
+    }
+
+    copy_direct_item(&tested[path_parts_num], last_part);
+    free(founded_dir);
+    return result;
 }

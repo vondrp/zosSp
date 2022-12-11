@@ -11,6 +11,7 @@
 #define INPUT_LENGTH 100
 
 #include "../fat/fat.h"
+
 /**
  * Method for getting line from the console
  * given line is dynamically allocated
@@ -30,7 +31,6 @@ void free_words_array(char *a[], int length);
  * Method for processing user input
  */
 void process_input();
-
 
 /**
  * Method used for splitting sentence to to array of words
