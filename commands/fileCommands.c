@@ -219,6 +219,7 @@ void mv_command (char *source_file, char *target_file)
     // in case target points to directory move source file to it
     if (result == EXISTS && target_dir.isFile == false)
     {
+        printf("Tady 1\n");
         remove_path_last_part(temp, target_file);
 
         struct directory_item target_grandparent = {};
@@ -239,6 +240,7 @@ void mv_command (char *source_file, char *target_file)
     }
     else if (result != EXISTS) // if given directory not exists -> maybe in path given new filename
     {
+        printf("TADY 2 \n");
         char *newFileName = malloc(strlen(target_file) * sizeof(char));
 
         strcpy(newFileName, get_filename(target_file));
@@ -266,7 +268,16 @@ void mv_command (char *source_file, char *target_file)
         {
             if (equals(target_dir, source_parent) == true) // if the directories are the same -> same directory but rename
             {
-                rename_dir(&source, &source_parent, newFileName);
+                struct directory_item help = {};
+                // check if exist dir/file with the same name
+                if (directory_exists(newFileName, &source_parent, &help) == EXISTS)
+                {
+                    result == EXISTS;
+                }
+                else
+                {
+                    rename_dir(&source, &source_parent, newFileName);
+                }
             }
             else
             {
@@ -293,8 +304,8 @@ void mv_command (char *source_file, char *target_file)
         }
     }
 
-    free(temp);
     print_error_message(result);
+    free(temp);
 }
 
 void rm_command(char *filename)
@@ -514,6 +525,15 @@ void incp_command(char* outsideFile, char* toPlace)
         }
     }
 
+    struct directory_item exists = {};
+    // check if in directory does not exists directory/file with the same name
+    if (directory_exists(fileName, &toPlaceDir, &exists) == EXISTS)
+    {
+        print_error_message(TARGET_PATH_NOT_FOUND);
+        fclose(fptr);
+        return;
+    }
+
     // check if in directory enough space
     if (toPlaceDir.size + sizeof(struct directory_item) > global_br->cluster_size)
     {
@@ -703,7 +723,6 @@ void outcp_command(char* file, char* toPlace)
     int32_t size = global_br->cluster_size;
     do
     {
-        printf("Fat index %d\n", fat_index);
         fseek(filePtr, global_br->data_start_address + fat_index * global_br->cluster_size, SEEK_SET);
         fread(cluster, global_br->cluster_size, 1, filePtr);
 

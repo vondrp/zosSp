@@ -36,7 +36,6 @@ void init_boot_record(struct boot_record *bootRecord, int disk_size)
 {
     unsigned long sizeOfFat;
     int cluster_amount;
-    strcpy(bootRecord->signature, "== ext ==");
     bootRecord->disk_size = disk_size;
     bootRecord->cluster_size = 512; // 512 B - do bitu - 4096
 
@@ -286,24 +285,31 @@ void clear_from_fat(struct directory_item *toClear)
 
 void remove_from_directory(struct directory_item *parent, struct directory_item *toRemove, struct directory_item *grandparent)
 {
+
+    printf("Parent is file: %d name %s\n", parent->isFile, parent->name);
+    printf("toRemove is file: %d\n", toRemove->isFile);
     int i = 0;
     unsigned long howMany = parent->size / sizeof(struct directory_item);
-    int clusterSize = global_br->data_start_address + parent->start_cluster * sizeof(global_br->cluster_size);
-    fseek(filePtr, clusterSize, SEEK_SET);
 
-    struct directory_item directoryItems[howMany - 1]; // -1  one directory item will be removed
-    while (i < howMany-1)
+    unsigned long clusterStart = global_br->data_start_address + parent->start_cluster * global_br->cluster_size;
+
+    // posun na pozici
+    fseek(filePtr, (long)clusterStart, SEEK_SET);
+
+    struct directory_item directoryItems[howMany]; // -1  one directory item will be removed
+    while (i < howMany)
     {
         struct directory_item test = {};
         fread(&test, sizeof(struct directory_item), 1, filePtr);
         //if (strcmp(test.name, toRemove->name) != 0) // not same
         if (equals(test, *toRemove) == false)
         {
+            printf("Kopiruji %s\n", test.name);
             copy_direct_item(&test, &directoryItems[i]);
             i++;
         }
     }
-    fseek(filePtr, clusterSize, SEEK_SET);
+    fseek(filePtr, (long)clusterStart, SEEK_SET);
 
     //rewrite cluster items
     for (i = 0; i < howMany-1; i++)

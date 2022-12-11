@@ -24,13 +24,12 @@ extern int curr_path_max_length;
 extern struct boot_record *global_br;
 
 struct boot_record {
-    char signature[9];              //login autora FS
     int32_t disk_size;              //celkova velikost VFS
     int32_t cluster_size;           //velikost clusteru
     int32_t cluster_count;          //pocet clusteru (stejny jako pocet polozek fat tabulky)
     int32_t fat1_start_address;	    //adresa pocatku FAT1 tabulky
     int32_t data_start_address;     //adresa pocatku datovych bloku (hl. adresar)
-}; // 36B
+};
 
 //pokud bude ve FAT FAT_DIRECTORY, budou na disku v daném clusteru uloženy struktury o velikosti sizeof(directory) = 24B
 struct directory_item {
