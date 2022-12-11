@@ -756,7 +756,7 @@ void defrag_command(char *filename)
     struct directory_item file_struct = {};
     if (directory_exists(filename, root_item, &file_struct)  != EXISTS && file_struct.isFile == false)
     {
-        print_error_message(FILE_NOT_FOUND);
+        print_error_message(SOURCE_FILE_NOT_FOUND);
         return;
     }
 
@@ -793,7 +793,6 @@ void defrag_command(char *filename)
     // if not success - must return original fat content
     if (result != SUCCESS)
     {
-        printf("Neuspech \n");
         for(i = 0; i < fat_n - 1; i++)
         {
             fat_table[original_fat[i]] = original_fat[i+1];

@@ -10,7 +10,7 @@
 #include "checkInput.h"
 #include "../output/error.h"
 
-#define FILENAME_MAX_LENGTH 12
+#define FILENAME_MAX_LENGTH 11
 
 char* get_filename(char *string_path) {
     repair_back_slashes(string_path);
