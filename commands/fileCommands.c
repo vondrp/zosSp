@@ -501,7 +501,7 @@ void incp_command(char* outsideFile, char* toPlace)
 
     fileName = get_filename(outsideFile);
 
-    if (strlen(fileName) > MAX_CHAR)
+    if (strlen(fileName) > FILENAME_MAX_LENGTH)
     {
         print_error_message(TOO_LONG_FILENAME);
         fclose(fptr);

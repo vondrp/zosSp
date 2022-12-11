@@ -22,7 +22,7 @@ void mkdir_command(char *dirName)
 
     process_path(dirName);
 
-    if (strlen(get_filename(dirName)) > MAX_CHAR)
+    if (strlen(get_filename(dirName)) > FILENAME_MAX_LENGTH)
     {
         print_error_message(TOO_LONG_FILENAME);
         return;

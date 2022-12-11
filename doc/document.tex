@@ -1,0 +1,340 @@
+\documentclass[12pt]{report}
+
+% Podpora češtiny
+\usepackage[utf8]{inputenc}
+\usepackage[IL2]{fontenc}
+\usepackage[czech]{babel}
+
+% vkladani pdf
+\usepackage{pdfpages}
+
+% Vkládání obrázků
+\usepackage{graphicx}
+\usepackage[demo]{rotating}
+\usepackage{caption}
+
+% package pro upravu titulky
+\usepackage{titlesec}
+
+% Definice vlastní barevné palety (výborné pro prezentace a postery)
+\usepackage{xcolor}
+\colorlet{mygray}{black!30}
+\colorlet{mygreen}{green!60!blue}
+\colorlet{myLightBlue}{blue!60}
+
+%uprava formatu titulni strany
+\titleformat{\chapter}
+{\normalfont\LARGE\bfseries}{\thechapter}{1em}{}
+\titlespacing*{\chapter}{0pt}{0ex plus 1ex minus .2ex}{2.0ex plus .2ex}
+
+% Vkládání formátovaného zdrojového kódu
+\usepackage{listings}
+
+%umoznuje napsani '
+\usepackage{textcomp}
+
+% umoznuje pouziti clear page - pro spravne umisteni otoceneho obrazku
+\usepackage{afterpage}
+
+
+\usepackage{subfig}
+
+
+\usepackage{tikz}
+% w/o following space!
+\newcommand{\quem}{\tikz[baseline=(wi.base)]{\node[fill=black,rotate=45,inner sep=.1ex, text height=1.8ex, text width=1.8ex] {};%
+		\node[ font=\color{white}] (wi) {?};}}
+
+\renewcommand{\lstlistingname}{Zdrojový kód} % Balík listings není standardní a není propojen s babelem.
+\renewcommand\lstlistlistingname{Seznam zdrojových kódů}
+\lstset{
+	upquote=true,
+	%backgroundcolor=\color{gray!10},  
+	basicstyle=\ttfamily,
+	columns=fullflexible,
+	breakatwhitespace=false,      
+	breaklines=true,                
+	captionpos=b,                    
+	commentstyle=\color{mygreen}, 
+	extendedchars=true,              
+	frame=single,                   
+	keepspaces=true,             
+	keywordstyle=\color{blue},      
+	language=C,                 
+	numbers=left,                
+	numbersep=5pt,                   
+	numberstyle=\tiny\color{blue}, 
+	rulecolor=\color{mygray},        
+	showspaces=false,               
+	showtabs=false,                  
+	stringstyle=\color{myLightBlue},    
+	tabsize=3,                      
+	title=\lstname,
+	literate=% 
+	{ö}{{\"o}}1  
+	{é}{{\'e}}1  
+	{á}{{\'a}}1
+	{ě}{{\v e}}1 
+	{Š}{{\v S}}1                     
+}
+
+
+\usepackage[T1]{fontenc}
+
+% Okraje strany
+\usepackage[
+a4paper, 
+left=25mm, 
+right=25mm, 
+top=30mm, 
+bottom=30mm
+]
+{geometry}
+
+\usepackage{pdflscape}
+
+% Vynuluji odsazení odstavců (podle mého vkusu).
+\setlength{\parindent}{0mm}
+
+
+\begin{document}
+	\begin{titlepage}
+		\vspace*{-2cm}
+		{\centering\includegraphics[scale=0.5]{images/FAV_cmyk.eps}\par}
+		\centering
+		\vspace*{2cm}
+		{\Large Semestrální práce z KIV/ZOS\par}
+		\vspace{1.5cm}
+		{\Huge\bfseries Souborový systém založený na FAT\par}
+		\vspace{2cm}
+		
+		{\Large Petr Vondrovic\par}
+		{\Large A20B0273P\par}
+		{\Large vondrp@students.zcu.cz\par}
+		
+		\vfill
+		
+		{\Large \today}
+	\end{titlepage}
+	%\tableofcontents % Vysází obsah dokumentu
+	
+	
+	\section*{Zadání}
+	\par Implementujte zjednodušený souborový systém založený na pseudo FAT. Při implementaci stačí použít jedinou FAT tabulku a předpokládejte, že adresář se vždy vejde do jednoho clusteru.
+	\par Program bude mít jeden parametr a tím bude název Vašeho souborového systému. Po spuštění bude program čekat na zadání jednotlivých příkazů s minimální funkčností viz níže (všechny soubory mohou být zadány jak absolutní, tak relativní cestou):
+	\begin{enumerate}
+		\item Zkopíruje soubor s1 do umístění s2\\
+		\texttt{cp s1 s2}\\
+		\texttt{Možný výsledek:}\\
+		\texttt{OK}\\
+		\texttt{FILE NOT FOUND (není zdroj)}\\
+		\texttt{PATH NOT FOUND (neexistuje cílová cesta)}
+		
+		\item Přesune soubor s1 do umístění s2, nebo přejmenuje s1 na s2\\
+		\texttt{mv s1 s2}\\
+		\texttt{Možný výsledek:}\\
+		\texttt{OK}\\
+		\texttt{FILE NOT FOUND (není zdroj)}\\
+		\texttt{PATH NOT FOUND (neexistuje cílová cesta)}
+		
+		\item Smaže soubor s1\\
+		\texttt{rm s1}\\
+		\texttt{Možný výsledek:}\\
+		\texttt{OK}\\
+		\texttt{FILE NOT FOUND}
+		
+		\item Vytvoří adresář a1\\
+		\texttt{mkdir a1}\\
+		\texttt{Možný výsledek:}\\
+		\texttt{OK}\\
+		\texttt{PATH NOT FOUND (neexistuje zadaná cesta)}
+		\texttt{EXISTS (nelze založit, již existuje)}
+		
+		\item Smaže prázdný adresář a1\\
+		\texttt{rmkdir a1}\\
+		\texttt{Možný výsledek:}\\
+		\texttt{OK}\\
+		\texttt{FILE NOT FOUND (neexistující adresář)}
+		\texttt{NOT EMPTY (adresář obsahuje podadresáře, nebo soubory)}
+		
+		\item Vypíše obsah adresáře a1, bez parametru vypíše obsah aktuálního adresáře\\
+		\texttt{ls a1}\\
+		\texttt{ls}\\
+		\texttt{Možný výsledek:}\\
+		\texttt{OK}\\
+		\texttt{FILE: f1}
+		\texttt{DIR: a2}
+		\texttt{PATH NOT FOUND (neexistující adresář)}
+		
+		\item Vypíše obsah souboru s1\\
+		\texttt{cat a1}\\
+		\texttt{Možný výsledek:}\\
+		\texttt{OBSAH}\\
+		\texttt{FILE NOT FOUND (není zdroj)}
+		
+		\item Změní aktuální cestu do adresáře a1\\
+		\texttt{cd a1}\\
+		\texttt{Možný výsledek:}\\
+		\texttt{OK}\\
+		\texttt{PATH NOT FOUND (neexistující cesta)}
+		
+		\item Vypíše aktuální cestu\\
+		\texttt{pwd}\\
+		\texttt{Možný výsledek:}\\
+		\texttt{PATH}
+		
+		\item Vypíše informace o souboru/adresáři s1/a1 (v jakých clusterech se nachází)\\
+		\texttt{info a1/s1}\\
+		\texttt{Možný výsledek:}\\
+		\texttt{S1 2,3,4,7,10}\\
+		\texttt{FILE NOT FOUND (není zdroj)}
+		
+		\item Nahraje soubor s1 z pevného disku do umístění s2 ve vašem FS\\
+		\texttt{incp s1 s2}\\
+		\texttt{Možný výsledek:}\\
+		\texttt{OK}\\
+		\texttt{FILE NOT FOUND (není zdroj)}\\
+		\texttt{PATH NOT FOUND (neexistuje cílová cesta)}
+		
+		\item Nahraje soubor s1 z vašeho FS do umístění s2 na pevném disku\\
+		\texttt{outcp s1 s2}\\
+		\texttt{Možný výsledek:}\\
+		\texttt{OK}\\
+		\texttt{FILE NOT FOUND (není zdroj)}\\
+		\texttt{PATH NOT FOUND (neexistuje cílová cesta)}
+		
+		\item Načte soubor z pevného disku, ve kterém budou jednotlivé příkazy, a začne je sekvenčně vykonávat. Formát je 1 příkaz/1řádek\\
+		\texttt{load s1}\\
+		\texttt{Možný výsledek:}\\
+		\texttt{OK}\\
+		\texttt{FILE NOT FOUND (není zdroj)}
+		\newpage
+		\item Příkaz provede formát souboru, který byl zadán jako parametr při spuštění programu na souborový systém dané velikosti. Pokud už soubor nějaká data obsahoval, budou přemazána. Pokud soubor neexistoval, bude vytvořen.\\
+		\texttt{format 600MB}\\
+		\texttt{Možný výsledek:}\\
+		\texttt{OK}\\
+		\texttt{CANNOT CREATE FILE}
+		
+		\item Defragmentace souboru - Zajistí, že datové bloky souboru s1 budou ve filesystému uložené za sebou, což si můžeme ověřit příkazem info. Předpokládáme, že v systému je dostatek místa, aby nebyla potřeba přesouvat datové bloky jiných souborů\\
+		\texttt{defrag s1}\\
+		\texttt{Možný výsledek:}\\
+		\texttt{OK}\\
+		\texttt{FILE NOT FOUND (není zdroj)}		
+	\end{enumerate}
+	\par Budeme předpokládat korektní zadání syntaxe příkazů, nikoliv však sémantiky (tj. např. cp s1 zadáno nebude, ale může být zadáno cat s1, kde s1 neexistuje).
+	\par Maximální délka názvu souboru bude 8+3=11 znaků (jméno.přípona) + $\backslash$0 (ukončovací znak v C/C++), tedy 12 bytů.
+	
+	\section*{Struktura souborového systému (fs)}
+			\begin{minipage}[b]{0.45\linewidth}
+		\centering
+		\begin{lstlisting}[language=C, caption={Super block fs},
+			label={source:abbinit}]
+struct boot_record {
+	int32_t disk_size;
+	int32_t cluster_size;
+	int32_t cluster_count;
+	int32_t fat1_start_address;
+	int32_t data_start_address;
+};\end{lstlisting}	
+	\end{minipage}
+	\hspace{0.5cm}
+	\begin{minipage}[b]{0.45\linewidth}
+		\centering
+		\begin{lstlisting}[language=C, caption={Struktura adresáře}, label={source:cbbinit}]
+struct directory_item {
+	char name[13]; 
+	int32_t isFile;
+	int32_t size;
+	int32_t start_cluster;
+};	\end{lstlisting}
+	\end{minipage}
+	
+	Souborový systém je v souboru v němž se nachází následující položky:
+	\begin{enumerate}
+		\item Super block - viz \ref{source:abbinit}, obsahuje základní informace o datech fs
+		\item FAT tabulka:  tabulka položek popisující obsah clusterů souboru. Může obsahovat:
+		\begin{itemize}
+			\item odkaz na další položku bloku
+			\item volný block
+			\item konec souboru
+			\item špatný/poškozený blok
+		\end{itemize}
+		\item Root directory:	struktura \ref{source:cbbinit}, sloužící jako popis kořenové položky fs
+		\item Clustery - data uložená ve fs. Na pozici dat ukazují položky FAT tabulky\\
+		Data clusterů jsou dva typy:
+		\begin{itemize}
+			\item adresář: obsahuje pouze pouze položky adresáře viz \ref{source:cbbinit}, popisující adresář/soubor na jehož počáteční pozici ve FAT tabulce ukazují.
+			\item data souboru: data souboru uloženého v souborovém systému
+		\end{itemize}
+	\end{enumerate}
+
+	\section*{Popis adresářů a souborů}
+	\subsection*{Adresář fat}
+	Adresář fat obsahuje soubor \texttt{fat.c} a jeho hlavičku \texttt{fat.h}. Tyto soubory obsahují deklaraci struktur \ref{source:abbinit} a \ref{source:cbbinit} a funkce jež s nimi, FAT tabulkou a se souborem fs pracují.\\
+	Mezi takové funkce patří např. equals, inicializace \ref{source:abbinit} a \ref{source:cbbinit}, nalezení volného clusteru, zapsaní \ref{source:cbbinit}, aktualizace FAT tabulky v souboru, odstranění \ref{source:cbbinit}, zjištění zda soubor/adresář existuje v adresáři \texttt{directory\_item} \ref{source:cbbinit} a další.
+	
+	\subsection*{Adresář input}
+	Tato složka obsahuje soubory \texttt{checkInput} a \texttt{inputHandler}, které mají na starosti kontrolu a zpracování vstupu od uživatele.\\
+	Nejdůležitější funkce \texttt{checkInput} jsou:
+	\begin{itemize}
+		\item process\_path - zpracuje daný řetězec cesty na cestu vycházející z \texttt{ROOT} \texttt{directory\_item}
+		\item split\_path - rozdělení dané cesty na jednotlivé části (dělič cesty je \uv{/})
+	\end{itemize}
+	Další funkce \texttt{checkInput} jsou například: získání jména (poslední části) z cesty, kontrola délky jména (maximum je 12 znaků), zkrácení cesty o její poslední.
+	
+	Mezi hlavní funkce \texttt{inputHandler} patří:
+	\begin{itemize}
+		\item process\_input - funkce zpracovávající vstup uživatele do konzole
+		\item call\_commands - zavolání příkazu
+	\end{itemize}
+	Dále se zde nachází funkce pro získání řádky textu a další funkce pro její rozdělení na jednotlivá slova.
+	
+	\subsection*{Adresář output}
+	Adresář \texttt{output} se stará o výstup příkazů. Nachází se zde \texttt{errors.h}, kde jsou napsané všechny možné výstupy příkazů. Ty slouží jako parametr funkce \texttt{print\_error\_message} ze souboru \texttt{messages.c/h}, která vypíše do konzole výsledek příkazu.
+	\subsection*{Adresář commands}
+	\par V složce \texttt{commands} se nachází soubory, obsahující implementace příkazů souborového systému a jejich pomocné metody. Příkazy jsou popsané v zadání.
+	\begin{itemize}
+		\item dirCommands - příkazy pracující s adresáři fs\\
+		příkazy: \texttt{mkdir}, \texttt{rmdir}, \texttt{ls}
+		\item fileCommands - příkazy pracující se soubory, v některých případech jsou použitelné i pro adresáře\\
+		příkazy: \texttt{cp}, \texttt{rm}, \texttt{mv}, \texttt{cat}, \texttt{load}, \texttt{incp}, \texttt{outcp},
+		\texttt{info}, \texttt{defrag}.
+		\item pathCommands - příkazy pracující s aktuální cestou (kde se v souborovém systému nacházíme)\\
+		příkazy: \texttt{pwd}, \texttt{cd}
+		\item fsCommands - obsahuje pouze příkaz \texttt{format} sloužící k formátování souborového systému a pomocné metody. Mezi pomocné metody patří:
+		\begin{itemize}
+			\item process\_units - zpracuje parametr velikosti fs
+			\item format\_fs - zformátování/vytvoření nového fs
+			\item open\_fs, close\_fs - načtení fs a jeho zavření
+		\end{itemize}
+	\end{itemize}
+	\subsection*{main.c}
+	\par Soubor \texttt{main.c} je spouštěcí/hlavní soubor aplikace.
+
+	\section*{Popis principu implementace příkazů}
+	\par Při impelementaci příkazů se užívá několika globálních proměnných.
+	\begin{itemize}
+		\item ukazatel na soubor souborového systému
+		\item jméno souborového systému
+		\item ukazatel na super block \ref{source:abbinit}
+		\item ukazatel na FAT tabulku
+		\item ukazatel na kořenový (root) adresář
+		\item ukazatel na adresář v němž se uživatel zrovna nachází
+		\item současná cesta
+		\item maximální délka cesty
+	\end{itemize}
+	\par Při implementaci příkazů se vždy nejprve zpracuje cesta k souboru/adresáři pomocí \texttt{process\_path} a na konci většiny příkazu se zavolá \texttt{print\_error\_message} k informování o úspěchu/neúspěchu provedení příkazu.
+	\par K nalezení příslušných \texttt{directory\_item} \ref{source:cbbinit} se používá použití cesty k nim. K tomu je třeba znát \texttt{directory\_item} z něhož hledání začíná, z toho důvodu \texttt{process\_path} upraví cestu, aby šla od kořene (root). Cesty se také používá k nalezení rodiče a prarodiče \texttt{directory\_item}, které je nutné znát, pro přepsání změn v souboru souborového systému.
+	
+	\section*{Uživatelská dokumentace}
+	\subsection*{Překlad}
+	\par Pro překlad programu je potřeba nástroj \texttt{cmake}, \texttt{make} a překladač \texttt{gcc}. Nejprve vygenerujeme soubor makefile zadáním příkazu \texttt{cmake -B ./build/}. Přejdeme do adresáře \texttt{build} a v něm spustíme překlad programu příkazem \texttt{make}. Po dokončení operace by měl být vytvořen v adresáři \texttt{build} soubor \texttt{zos\_sp}. 
+	
+	\subsection*{Spuštění a běh programu}
+	\par Program se s parametrem názvu souborového systému. Druhý možný parametr je velikost ve formátu <velikost><jednotka>, kde jednotka může být \texttt{kB},  \texttt{MB} nebo \texttt{GB}.\\
+	\par Po úspěšném spuštění programu může uživatel psát příkazy. Pro ukončení běhu programu je třeba napsat příkaz \texttt{end}.
+	
+	\section*{Závěr}
+	\par Souborový systém alokuje data pomocí FAT tabulku a má naimplementované všechny příkazy ze zadání. Program běží stabilně, nepadá a všechny příkazy jsou ošetřené. Požadavky na práci jsou splněny.
+	
+\end{document}	

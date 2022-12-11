@@ -8,6 +8,8 @@
 #ifndef ZOSSP_CHECKINPUT_H
 #define ZOSSP_CHECKINPUT_H
 
+#define FILENAME_MAX_LENGTH 11
+
 /**
  * From the given string path return filename (expect it to be at the end)
  * @param string_path   path with filename at the end

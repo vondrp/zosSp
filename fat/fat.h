@@ -7,6 +7,7 @@
 #include <stdint-gcc.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include "../input/checkInput.h"
 
 extern const int32_t FAT_UNUSED;
 extern const int32_t FAT_FILE_END;
@@ -33,8 +34,8 @@ struct boot_record {
 
 //pokud bude ve FAT FAT_DIRECTORY, budou na disku v daném clusteru uloženy struktury o velikosti sizeof(directory) = 24B
 struct directory_item {
-    char name[13];                  //jméno souboru nebo adresáře ve tvaru 8.3'/0' nebo 12 + 1
-    int32_t isFile;                    //identifikace zda je soubor (TRUE), nebo adresář (FALSE)
+    char name[FILENAME_MAX_LENGTH + 1];    //jméno souboru nebo adresáře ve tvaru 8.3'/0' nebo 11 + 1
+    int32_t isFile;                 //identifikace zda je soubor (TRUE), nebo adresář (FALSE)
     int32_t size;                   //velikost položky, u adresáře 0 (bude zabirat jeden blok)
     int32_t start_cluster;          //počáteční cluster položky
 };// 24B
