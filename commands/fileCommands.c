@@ -347,7 +347,7 @@ int remove_file(char * file_path)
     remove_path_last_part(grandpaPath, parentPath);
 
     // if condition true -> remove items from root -> gradnpa and parent root
-    if(strcmp(parent.name, to_remove.name) == 0)
+    if(equals(parent, to_remove) == true)
     {
         copy_direct_item(root_item, &parent);
         copy_direct_item(root_item, &grandparent);
@@ -357,7 +357,7 @@ int remove_file(char * file_path)
         // find grandpa
         directory_exists(grandpaPath, root_item, &grandparent);
 
-        if(strcmp(grandparent.name, parent.name) == 0)
+        if(equals(grandparent, parent) == true)
         {
             copy_direct_item(root_item, &grandparent);
         }
@@ -448,7 +448,8 @@ void load_command(char* scriptFile)
 
     wPathScriptName = get_filename(scriptFile);
 
-    words = malloc(words_amount * sizeof(char *)); // array of words
+    int max_word_length = 100; //safety value - must give something before allocating memory -> 100 is more than enough big value for program purposes
+    words = malloc(words_amount * max_word_length * sizeof(char)); // array of words
     // Read contents from file
 
     file_line = get_line(fptr);
@@ -506,6 +507,9 @@ void incp_command(char* outsideFile, char* toPlace)
         return;
     }
 
+    char *whereToPlace = malloc(strlen(toPlace) * sizeof(char));
+    strcpy(whereToPlace, toPlace);
+
     if (strlen(toPlace) == 0)
     {
         toPlaceDir = *current_dir;
@@ -516,9 +520,38 @@ void incp_command(char* outsideFile, char* toPlace)
         // check if given directory exists
         if (directory_exists(toPlace, root_item, &toPlaceDir) != EXISTS)
         {
-            print_error_message(TARGET_PATH_NOT_FOUND);
-            fclose(fptr);
-            return;
+            char *temp = malloc(strlen(toPlace) * sizeof(char));
+            remove_path_last_part(temp, toPlace);
+
+            // if the same -> must be /something -> root dir
+            if (strcmp(temp, toPlace) == 0)
+            {
+                copy_direct_item(root_item, &toPlaceDir);
+            }
+            else
+            {
+                if (directory_exists(temp, root_item, &toPlaceDir) != EXISTS)
+                {
+                    print_error_message(TARGET_PATH_NOT_FOUND);
+                    fclose(fptr);
+                    free(temp);
+                    return;
+                }
+
+            }
+            char *help = malloc(strlen(toPlace) * sizeof(char));
+            strcpy(help, toPlace);
+            // if directory not exists -> was given new name of the file
+            fileName = get_filename(whereToPlace);
+
+            remove_path_last_part(toPlace, help);
+
+            if (strcmp(toPlace, help) == 0)
+            {
+                strcpy(toPlace, root_item->name);
+            }
+            free(help);
+            free(temp);
         }
     }
 
@@ -543,7 +576,6 @@ void incp_command(char* outsideFile, char* toPlace)
     fseek(fptr, 0, SEEK_END);
     size = ftell(fptr);
     rewind(fptr);
-
     // how many fat indexes needed
     fat_needed = ceil((double)size / (double)global_br->cluster_size);
 
@@ -551,32 +583,20 @@ void incp_command(char* outsideFile, char* toPlace)
     int32_t fat_index; // last finded fat index
     int32_t indexes[fat_needed]; //indexes of used fat
 
-    // find first needed fat
-    fat_index = find_free_fat_index();
-    indexes[0] = fat_index;
-    fat_table[fat_index] = FAT_FILE_END; //temporary end of file
-    // find rest of the fat
-    for (i = 1; i < fat_needed; i++)
+    if(find_free_fat_indexes(fat_needed, indexes) != SUCCESS)
     {
-        fat_index = find_free_fat_index();
-        indexes[i] = fat_index;
-        fat_table[indexes[i-1]] = fat_index;
-        fat_table[fat_index] = FAT_FILE_END;
-    }
-
-    fat_table[indexes[fat_needed - 1]] = FAT_FILE_END;
-
-    // not enough free space in fat
-    if (fat_index == -1)
-    {
-        for (i = 0; i < fat_needed; i++)
-        {
-            fat_table[indexes[i]] = FAT_UNUSED;
-        }
         print_error_message(OUT_OF_FAT);
         fclose(fptr);
         return;
     }
+
+    // write fat data
+    for(i = 0; i < fat_needed - 1; i++)
+    {
+        fat_table[indexes[i]] = indexes[i+1];
+    }
+
+    fat_table[indexes[fat_needed - 1]] = FAT_FILE_END;
 
     // find grandparent of the new file directory item (parent of directory item where new file will be stored)
     char *grandpaPath = malloc(strlen(toPlace) * sizeof(char));
@@ -632,8 +652,10 @@ void incp_command(char* outsideFile, char* toPlace)
     // upgrade parent
     upgrade_dir_item(&toPlaceDir, &grandpaDir);
 
+    print_error_message(SUCCESS);
     fclose(fptr);
     free(grandpaPath);
+    free(whereToPlace);
 }
 
 void info_command(char* filename)
@@ -680,27 +702,7 @@ void outcp_command(char* file, char* toPlace)
         return;
     }
 
-    /*
-    struct stat sb;
-    printf("To place vypadá: %s\n", toPlace);
-    if (stat(toPlace, &sb) == 0 && sb.st_mode & S_IFDIR) {
-        printf("YES\n");
-    } else {
-        printf("NO\n");
-    }
-
-    if (is_outside_directory(toPlace))
-    {
-        printf("druha metoda YES\n");
-    }
-    */
-    char *target_filename = get_filename(file);
-
-    repair_back_slashes(toPlace);
-    strcat(toPlace, "/");
-    strcat(toPlace, target_filename);
-
-    FILE *outsideF = fopen(target_filename, "wb");
+    FILE *outsideF = fopen(toPlace, "wb");
 
     if (outsideF == NULL)
     {
@@ -725,18 +727,9 @@ void outcp_command(char* file, char* toPlace)
 
     } while (fat_index != FAT_FILE_END);
 
+    print_error_message(SUCCESS);
     free(cluster);
     fclose(outsideF);
-
-
-    // if given place where to place is not directory - cannot place here
-    /*if (is_outside_directory(toPlace))
-    {
-    }
-    else
-    {
-        print_error_message(TARGET_PATH_NOT_FOUND);
-    }*/
 }
 
 void defrag_command(char *filename)

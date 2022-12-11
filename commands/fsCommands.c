@@ -143,7 +143,7 @@ void open_fs()
     filePtr = fopen(fs_filename, "rb+");
 
     if (filePtr == NULL){
-        printf("Pokus o přečtení fs selhal\n");
+        printf("Pokus o přečtení %s selhal\n", fs_filename);
         exit(2);
     }
 

@@ -63,7 +63,7 @@ int find_free_fat_index()
 {
     int result = -1;
     int i;
-    for (i = 0; i < global_br->cluster_size; i++)
+    for (i = 0; i < global_br->cluster_count; i++)
     {
         if (fat_table[i] == FAT_UNUSED)
         {
@@ -265,6 +265,7 @@ int remove_dir_item(struct directory_item *parent, struct directory_item *toDest
 
     // remove directory from fat table
     clear_from_fat(toDestroy);
+
     // remove directory item from his parent directory
     remove_from_directory(parent, toDestroy, grandparent);
     return SUCCESS;
@@ -277,9 +278,8 @@ void clear_from_fat(struct directory_item *toClear)
     do {
         old_fat_index = fat_index;
         fat_index = fat_table[fat_index];
-
         fat_table[old_fat_index] = FAT_UNUSED;
-    } while (fat_index != FAT_UNUSED && fat_index != FAT_FILE_END && fat_index != FAT_BAD_CLUSTER);
+    } while (fat_index != FAT_FILE_END);
     rewrite_fat();
 }
 

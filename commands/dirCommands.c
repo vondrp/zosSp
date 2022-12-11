@@ -28,8 +28,8 @@ void mkdir_command(char *dirName)
         return;
     }
     int check;
-    char *remainingPath = malloc(strlen(dirName));
-    char *path_grandparent = malloc(strlen(dirName)); // cesta ke struture, kde se nachazi direc item, kam se bude vkladat nova polozka
+    char *remainingPath = malloc(strlen(dirName) * sizeof(char));
+    char *path_grandparent = malloc(strlen(dirName) * sizeof(char)); // cesta ke struture, kde se nachazi direc item, kam se bude vkladat nova polozka
     remove_path_last_part(remainingPath, dirName); // odriznuti nove polozky, pro pridani z cesty
 
     char *firstSymbolCut; // = malloc(strlen(dirName)); // zde ulozena cesta pokud prvni symbol /

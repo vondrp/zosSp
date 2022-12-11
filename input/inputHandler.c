@@ -81,7 +81,7 @@ void sentence_to_words(char *console_input, char** words, int *last_words_amount
         if (j == 0)
         {
             len_max = DEFAULT_WORDS_LENGTH;
-            words[ctr] = malloc(len_max * sizeof(char *));
+            words[ctr] = malloc(len_max * sizeof(char));
         }
         else if (j >= len_max)
         {
@@ -128,7 +128,8 @@ void process_input()
     char **words;       // console input separated into words
     int words_amount = DEFAULT_WORDS_AMOUNT;
 
-    words = malloc(words_amount * sizeof(char *)); // array of words
+    int max_word_length = 100; //safety value - must give something before allocating memory -> 100 is more than enough big value for program purposes
+    words = malloc(words_amount * max_word_length * sizeof(char)); // array of words
     char end_input[] = "end";
     int last_words_amount;
 

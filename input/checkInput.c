@@ -70,25 +70,6 @@ void remove_path_last_part(char *remainingPath, char *fullPath)
     remainingPath[len] =  *"\0";
 }
 
-int is_outside_directory(char *path)
-{
-    /*struct stat path_stat;
-    stat(path, &path_stat);
-    return S_ISDIR(path_stat.st_mode);*/
-    struct stat info;
-
-    int statRC = stat( path, &info );
-    if( statRC != 0 )
-    {
-        if (errno == ENOENT)  { return 0; } // something along the path does not exist
-        if (errno == ENOTDIR) { return 0; } // something in path prefix is not a dir
-        return -1;
-    }
-
-    return ( info.st_mode & S_IFDIR ) ? 1 : 0;
-}
-
-
 int split_path(char *path, char** path_parts, int expected_path_parts)
 {
     int path_amount = expected_path_parts;
@@ -122,7 +103,6 @@ int split_path(char *path, char** path_parts, int expected_path_parts)
             if (ctr >= path_amount)
             {
                 path_amount = path_amount * 2;
-
                 path_parts = realloc(path_parts, (path_amount) * sizeof(*path_parts));
                 //path_parts = realloc(path_parts, path_amount * len_max * sizeof(char));
             }
