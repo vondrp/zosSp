@@ -89,11 +89,7 @@ void sentence_to_words(char *console_input, char** words, int *last_words_amount
             words[ctr] = realloc(words[ctr], len_max * sizeof (char *));
         }
 
-        // if space or NULL found, assign NULL into newString[ctr]
-        //printf("Pozice %d, znak %c, isspace %d\n", i, console_input[i], isspace(console_input[i]));
         if (isspace(console_input[i]) != 0) {
-            //newString[ctr][j] = '\0';
-
             // to ignore multiple white spaces
             if (j != 0)
             {
@@ -142,12 +138,6 @@ void process_input()
         console_input = get_line(stdin);
 
         sentence_to_words(console_input, words, &last_words_amount);
-
-        /*
-        for (i = 0; i < last_words_amount; i++)
-        {
-            printf("%s %llu\n", words[i], strlen(words[i]));
-        }*/
         call_commands(words);
     } while(strcmp(words[0], end_input) != 0);
 

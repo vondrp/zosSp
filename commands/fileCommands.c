@@ -219,7 +219,6 @@ void mv_command (char *source_file, char *target_file)
     // in case target points to directory move source file to it
     if (result == EXISTS && target_dir.isFile == false)
     {
-        printf("Tady 1\n");
         remove_path_last_part(temp, target_file);
 
         struct directory_item target_grandparent = {};
@@ -240,7 +239,6 @@ void mv_command (char *source_file, char *target_file)
     }
     else if (result != EXISTS) // if given directory not exists -> maybe in path given new filename
     {
-        printf("TADY 2 \n");
         char *newFileName = malloc(strlen(target_file) * sizeof(char));
 
         strcpy(newFileName, get_filename(target_file));
@@ -675,9 +673,6 @@ void outcp_command(char* file, char* toPlace)
 {
     process_path(file);
 
-    // change all \ on / -> works like that both on linux and windows
-    //repair_back_slashes(toPlace);
-
     struct directory_item file_struct = {};
     if (directory_exists(file, root_item, &file_struct) != EXISTS && file_struct.isFile == false)
     {
@@ -685,8 +680,7 @@ void outcp_command(char* file, char* toPlace)
         return;
     }
 
-
-    //folder = "C:\\Users\\SaMaN\\Desktop\\Ppln";
+    /*
     struct stat sb;
     printf("To place vypadá: %s\n", toPlace);
     if (stat(toPlace, &sb) == 0 && sb.st_mode & S_IFDIR) {
@@ -699,17 +693,14 @@ void outcp_command(char* file, char* toPlace)
     {
         printf("druha metoda YES\n");
     }
-
+    */
     char *target_filename = get_filename(file);
-
-    printf("Target filename: %s\n", target_filename);
 
     repair_back_slashes(toPlace);
     strcat(toPlace, "/");
     strcat(toPlace, target_filename);
 
-    printf("Final to place %s\n", toPlace);
-    FILE *outsideF = fopen(target_filename, "w");
+    FILE *outsideF = fopen(target_filename, "wb");
 
     if (outsideF == NULL)
     {
@@ -724,7 +715,6 @@ void outcp_command(char* file, char* toPlace)
     {
         fseek(filePtr, global_br->data_start_address + fat_index * global_br->cluster_size, SEEK_SET);
         fread(cluster, global_br->cluster_size, 1, filePtr);
-
         fat_index = fat_table[fat_index];
         if (fat_index == FAT_FILE_END)
         {

@@ -5,6 +5,8 @@
 #ifndef ZOS_SP_FSCOMMANDS_H
 #define ZOS_SP_FSCOMMANDS_H
 
+#include <stdint.h>
+
 /**
  * Will format the file of filesystem used by program
  * old data destroyed

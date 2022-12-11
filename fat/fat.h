@@ -55,7 +55,7 @@ void init_boot_record(struct boot_record *bootRecord, int disk_size);
  * @param size      size of directory item
  * @param start_cluster    index of cluster, where directory item data starts
  */
-void init_directory_item(struct directory_item* di, char name[13], bool isFile, int32_t size, int start_cluster);
+void init_directory_item(struct directory_item* di, char *name, bool isFile, int32_t size, int start_cluster);
 
 /**
  * Find one free fat index

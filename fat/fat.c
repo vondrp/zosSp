@@ -51,7 +51,7 @@ void init_boot_record(struct boot_record *bootRecord, int disk_size)
     bootRecord->data_start_address = sizeof(struct boot_record) + (int32_t)sizeOfFat + sizeof(struct directory_item);
 }
 
-void init_directory_item(struct directory_item* di, char name[13], bool isFile, int32_t size, int start_cluster)
+void init_directory_item(struct directory_item* di, char *name, bool isFile, int32_t size, int start_cluster)
 {
     strcpy(di->name, name);
     di->isFile = isFile;
@@ -187,7 +187,6 @@ void upgrade_dir_item(struct directory_item *child, struct directory_item *paren
     long clusterStart;
     if (strcmp(child->name, "/") == 0) //rodic je koren
     {
-        printf("V uprage rodice nova velikost %d \n", child->size);
         clusterStart = global_br->data_start_address - sizeof(struct directory_item);
         fseek(filePtr, clusterStart, SEEK_SET);
         fwrite(child, sizeof(struct directory_item), 1, filePtr);
@@ -286,9 +285,6 @@ void clear_from_fat(struct directory_item *toClear)
 
 void remove_from_directory(struct directory_item *parent, struct directory_item *toRemove, struct directory_item *grandparent)
 {
-
-    printf("Parent is file: %d name %s\n", parent->isFile, parent->name);
-    printf("toRemove is file: %d\n", toRemove->isFile);
     int i = 0;
     unsigned long howMany = parent->size / sizeof(struct directory_item);
 
@@ -305,7 +301,6 @@ void remove_from_directory(struct directory_item *parent, struct directory_item 
         //if (strcmp(test.name, toRemove->name) != 0) // not same
         if (equals(test, *toRemove) == false)
         {
-            printf("Kopiruji %s\n", test.name);
             copy_direct_item(&test, &directoryItems[i]);
             i++;
         }

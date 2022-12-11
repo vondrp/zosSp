@@ -109,8 +109,6 @@ int split_path(char *path, char** path_parts, int expected_path_parts)
             path_parts[ctr] = realloc(path_parts[ctr], len_max * sizeof (char));
         }
 
-        // if space or NULL found, assign NULL into newString[ctr]
-        //printf("Pozice %d, znak %c, isspace %d\n", i, console_input[i], isspace(console_input[i]));
         if (path[i] == '/') {
 
             // to ignore multiple white spaces
@@ -124,14 +122,8 @@ int split_path(char *path, char** path_parts, int expected_path_parts)
             if (ctr >= path_amount)
             {
                 path_amount = path_amount * 2;
-                /*unsigned long currSize = 0;
-                for (j = 0; j < ctr; j++)
-                    currSize = currSize + strlen(path_parts[j]);
-                */
-                //TODO je treba reallocovat jinak
-                printf("Jsem pred realloc ve split path path amounts %d\n", path_amount);
-                path_parts = realloc(path_parts, (path_amount) * sizeof(*path_parts));
 
+                path_parts = realloc(path_parts, (path_amount) * sizeof(*path_parts));
                 //path_parts = realloc(path_parts, path_amount * len_max * sizeof(char));
             }
             j = 0;    //for next word, init index to 0

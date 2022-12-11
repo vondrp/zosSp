@@ -73,11 +73,11 @@ build CMakeFiles/zos_sp.dir/input/checkInput.c.obj: C_COMPILER__zos_sp_Debug D$:
   TARGET_COMPILE_PDB = CMakeFiles\zos_sp.dir\
   TARGET_PDB = zos_sp.pdb
 
-build CMakeFiles/zos_sp.dir/utils/messages.c.obj: C_COMPILER__zos_sp_Debug D$:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/utils/messages.c || cmake_object_order_depends_target_zos_sp
-  DEP_FILE = CMakeFiles\zos_sp.dir\utils\messages.c.obj.d
+build CMakeFiles/zos_sp.dir/output/messages.c.obj: C_COMPILER__zos_sp_Debug D$:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/output/messages.c || cmake_object_order_depends_target_zos_sp
+  DEP_FILE = CMakeFiles\zos_sp.dir\output\messages.c.obj.d
   FLAGS = -g -std=gnu99
   OBJECT_DIR = CMakeFiles\zos_sp.dir
-  OBJECT_FILE_DIR = CMakeFiles\zos_sp.dir\utils
+  OBJECT_FILE_DIR = CMakeFiles\zos_sp.dir\output
   TARGET_COMPILE_PDB = CMakeFiles\zos_sp.dir\
   TARGET_PDB = zos_sp.pdb
 
@@ -129,7 +129,7 @@ build CMakeFiles/zos_sp.dir/fat/fat.c.obj: C_COMPILER__zos_sp_Debug D$:/FAV/3.ro
 #############################################
 # Link the executable zos_sp.exe
 
-build zos_sp.exe: C_EXECUTABLE_LINKER__zos_sp_Debug CMakeFiles/zos_sp.dir/main.c.obj CMakeFiles/zos_sp.dir/input/inputHandler.c.obj CMakeFiles/zos_sp.dir/input/checkInput.c.obj CMakeFiles/zos_sp.dir/utils/messages.c.obj CMakeFiles/zos_sp.dir/commands/fileCommands.c.obj CMakeFiles/zos_sp.dir/commands/pathCommands.c.obj CMakeFiles/zos_sp.dir/commands/dirCommands.c.obj CMakeFiles/zos_sp.dir/commands/fsCommands.c.obj CMakeFiles/zos_sp.dir/fat/fat.c.obj
+build zos_sp.exe: C_EXECUTABLE_LINKER__zos_sp_Debug CMakeFiles/zos_sp.dir/main.c.obj CMakeFiles/zos_sp.dir/input/inputHandler.c.obj CMakeFiles/zos_sp.dir/input/checkInput.c.obj CMakeFiles/zos_sp.dir/output/messages.c.obj CMakeFiles/zos_sp.dir/commands/fileCommands.c.obj CMakeFiles/zos_sp.dir/commands/pathCommands.c.obj CMakeFiles/zos_sp.dir/commands/dirCommands.c.obj CMakeFiles/zos_sp.dir/commands/fsCommands.c.obj CMakeFiles/zos_sp.dir/fat/fat.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lm  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\zos_sp.dir
