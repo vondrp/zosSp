@@ -419,12 +419,22 @@ void cat_command(char* filename)
     }
 
     char *cluster = malloc(global_br->cluster_size);
-    for (i = 0; i < used_fat; i++)
+    for (i = 0; i < used_fat - 1; i++)
     {
         fseek(filePtr, global_br->data_start_address + usedFat[i] * global_br->cluster_size, SEEK_SET);
         fread(cluster, global_br->cluster_size, 1, filePtr);
         printf("%s", cluster);
     }
+    // last cluter can be shorter
+    int32_t last_cluster_size = file.size % global_br->cluster_size;
+    fseek(filePtr, global_br->data_start_address + usedFat[used_fat - 1] * global_br->cluster_size, SEEK_SET);
+
+    free(cluster);
+    cluster = malloc(last_cluster_size);
+    fread(cluster, last_cluster_size, 1, filePtr);
+    printf("%s", cluster);
+
+
     printf("\n");
     free(cluster);
     free(path_without_filename);

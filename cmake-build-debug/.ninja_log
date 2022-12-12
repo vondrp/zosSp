@@ -54,3 +54,13 @@
 209	351	6925002532173483	CMakeFiles/zos_sp.dir/fat/fat.c.obj	d06c34d36cd20719
 17	361	6925002532273316	CMakeFiles/zos_sp.dir/commands/pathCommands.c.obj	b8ef9cb895394fa6
 361	511	6925002533715369	zos_sp.exe	e71d8b40e2736371
+95	1764	6925761265507573	CMakeFiles/zos_sp.dir/fat/fat.c.obj	d06c34d36cd20719
+12	1769	6925761265507573	CMakeFiles/zos_sp.dir/input/inputHandler.c.obj	e4c9ec64adc14f71
+77	1781	6925761266460459	CMakeFiles/zos_sp.dir/commands/fileCommands.c.obj	6795cfdb2c55290e
+1797	4475	6925761293451306	zos_sp.exe	e71d8b40e2736371
+3	338	6925765433549016	CMakeFiles/zos_sp.dir/commands/fileCommands.c.obj	6795cfdb2c55290e
+339	828	6925765438386200	zos_sp.exe	e71d8b40e2736371
+7	1185	6925770529802178	CMakeFiles/zos_sp.dir/commands/fileCommands.c.obj	6795cfdb2c55290e
+1217	2039	6925770538234710	zos_sp.exe	e71d8b40e2736371
+5	621	6925773062182528	CMakeFiles/zos_sp.dir/commands/fileCommands.c.obj	6795cfdb2c55290e
+622	880	6925773064700578	zos_sp.exe	e71d8b40e2736371
