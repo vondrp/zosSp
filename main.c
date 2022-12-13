@@ -20,6 +20,7 @@ int main(int argc, char** argv) {
         int32_t size = process_units(argv[2]);
         if (size != 0)
         {
+            printf("Souborový systém se bude nyní formátovat na velikost %s\n", argv[2]);
             format_fs(size);
         }
         else
@@ -28,7 +29,7 @@ int main(int argc, char** argv) {
         }
     }
     open_fs();
-    printf("Inicializace / čtení fat hotovo\n");
+    printf("Načtení souborového systému je hotovo\n");
     printf("Vítejte, můžete psát příkazy.\n");
     process_input();
 

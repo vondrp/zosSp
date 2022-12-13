@@ -128,7 +128,7 @@ void process_input()
     char **words;       // console input separated into words
     int words_amount = DEFAULT_WORDS_AMOUNT;
 
-    int max_word_length = 100; //safety value - must give something before allocating memory -> 100 is more than enough big value for program purposes
+    int max_word_length = INPUT_LENGTH; //safety value - must give something before allocating memory -> 100 is more than enough big value for program purposes
     words = malloc(words_amount * max_word_length * sizeof(char)); // array of words
     char end_input[] = "end";
     int last_words_amount;

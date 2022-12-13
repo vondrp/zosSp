@@ -9,6 +9,7 @@
 
 #include "checkInput.h"
 #include "../output/error.h"
+#include "inputHandler.h"
 
 char* get_filename(char *string_path) {
     repair_back_slashes(string_path);
@@ -103,7 +104,7 @@ int split_path(char *path, char** path_parts, int expected_path_parts)
             if (ctr >= path_amount)
             {
                 path_amount = path_amount * 2;
-                path_parts = realloc(path_parts, (path_amount) * sizeof(*path_parts));
+                path_parts = realloc(path_parts, (path_amount) * INPUT_LENGTH * sizeof(char));
                 //path_parts = realloc(path_parts, path_amount * len_max * sizeof(char));
             }
             j = 0;    //for next word, init index to 0

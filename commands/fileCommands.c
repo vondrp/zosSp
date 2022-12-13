@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include <sys/stat.h>
 
 #include "fileCommands.h"
 

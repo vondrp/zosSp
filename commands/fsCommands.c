@@ -17,6 +17,7 @@ void format_command(char *size_units)
     int32_t size = process_units(size_units);
     if (size != 0)
     {
+        printf("Souborový systém se bude nyní formátovat na velikost %s\n", size_units);
         format_fs(size);
     }
     open_fs();
