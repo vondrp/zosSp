@@ -70,19 +70,35 @@ int copy_file(char *source_file_path, char *target_path)
     char *path_target_dir = malloc(strlen(target_path) * sizeof(char));
 
     remove_path_last_part(path_target_dir, target_path);
-    if (directory_exists(path_target_dir, root_item, &target_dir) != EXISTS || target_dir.isFile == true)
+
+    if (strcmp(path_target_dir, target_path) == 0)
     {
-        free(path_target_dir);
-        return TARGET_PATH_NOT_FOUND;
+        copy_direct_item(root_item, &target_dir);
+    }
+    else
+    {
+        if (directory_exists(path_target_dir, root_item, &target_dir) != EXISTS || target_dir.isFile == true)
+        {
+            free(path_target_dir);
+            return TARGET_PATH_NOT_FOUND;
+        }
     }
 
     char *path_target_dad = malloc(strlen(target_path) * sizeof(char));
 
     remove_path_last_part(path_target_dad, path_target_dir);
-    // found target directory must be found + must not be file
-    if (directory_exists(path_target_dad, root_item, &target_dir_dad) != EXISTS || target_dir_dad.isFile == true)
+
+    if (strcmp(path_target_dad, path_target_dir) == 0)
     {
-        return TARGET_PATH_NOT_FOUND;
+        copy_direct_item(root_item, &target_dir_dad);
+    }
+    else
+    {
+        // found target directory must be found + must not be file
+        if (directory_exists(path_target_dad, root_item, &target_dir_dad) != EXISTS || target_dir_dad.isFile == true)
+        {
+            return TARGET_PATH_NOT_FOUND;
+        }
     }
 
     if (equals(target_dir_dad, target_dir))
