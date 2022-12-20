@@ -311,7 +311,8 @@ struct directory_item {
 
 	\subsubsection{Poznámky k příkazům}
 	\par Při přesunutí souboru příkazem \texttt{mv} dojde pouze k přemístění \texttt{directory\_item} (\ref{source:cbbinit}) a pozice FAT tabulky zůstanou stejné. To se liší od příkazu \texttt{cp}, při nemž dojde k nakopírování dat na nové pozice ve FAT tabulce.
-	\par U příkazu \texttt{incp} není nutné spolu s místem umístěním na souborový systém úvést název souboru nebude-li uveden bude soubor pojmenován stejně jako na vnějším systému. Naopak u příkazu \texttt{outcp} je nutné jméno souboru uvést.
+	\par U příkazu \texttt{cp} je nutné uvést jméno kopie.
+	\par U příkazu \texttt{incp} není nutné spolu s místem umístěním na souborový systém úvést název souboru nebude-li uveden bude soubor pojmenován stejně jako na vnějším systému. Naopak u příkazu \texttt{outcp} je nutné jméno souboru uvést. U \texttt{incp} je nutné uvést kam se má soubor vložit, chceme-li soubor vložit do aktuální složky použijeme cestu tečky \uv{.}.
 	\par Příkaz \texttt{info} kromě seznamu clusterů, kde se soubor nachází, vypíše i jméno souboru, velikost a informace zda se jedná o soubor nebo adresář.
 	\par Při formátování souboru, lze uvést tři typy jednotek - kB, MB a GB. Pro zabránění přetečení datového typu \texttt{int32\_t} užívaného v superblocku (\ref{source:abbinit}) mají jednotky nastavené maximální velikost - 2097151kB, 2047MB a 1GB. U kB je navíc stanovena minimální velikost na 2kB, protože velikost jednoho clusteru je 512B a při menší velikosti by nebylo dost místa ani na cluster pro kořen souborového systému.
 

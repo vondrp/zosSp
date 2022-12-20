@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="zos_sp"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="zos_sp">
+				<Option output="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/zos_sp" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 zos_sp"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="zos_sp/fast">
+				<Option output="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/zos_sp" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 zos_sp/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/dirCommands.c">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/dirCommands.h">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/fileCommands.c">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/fileCommands.h">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/fsCommands.c">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/fsCommands.h">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/pathCommands.c">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/commands/pathCommands.h">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/fat/fat.c">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/fat/fat.h">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/input/checkInput.c">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/input/checkInput.h">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/input/inputHandler.c">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/input/inputHandler.h">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/main.c">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/output/error.h">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/output/messages.c">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/output/messages.h">
+			<Option target="zos_sp"/>
+		</Unit>
+		<Unit filename="/mnt/d/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

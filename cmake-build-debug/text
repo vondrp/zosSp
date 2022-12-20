@@ -1,0 +1,61 @@
+    //files = malloc(exp_files_amount * sizeof(char *)); // array of words
+    //directories = malloc(exp_dir_amount * sizeof(char *)); // array of words            
+	    int f_ctr = 0; // files counter
+    int d_ctr = 0;  // directories counter
+    int i;
+
+            /* it is directory
+            directories[d_ctr] = malloc (strlen(checked) * sizeof (char *));
+            for (i = 0; i < strlen(de->d_name); i++)
+            {
+                directories[d_ctr][i] = de->d_name[i];
+            }
+            directories[d_ctr][strlen(de->d_name)]  = *"\0";
+            d_ctr++;
+            closedir(isDr);
+            */
+            /*
+            if (d_ctr > exp_dir_amount)
+            {
+                exp_dir_amount = exp_dir_amount * 2;
+                directories = realloc(directories, exp_dir_amount * sizeof (*directories));
+            }*/
+
+/* it is File
+            files[f_ctr] = malloc(strlen(de->d_name) * sizeof(char *));
+            for (i = 0; i < strlen(de->d_name); i++)
+            {
+                files[f_ctr][i] = de->d_name[i];
+            }
+            files[f_ctr][strlen(de->d_name)]  = *"\0";
+            f_ctr++;*/
+
+            /*
+            if (f_ctr > exp_files_amount)
+            {
+                exp_files_amount = exp_files_amount * 2;
+                files = realloc(files, exp_files_amount * sizeof (*files));
+            }*/
+
+    if (f_ctr > 0)
+    {
+        printf("FILE:");
+        for (i = 0; i < f_ctr; i++)
+        {
+            printf(" %s", files[i]);
+        }
+        printf("\n");
+    }
+
+    if (d_ctr > 0)
+    {
+        printf("DIR:");
+        for (i = 0; i < d_ctr; i++)
+        {
+            printf(" %s", directories[i]);
+        }
+        printf("\n");
+    }*/
+
+    //free_words_array(files, f_ctr);
+    //free_words_array(directories, d_ctr);

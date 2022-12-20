@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12.10) (preloaded format=pdflatex 2022.1.27)  12 DEC 2022 21:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12.10) (preloaded format=pdflatex 2022.1.27)  20 DEC 2022 10:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -681,7 +681,7 @@ ze-jící z \T1/cmtt/m/n/12 ROOT directory_item
  []
 
 [4] [5]
-Underfull \hbox (badness 10000) in paragraph at lines 342--343
+Underfull \hbox (badness 10000) in paragraph at lines 343--344
 
  []
 
@@ -705,9 +705,9 @@ a\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\vondr\
 AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\
 vondr\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1728.pk><D:/p
 rogramfiles/miktex/miktex/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on document.pdf (7 pages, 138202 bytes).
+Output written on document.pdf (7 pages, 138113 bytes).
 PDF statistics:
- 361 PDF objects out of 1000 (max. 8388607)
+ 360 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  18 words of extra memory for PDF output out of 10000 (max. 10000000)
 

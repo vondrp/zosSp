@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E7C97E2B-A5E2-3A5D-AC36-BF5F4780B059}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>zos_sp</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">zos_sp.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">zos_sp</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">zos_sp.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">zos_sp</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">zos_sp.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">zos_sp</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">zos_sp.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">zos_sp</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>m.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build/Debug/zos_sp.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build/Debug/zos_sp.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>m.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build/Release/zos_sp.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build/Release/zos_sp.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>m.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build/MinSizeRel/zos_sp.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build/MinSizeRel/zos_sp.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>m.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build/RelWithDebInfo/zos_sp.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build/RelWithDebInfo/zos_sp.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+D:\programfiles\Cmake\bin\cmake.exe -SD:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp -BD:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build --check-stamp-file D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\CMakeFiles\3.22.1\CMakeCCompiler.cmake;D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\CMakeFiles\3.22.1\CMakeRCCompiler.cmake;D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\CMakeFiles\3.22.1\CMakeSystem.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCCompiler.cmake.in;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCCompilerABI.c;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCInformation.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCommonLanguageInclude.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCompilerIdDetection.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCompileFeatures.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCompilerABI.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCompilerId.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineRCCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineSystem.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeFindBinUtils.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeGenericSystem.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeInitializeConfigs.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeLanguageInformation.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeParseImplicitIncludeInfo.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeParseImplicitLinkInfo.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeParseLibraryArchitecture.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeRCCompiler.cmake.in;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeRCInformation.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeSystem.cmake.in;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeSystemSpecificInformation.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeSystemSpecificInitialize.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeTestCCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeTestCompilerCommon.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeTestRCCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\ADSP-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\ARMCC-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\ARMClang-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\AppleClang-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Borland-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Clang-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Cray-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\GHS-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\GNU-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\HP-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\IAR-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Intel-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\MSVC-C.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\MSVC-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\NVHPC-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\PGI-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\PathScale-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\SCO-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\TI-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Watcom-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\XL-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\zOS-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CompilerId\VS-10.vcxproj.in;D:\programfiles\Cmake\share\cmake-3.22\Modules\Internal\FeatureTesting.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Platform\Windows-MSVC-C.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Platform\Windows-MSVC.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Platform\Windows.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+D:\programfiles\Cmake\bin\cmake.exe -SD:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp -BD:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build --check-stamp-file D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\CMakeFiles\3.22.1\CMakeCCompiler.cmake;D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\CMakeFiles\3.22.1\CMakeRCCompiler.cmake;D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\CMakeFiles\3.22.1\CMakeSystem.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCCompiler.cmake.in;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCCompilerABI.c;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCInformation.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCommonLanguageInclude.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCompilerIdDetection.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCompileFeatures.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCompilerABI.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCompilerId.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineRCCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineSystem.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeFindBinUtils.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeGenericSystem.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeInitializeConfigs.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeLanguageInformation.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeParseImplicitIncludeInfo.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeParseImplicitLinkInfo.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeParseLibraryArchitecture.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeRCCompiler.cmake.in;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeRCInformation.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeSystem.cmake.in;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeSystemSpecificInformation.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeSystemSpecificInitialize.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeTestCCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeTestCompilerCommon.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeTestRCCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\ADSP-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\ARMCC-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\ARMClang-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\AppleClang-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Borland-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Clang-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Cray-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\GHS-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\GNU-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\HP-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\IAR-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Intel-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\MSVC-C.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\MSVC-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\NVHPC-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\PGI-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\PathScale-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\SCO-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\TI-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Watcom-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\XL-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\zOS-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CompilerId\VS-10.vcxproj.in;D:\programfiles\Cmake\share\cmake-3.22\Modules\Internal\FeatureTesting.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Platform\Windows-MSVC-C.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Platform\Windows-MSVC.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Platform\Windows.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+D:\programfiles\Cmake\bin\cmake.exe -SD:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp -BD:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build --check-stamp-file D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\CMakeFiles\3.22.1\CMakeCCompiler.cmake;D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\CMakeFiles\3.22.1\CMakeRCCompiler.cmake;D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\CMakeFiles\3.22.1\CMakeSystem.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCCompiler.cmake.in;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCCompilerABI.c;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCInformation.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCommonLanguageInclude.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCompilerIdDetection.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCompileFeatures.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCompilerABI.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCompilerId.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineRCCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineSystem.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeFindBinUtils.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeGenericSystem.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeInitializeConfigs.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeLanguageInformation.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeParseImplicitIncludeInfo.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeParseImplicitLinkInfo.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeParseLibraryArchitecture.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeRCCompiler.cmake.in;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeRCInformation.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeSystem.cmake.in;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeSystemSpecificInformation.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeSystemSpecificInitialize.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeTestCCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeTestCompilerCommon.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeTestRCCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\ADSP-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\ARMCC-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\ARMClang-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\AppleClang-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Borland-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Clang-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Cray-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\GHS-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\GNU-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\HP-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\IAR-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Intel-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\MSVC-C.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\MSVC-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\NVHPC-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\PGI-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\PathScale-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\SCO-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\TI-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Watcom-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\XL-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\zOS-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CompilerId\VS-10.vcxproj.in;D:\programfiles\Cmake\share\cmake-3.22\Modules\Internal\FeatureTesting.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Platform\Windows-MSVC-C.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Platform\Windows-MSVC.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Platform\Windows.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+D:\programfiles\Cmake\bin\cmake.exe -SD:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp -BD:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build --check-stamp-file D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\CMakeFiles\3.22.1\CMakeCCompiler.cmake;D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\CMakeFiles\3.22.1\CMakeRCCompiler.cmake;D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\CMakeFiles\3.22.1\CMakeSystem.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCCompiler.cmake.in;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCCompilerABI.c;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCInformation.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCommonLanguageInclude.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeCompilerIdDetection.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCompileFeatures.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCompilerABI.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineCompilerId.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineRCCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeDetermineSystem.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeFindBinUtils.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeGenericSystem.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeInitializeConfigs.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeLanguageInformation.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeParseImplicitIncludeInfo.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeParseImplicitLinkInfo.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeParseLibraryArchitecture.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeRCCompiler.cmake.in;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeRCInformation.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeSystem.cmake.in;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeSystemSpecificInformation.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeSystemSpecificInitialize.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeTestCCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeTestCompilerCommon.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CMakeTestRCCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\ADSP-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\ARMCC-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\ARMClang-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\AppleClang-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Borland-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Clang-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Cray-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\GHS-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\GNU-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\HP-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\IAR-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Intel-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\MSVC-C.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\MSVC-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\NVHPC-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\PGI-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\PathScale-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\SCO-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\TI-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\Watcom-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\XL-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Compiler\zOS-C-DetermineCompiler.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\CompilerId\VS-10.vcxproj.in;D:\programfiles\Cmake\share\cmake-3.22\Modules\Internal\FeatureTesting.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Platform\Windows-MSVC-C.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Platform\Windows-MSVC.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Platform\Windows.cmake;D:\programfiles\Cmake\share\cmake-3.22\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\main.c" />
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\input\inputHandler.h" />
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\input\inputHandler.c" />
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\input\checkInput.h" />
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\input\checkInput.c" />
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\output\error.h" />
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\output\messages.h" />
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\output\messages.c" />
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\commands\fileCommands.h" />
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\commands\fileCommands.c" />
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\commands\pathCommands.h" />
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\commands\pathCommands.c" />
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\commands\dirCommands.h" />
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\commands\dirCommands.c" />
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\commands\fsCommands.h" />
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\commands\fsCommands.c" />
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\fat\fat.h" />
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\fat\fat.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\build\ZERO_CHECK.vcxproj">
+      <Project>{F7301C70-5825-3E4D-B484-CB8BB43C5FC8}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

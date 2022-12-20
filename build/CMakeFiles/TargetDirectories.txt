@@ -1,0 +1,3 @@
+D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build/CMakeFiles/zos_sp.dir
+D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build/CMakeFiles/ALL_BUILD.dir
+D:/FAV/3.rocnikZS/ZOS/sp/prace/zos_sp/build/CMakeFiles/ZERO_CHECK.dir

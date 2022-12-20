@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\input\inputHandler.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\input\checkInput.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\output\messages.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\commands\fileCommands.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\commands\pathCommands.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\commands\dirCommands.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\commands\fsCommands.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\fat\fat.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\input\inputHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\input\checkInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\output\error.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\output\messages.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\commands\fileCommands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\commands\pathCommands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\commands\dirCommands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\commands\fsCommands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\fat\fat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\FAV\3.rocnikZS\ZOS\sp\prace\zos_sp\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{2C41102C-BE53-3798-A8F2-784DBC7CF08E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{8C0C2604-1725-37DA-ACDD-6C243B63CA3F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
